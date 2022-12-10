@@ -1,55 +1,14 @@
-.App-wrapper{
+.App_wrapper{
     margin: 0 auto;
     width: 80%;
-}
-
-header{
-    background: #daf9ff70;
-    height: 5rem;
-    display: flex;
-    margin-bottom: 1rem;
-}
-
-header div{
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: center;
-}
-
-.nav-list li{
-    list-style-type: none;
-    padding: 1rem 0;
-    background: #9b939303;
-    height: auto;
-    font-size: 20px;
-    border-bottom: #06060614 0.3px solid;
-
-}
-
-.nav-list li a{
-    color: black;
-}
-
-nav{
-    background: #fefeff;
-    width: 10%;
-    height: auto;
-    margin-right: 3rem;
 }
 
 main{
     background: #9b939303;
 }
 
-.main-container img{
-    height: 300px;
-}
 
-.main-container{
-    width: 90%;
-}
 
-.menu-user-container{
+.menu_user_container{
     display: flex;
 }

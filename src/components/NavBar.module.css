@@ -1,0 +1,20 @@
+.nav_list li{
+    list-style-type: none;
+    padding: 1rem 0;
+    background: #9b939303;
+    height: auto;
+    font-size: 20px;
+    border-bottom: #06060614 0.3px solid;
+
+}
+
+.nav_list li a{
+    color: black;
+}
+
+nav{
+    background: #fefeff;
+    width: 10%;
+    height: auto;
+    margin-right: 3rem;
+}

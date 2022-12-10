@@ -1,0 +1,13 @@
+header{
+    background: #daf9ff70;
+    height: 5rem;
+    display: flex;
+    margin-bottom: 1rem;
+}
+
+header div{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+}
