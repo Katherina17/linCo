@@ -13,31 +13,31 @@ const NavBar = () => {
                 <li>
                     <div className={s.person_icon_container}>
                         <PersonOutlineOutlinedIcon sx={{ fontSize: 16, cursor: 'pointer'}} />
-                        <a href="#"> Profile </a>
+                        <a href="src/components/NavBar/NavBar#"> Profile </a>
                     </div>
                 </li>
                 <li>
                     <div className={s.person_icon_container}>
                         <EmailOutlinedIcon sx={{ fontSize: 16, cursor: 'pointer'}} />
-                        <a href="#">Messages </a>
+                        <a href="src/components/NavBar/NavBar#">Messages </a>
                     </div>
                 </li>
                 <li>
                     <div className={s.person_icon_container}>
                         <FeedOutlinedIcon sx={{ fontSize: 16, cursor: 'pointer'}} />
-                        <a href="#">News </a>
+                        <a href="src/components/NavBar/NavBar#">News </a>
                     </div>
                 </li>
                 <li>
                     <div className={s.person_icon_container}>
                         <AudiotrackOutlinedIcon sx={{ fontSize: 16, cursor: 'pointer'}} />
-                        <a href="#">Music </a>
+                        <a href="src/components/NavBar/NavBar#">Music </a>
                     </div>
                 </li>
                 <li>
                     <div className={s.person_icon_container}>
                         <SettingsOutlinedIcon sx={{ fontSize: 16, cursor: 'pointer'}} />
-                        <a href="#">Settings</a>
+                        <a href="src/components/NavBar/NavBar#">Settings</a>
                     </div>
                 </li>
             </ul>

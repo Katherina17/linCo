@@ -1,9 +1,12 @@
 .App_wrapper{
     margin: 0 auto;
-    width: 80%;
+    width: 60%;
 }
 
-
+main{
+    background-color: #fafafa;
+    padding-top: 1rem;
+}
 
 
 .menu_user_container{
