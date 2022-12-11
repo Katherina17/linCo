@@ -1,7 +1,17 @@
-.main_container img{
-    height: 300px;
-}
-
 .main_container{
     width: 90%;
+    margin-left: 4rem;
+}
+
+.main_container p{
+    font-family: var(--font-family);
+    font-weight: 500;
+    font-size: 18px;
+}
+
+.main_container h2{
+    font-family: var(--font-family);
+    font-weight: 500;
+    font-size: 20px;
+    margin-bottom: 0.6rem;
 }

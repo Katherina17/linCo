@@ -1,0 +1,39 @@
+.User_name_profile_container{
+    display: flex;
+    margin-bottom: 2rem;
+}
+
+.image_container{
+    width: 17rem;
+    border-radius: 50%;
+    height: 17rem;
+    overflow: hidden;
+    margin-right: 5rem;
+    display:inline-block;
+    vertical-align:middle;
+}
+
+.image_container img{
+   width: 100%;
+    height: auto;
+}
+
+.user_description h1{
+    margin-top: 2rem;
+    font-family: var(--font-family);
+    font-weight: 500;
+    font-size: 24px;
+    margin-bottom: 1.5rem;
+}
+
+.user_description span{
+    font-family: var(--font-family);
+    font-weight: 500;
+    font-size: 18px;
+    margin-bottom: 0.5rem;
+}
+
+.user_description {
+  display: flex;
+    flex-direction: column;
+}

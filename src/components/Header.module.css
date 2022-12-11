@@ -1,8 +1,8 @@
 header{
-    background: #daf9ff70;
     height: 5rem;
     display: flex;
     margin-bottom: 1rem;
+    border-bottom: 2px solid #fa66381c;
 }
 
 header div{
