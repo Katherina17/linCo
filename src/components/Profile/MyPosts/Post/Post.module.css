@@ -3,7 +3,8 @@
     flex-direction: column;
     background-color: white;
     border-radius: 2rem;
-    width: 50%;
+    width: 46%;
+    margin-bottom: 1.5rem;
 }
 
 .post_item{

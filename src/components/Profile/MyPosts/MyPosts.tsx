@@ -10,7 +10,8 @@ const MyPosts = () => {
                 <textarea placeholder={'Write a new post'} className={s.textarea}></textarea>
                 <button className={s.button}> Add </button>
             </div>
-            <Post/>
+            <Post message={'hello, it\'s my first time to build an application'} like={15}/>
+            <Post message={'Today we do nothing'} like={3}/>
         </div>
     )
 }

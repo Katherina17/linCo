@@ -1,6 +1,11 @@
 import s from './Post.module.css';
 
-const Post = () => {
+type PostPropsType ={
+    message: string,
+    like: number
+}
+
+const Post = (props: PostPropsType) => {
     return(
         <div className={s.post_container}>
             <div className={s.name_userImage}>
@@ -10,7 +15,8 @@ const Post = () => {
                 </div>
                 <span> Emilia Osten</span>
             </div>
-            <span className={s.post_item}> hello, it's my first time to build an application</span>
+            <span className={s.post_item}> {props.message}</span>
+            <span className={s.post_item}> {props.like}</span>
         </div>
     )
 }
