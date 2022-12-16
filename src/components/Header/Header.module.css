@@ -1,0 +1,13 @@
+header{
+    height: 5rem;
+    display: flex;
+    border-bottom: 2px solid #fa66381c;
+    background-color: #fafafa;
+}
+
+header div{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+}
