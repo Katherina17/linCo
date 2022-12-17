@@ -5,6 +5,7 @@ import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
 import FeedOutlinedIcon from '@mui/icons-material/FeedOutlined';
 import AudiotrackOutlinedIcon from '@mui/icons-material/AudiotrackOutlined';
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
+import {NavLink} from "react-router-dom";
 
 const NavBar = () => {
     return(
@@ -13,31 +14,31 @@ const NavBar = () => {
                 <li>
                     <div className={s.person_icon_container}>
                         <PersonOutlineOutlinedIcon sx={{ fontSize: 16, cursor: 'pointer'}} />
-                        <a href="/profile"> Profile </a>
+                        <NavLink to="/profile"> Profile </NavLink>
                     </div>
                 </li>
                 <li>
                     <div className={s.person_icon_container}>
                         <EmailOutlinedIcon sx={{ fontSize: 16, cursor: 'pointer'}} />
-                        <a href="/dialogs">Messages </a>
+                        <NavLink to="/dialogs">Messages </NavLink>
                     </div>
                 </li>
                 <li>
                     <div className={s.person_icon_container}>
                         <FeedOutlinedIcon sx={{ fontSize: 16, cursor: 'pointer'}} />
-                        <a href="/news">News </a>
+                        <NavLink to="/news">News </NavLink>
                     </div>
                 </li>
                 <li>
                     <div className={s.person_icon_container}>
                         <AudiotrackOutlinedIcon sx={{ fontSize: 16, cursor: 'pointer'}} />
-                        <a href="/music">Music </a>
+                        <NavLink to="/music">Music </NavLink>
                     </div>
                 </li>
                 <li>
                     <div className={s.person_icon_container}>
                         <SettingsOutlinedIcon sx={{ fontSize: 16, cursor: 'pointer'}} />
-                        <a href="/settings">Settings</a>
+                        <NavLink to="/settings">Settings</NavLink>
                     </div>
                 </li>
             </ul>

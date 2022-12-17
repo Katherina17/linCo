@@ -1,0 +1,6 @@
+.Dialog_container{
+    width: 100%;
+    background-color: white;
+    border-top-right-radius: 2rem;
+    border-top-left-radius: 2rem;
+}
