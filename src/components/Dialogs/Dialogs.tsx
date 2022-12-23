@@ -28,10 +28,20 @@ export const Dialogs = () => {
             message: "Started his hearted any civilly."
         }
     ];
+    
+    const dialogItemsForDialog = dialogsItemsForChat.map( d => {
+        return(
+            <Dialog name={d.name} imgSrc={d.imgSrc} message={d.message} />
+        )
+    })
+    
     return(
         <div className={s.dialogs_container}>
             <DialogList dialogsItems={dialogsItemsForChat}/>
-            <Dialog dialogItems={dialogsItemsForChat}/>
+
+            {dialogItemsForDialog}
+            
+            {/*<Dialog dialogItems={dialogsItemsForChat}/>*/}
         </div>
     )
 }

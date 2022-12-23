@@ -6,11 +6,25 @@ type DialogProps = {
     dialogItems: DialogsItems[];
 }
 
-export const Dialog = (props: DialogProps) => {
+type DialogPropsType = {
+    name: string;
+    imgSrc: string;
+    message: string;
+}
+
+export const Dialog = (props: DialogPropsType) => {
     return(
         <div className={s.Dialog_container}>
-            <HeaderDialogs name={props.dialogItems[0].name} imgSrc={props.dialogItems[0].imgSrc}/>
-        <p> {props.dialogItems[0].message}</p>
+            <HeaderDialogs name={props.name} imgSrc={props.imgSrc}/>
+        <p> {props.message}</p>
         </div>
     )
 }
+
+/*
+return(
+    <div className={s.Dialog_container}>
+        <HeaderDialogs name={props.dialogItems[0].name} imgSrc={props.dialogItems[0].imgSrc}/>
+        <p> {props.dialogItems[0].message}</p>
+    </div>
+)*/

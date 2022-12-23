@@ -14,10 +14,10 @@ const Profile = () => {
             id: 3, like: 2, message: 'Do u like spending your free time doing something useful?'
         },];
     return(
-        <div className={s.main_container}>
+        <main className={s.main_container}>
             <UserNameProfile/>
             <MyPosts postData={postData}/>
-        </div>
+        </main>
     )
 }
 
