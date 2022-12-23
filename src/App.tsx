@@ -8,9 +8,17 @@ import {BrowserRouter, Route} from "react-router-dom";
 import {News} from "./components/News/News";
 import {Music} from "./components/Music/Music";
 import {Settings} from "./components/Settings/Settings";
+import {MyPostType} from "./components/Profile/MyPosts/MyPosts";
+import {DialogsItems} from "./components/Dialogs/DialogList/DialogList";
+
+type AppPropsType = {
+    postData: MyPostType[];
+    dialogsItemsForChat: DialogsItems[];
+}
+
+function App(props: AppPropsType) {
 
 
-function App() {
   return (
       <BrowserRouter>
           <div className="App-container">
@@ -18,8 +26,8 @@ function App() {
               <main>
                   <div className="App_wrapper menu_user_container">
                       <NavBar/>
-                      <Route path={'/profile'} component={Profile}/>
-                      <Route path={'/dialogs'} component={Dialogs}/>
+                      <Route path={'/profile'} render={() => <Profile postData={props.postData}/>}/>
+                      <Route path={'/dialogs'} render={() => <Dialogs dialogsItemsForChat={props.dialogsItemsForChat}/>}/>
                       <Route path={'/news'} component={News}/>
                       <Route path={'/music'} component={Music}/>
                       <Route path={'/settings'} component={Settings}/>
