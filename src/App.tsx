@@ -8,15 +8,11 @@ import {BrowserRouter, Route} from "react-router-dom";
 import {News} from "./components/News/News";
 import {Music} from "./components/Music/Music";
 import {Settings} from "./components/Settings/Settings";
-import {MyPostType} from "./components/Profile/MyPosts/MyPosts";
-import {DialogsItems} from "./components/Dialogs/DialogList/DialogList";
+import {state} from './redux/state';
 
-type AppPropsType = {
-    postData: MyPostType[];
-    dialogsItemsForChat: DialogsItems[];
-}
 
-function App(props: AppPropsType) {
+
+function App() {
 
 
   return (
@@ -26,8 +22,8 @@ function App(props: AppPropsType) {
               <main>
                   <div className="App_wrapper menu_user_container">
                       <NavBar/>
-                      <Route path={'/profile'} render={() => <Profile postData={props.postData}/>}/>
-                      <Route path={'/dialogs'} render={() => <Dialogs dialogsItemsForChat={props.dialogsItemsForChat}/>}/>
+                      <Route path={'/profile'} render={() => <Profile postData={state.postData}/>}/>
+                      <Route path={'/dialogs'} render={() => <Dialogs dialogsItemsForChat={state.dialogsItemsForChat}/>}/>
                       <Route path={'/news'} component={News}/>
                       <Route path={'/music'} component={Music}/>
                       <Route path={'/settings'} component={Settings}/>

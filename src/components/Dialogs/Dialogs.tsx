@@ -9,7 +9,7 @@ type DialogsPropsType = {
 export const Dialogs = (props: DialogsPropsType) => {
     const dialogItemsForDialog = props.dialogsItemsForChat.map( d => {
         return(
-            <Dialog name={d.name} imgSrc={d.imgSrc} message={d.message} />
+            <Dialog key={d.id} name={d.name} imgSrc={d.imgSrc} message={d.message} />
         )
     })
     
