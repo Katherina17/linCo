@@ -1,0 +1,51 @@
+.friendsMainContainer{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 0 auto;
+    align-items: center;
+}
+
+.friendsMainContainer h2{
+    font-size: 20px;
+    font-family: var(--font-family);
+    margin-bottom: 2rem;
+    font-weight: 500;
+}
+
+
+.image_container{
+    width: 8rem;
+    border-radius: 50%;
+    height: 8rem;
+    overflow: hidden;
+    display:inline-block;
+    vertical-align:middle;
+    margin-left: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.image_container img{
+    width: 100%;
+    height: auto;
+}
+
+.friendContainer{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+}
+
+.imgAndText{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-right: 2rem;
+
+}
+.imgAndText span{
+    font-weight: 500;
+    font-size: 16px;
+    font-family: var(--font-family);
+    text-align: center;
+}

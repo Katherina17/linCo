@@ -9,6 +9,7 @@ import {News} from "./components/News/News";
 import {Music} from "./components/Music/Music";
 import {Settings} from "./components/Settings/Settings";
 import {state} from './redux/state';
+import {Friends} from "./components/Friends/Friends";
 
 
 
@@ -21,6 +22,7 @@ function App() {
                   <div className="App_wrapper menu_user_container">
                       <NavBar/>
                       <Route path={'/profile'} render={() => <Profile profile={state.profile}/>}/>
+                      <Route path={'/friends'} render={() => <Friends friends={state.profile.user.friends}/>}/>
                       <Route path={'/dialogs'} render={() => <Dialogs dialogues={state.dialogues}/>}/>
                       <Route path={'/news'} component={News}/>
                       <Route path={'/music'} component={Music}/>

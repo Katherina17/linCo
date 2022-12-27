@@ -25,6 +25,7 @@ export type UserType = {
     id: string;
     name: string;
     imgSrc: string;
+    friends: UserType[];
 }
 
 export type DialogType = {
@@ -37,34 +38,38 @@ export type DialogType = {
 type State = {
     profile: ProfileType;
     dialogues: DialogType[];
-
 }
 
 const users: UserType[] = [
     {
         id: v1(),
         name: "Emilia Olsen",
-        imgSrc: "https://images.unsplash.com/photo-1563620915-8478239e9aab?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=735&q=80"
+        imgSrc: "https://images.unsplash.com/photo-1563620915-8478239e9aab?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=735&q=80",
+        friends: [],
     }, {
         id: v1(),
         imgSrc: 'https://images.unsplash.com/photo-1542740348-39501cd6e2b4?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80',
         name: 'Lana Wolf',
+        friends: []
     }, {
         id: v1(),
         imgSrc: 'https://images.unsplash.com/photo-1524502397800-2eeaad7c3fe5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80',
         name: 'Enola Kit',
+        friends: []
     },{
         id: v1(),
         imgSrc: 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80',
         name: 'Jeff Berton',
+        friends: []
     },{
         id: v1(),
         imgSrc: 'https://images.unsplash.com/photo-1523224042829-4731dd15a3bb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=688&q=80',
         name: 'Ann Peters',
+        friends: []
     },
-
-
 ]
+
+users[0].friends.push(users[1], users[2], users[3], users[4])
 
 export const state : State = {
     profile: {
@@ -130,5 +135,5 @@ export const state : State = {
                 }
             ]
         }
-    ]
+    ],
 }
