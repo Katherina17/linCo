@@ -1,19 +1,15 @@
 import React from "react";
 import Post from "./Post/Post";
 import s from './MyPosts.module.css';
+import {MyPost} from "../../../redux/state";
 
 
-type MyPostPropsType = {
-    postData: MyPostType[];
+type MyPostProps = {
+    posts: MyPost[];
 }
 
-export type MyPostType = {
-    id: number,
-    message: string,
-    like: number
-}
 
-const MyPosts = (props: MyPostPropsType) => {
+const MyPosts = (props: MyPostProps) => {
     return (
         <div className={s.post}>
             <h2 className={s.h2}>My posts</h2>
@@ -24,9 +20,9 @@ const MyPosts = (props: MyPostPropsType) => {
             {
 
             }
-            {props.postData.map(i => {
+            {props.posts.map(i => {
                 return (
-                    <Post key={i.id} message={i.message} like={i.like} id={i.id}/>
+                    <Post key={i.id} message={i.message} like={i.like} id={i.id} imgSrc={i.imgSrc}/>
                 )
             })}
         </div>

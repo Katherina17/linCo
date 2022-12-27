@@ -1,17 +1,22 @@
 import React from "react";
 import s from './Profile.module.css';
 import UserNameProfile from "./UserNameProfile/UserNameProfile";
-import MyPosts, {MyPostType} from "./MyPosts/MyPosts";
+import {ProfileType} from '../../redux/state';
+import MyPosts from "./MyPosts/MyPosts";
 
 type ProfilePropsType = {
-    postData: MyPostType[];
+    profile: ProfileType
 }
 
 const Profile = (props: ProfilePropsType) => {
     return(
         <main className={s.main_container}>
-            <UserNameProfile/>
-            <MyPosts postData={props.postData}/>
+            <UserNameProfile imgSrc={props.profile.user.imgSrc}
+                            userName={props.profile.user.name}
+                            city={props.profile.city}
+                            dateBirth={props.profile.dataBirth}
+                            education={props.profile.education}/>
+            <MyPosts posts={props.profile.posts}/>
         </main>
     )
 }

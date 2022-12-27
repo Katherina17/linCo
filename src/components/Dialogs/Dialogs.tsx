@@ -1,22 +1,23 @@
 import {DialogList, DialogsItems} from "./DialogList/DialogList";
 import {Dialog} from "./Dialog/Dialog";
 import s from './Dialogs.module.css';
+import {DialogType} from '../../redux/state';
 
 type DialogsPropsType = {
-    dialogsItemsForChat: DialogsItems[];
+    dialogues: DialogType[];
 }
 
 export const Dialogs = (props: DialogsPropsType) => {
-    const dialogItemsForDialog = props.dialogsItemsForChat.map( d => {
+   /* const dialogItemsForChat = props.dialogues.map( d => {
         return(
-            <Dialog key={d.id} name={d.name} imgSrc={d.imgSrc} message={d.message} />
+            <Dialog key={d.id} dialog={d} />
         )
-    })
+    })*/
     
     return(
         <div className={s.dialogs_container}>
-            <DialogList dialogsItems={props.dialogsItemsForChat}/>
-            {dialogItemsForDialog}
+            <DialogList dialogues={props.dialogues}/>
+           <Dialog dialog={props.dialogues[0]}/>
         </div>
     )
 }
