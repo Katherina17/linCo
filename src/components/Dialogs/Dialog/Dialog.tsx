@@ -2,7 +2,7 @@ import {HeaderDialogs} from "./HeaderDialogs/HeaderDialogs";
 import s from './Dialog.module.css';
 import {DialogType, MessageType} from "../../../redux/state";
 import {Message} from "./Message/Message";
-
+import {SenderMessage} from "./Message/SenderMessage/SenderMessage";
 type DialogPropsType = {
     dialog: DialogType
 }
@@ -17,6 +17,7 @@ export const Dialog = (props: DialogPropsType) => {
                          senderId={props.dialog.messages[0].senderId}
                          content={props.dialog.messages[0].content}
                          friendUserId={props.dialog.friendUser.id}/>
+            <SenderMessage/>
         </div>
     )
 }
