@@ -6,6 +6,7 @@ import MyPosts from "./MyPosts/MyPosts";
 
 type ProfilePropsType = {
     profile: ProfileType
+    addPost: (title: string) => void;
 }
 
 const Profile = (props: ProfilePropsType) => {
@@ -16,7 +17,7 @@ const Profile = (props: ProfilePropsType) => {
                             city={props.profile.city}
                             dateBirth={props.profile.dataBirth}
                             education={props.profile.education}/>
-            <MyPosts posts={props.profile.posts}/>
+            <MyPosts posts={props.profile.posts} addPost={props.addPost}/>
         </main>
     )
 }

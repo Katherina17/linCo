@@ -1,4 +1,5 @@
 import {v1} from "uuid";
+import {RenderAllTree} from "../RenderAllTree";
 
 export type MessageType = {
     id: string;
@@ -35,7 +36,7 @@ export type DialogType = {
     messages: MessageType[];
 }
 
-type State = {
+export type State = {
     profile: ProfileType;
     dialogues: DialogType[];
 }
@@ -136,4 +137,15 @@ export const state : State = {
             ]
         }
     ],
+}
+
+export const addPost = (message: string) => {
+    let newMessage : MyPost = {
+        id: v1(),
+        like: 0,
+        message: message,
+        imgSrc: users[0].imgSrc
+    }
+    state.profile.posts = [newMessage,...state.profile.posts];
+    RenderAllTree(state);
 }
