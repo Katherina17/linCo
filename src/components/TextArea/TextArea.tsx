@@ -1,25 +1,28 @@
 import s from './TextArea.module.css';
-import React from "react";
+import React, {ChangeEvent} from "react";
 
 
 type TextAreaPropsType = {
-    callBack: (currentValue: string) => void;
+    callBack: (newPostText: string) => void;
+    className?: string;
+    placeholder: string;
+    value: string;
 }
 
 export const TextArea: React.FC<TextAreaPropsType> = (props) => {
-    let textAreaValue = React.createRef<HTMLTextAreaElement>();
-
-    const addPost = () => {
-        let text = textAreaValue.current?.value;
-        alert(text)
+    let textAreaValue =  React.createRef<HTMLTextAreaElement>();
+    const onChangeTextAreaHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
+        props.callBack(textAreaValue.current!.value);
     }
+    let finalClassName = props.className ? `${props.className}`: `${s.textArea}`;
 
-    const styleTextArea = {
-        border: '2px #f5f7fb solid',
-        borderRadius: '0.5rem',
-        padding: '1rem',
-    }
+
     return(
-        <textarea onChange={addPost} ref={textAreaValue} className={s.textArea} style={styleTextArea} placeholder={'text message...'}></textarea>
+        <textarea onChange={onChangeTextAreaHandler}
+                  ref={textAreaValue}
+                  className={finalClassName}
+                  placeholder={props.placeholder}
+                  value={props.value}
+        ></textarea>
     )
 }

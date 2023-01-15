@@ -1,35 +1,27 @@
-import React, {MouseEvent, createRef, useState, ChangeEvent} from "react";
+import React from "react";
 import Post from "./Post/Post";
 import s from './MyPosts.module.css';
-import { MyPost} from "../../../redux/state";
+import {MyPost} from "../../../redux/state";
+import {TextArea} from "../../TextArea/TextArea";
+import {Button} from "../../Button/Button";
 
 
 type MyPostProps = {
     posts: MyPost[];
-    addPost: (title: string ) => void;
+    addPost: () => void;
+    updatePostText: (text: string) => void;
+    newPostText: string;
 }
 
 
 const MyPosts = (props: MyPostProps) => {
-    let message = React.createRef<HTMLTextAreaElement>();
-    const addPostHandler = () => {
-        props.addPost(message.current? message.current?.value : '');
-        if(message.current !== null) {
-            message.current.value = '';
-        }
-    }
-
-    const onChangeTextAreaHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    }
-
+    let placeholder = 'write a new text';
     return (
         <div className={s.post}>
             <h2 className={s.h2}>My posts</h2>
             <div className={s.textareaAndButton}>
-                <textarea placeholder={'Write a new post'} className={s.textarea} ref={message} onChange={onChangeTextAreaHandler}></textarea>
-                <button
-                    onClick={addPostHandler}
-                    className={s.button}> Add</button>
+                <TextArea callBack={props.updatePostText} placeholder={placeholder} value={props.newPostText} className={s.textareaPost}/>
+                <Button name={'Add Post'} callBack={props.addPost}/>
             </div>
             {
 

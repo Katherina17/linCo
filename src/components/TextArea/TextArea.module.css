@@ -7,4 +7,6 @@
     font-size: 14px;
     width: 100%;
     max-height: 3.5rem;
+    border: 2px #f5f7fb solid;
+    border-radius: 0.5rem;
 }
