@@ -1,12 +1,12 @@
 import React from "react";
 import s from './Profile.module.css';
 import UserNameProfile from "./UserNameProfile/UserNameProfile";
-import {ActionType, ProfileType} from '../../redux/state';
+import {ActionType, commonActionTypes, ProfileType} from '../../redux/state';
 import MyPosts from "./MyPosts/MyPosts";
 
 type ProfilePropsType = {
     profile: ProfileType
-    dispatch: (action: ActionType) => void;
+    dispatch: (action: commonActionTypes) => void;
     newPostText: string;
 }
 

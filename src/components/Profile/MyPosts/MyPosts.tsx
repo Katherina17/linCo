@@ -1,14 +1,20 @@
 import React from "react";
 import Post from "./Post/Post";
 import s from './MyPosts.module.css';
-import {ActionType, MyPost} from "../../../redux/state";
+import {
+    ActionType,
+    addPostActionCreator,
+    commonActionTypes,
+    MyPost,
+    updatePostTextActionCreator
+} from "../../../redux/state";
 import {TextArea} from "../../TextArea/TextArea";
 import {Button} from "../../Button/Button";
 
 
 type MyPostProps = {
     posts: MyPost[];
-    dispatch: (action: ActionType) => void;
+    dispatch: (action: commonActionTypes) => void;
     newPostText: string;
 }
 
@@ -17,11 +23,11 @@ const MyPosts = (props: MyPostProps) => {
     let placeholder = 'write a new text';
 
     const updatePostText = (text: string) => {
-        props.dispatch({type: 'UPDATE-POST-TEXT', payload: text})
+        props.dispatch(updatePostTextActionCreator(text))
     }
 
     const addPost = () => {
-        props.dispatch({type: 'ADD-POST', payload: 'newText'})
+        props.dispatch(addPostActionCreator())
     }
 
     return (

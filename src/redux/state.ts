@@ -83,7 +83,7 @@ type Store = {
     updatePostText: (text: string) => void;
     addPost: () => void;
     subscriber: (callback: (state: State) => void) => void;
-    dispatch: (action: ActionType) => void;
+    dispatch: (action: commonActionTypes) => void;
 }
 
  export const store: Store = {
@@ -187,7 +187,7 @@ type Store = {
          this._state.profile.newPostText = '';
          this._callSubscriber(this._state);*/
      },
-     dispatch(action: ActionType){
+     dispatch(action: commonActionTypes){
         switch (action.type){
             case 'ADD-POST': {
                 let newMessage: MyPost = {
@@ -207,5 +207,25 @@ type Store = {
                 break;
             }
         }
-     }
+     },
+}
+
+
+type addPostActionCreatorPropsType = ReturnType<typeof addPostActionCreator>;
+type updatePostTextActionCreator = ReturnType<typeof updatePostTextActionCreator>;
+
+
+export type commonActionTypes = addPostActionCreatorPropsType | updatePostTextActionCreator;
+
+export const addPostActionCreator = () => {
+    return {
+        type: 'ADD-POST'
+    } as const
+}
+
+export const updatePostTextActionCreator = (text: string) => {
+    return {
+        type: 'UPDATE-POST-TEXT',
+        payload: text
+    } as const
 }

@@ -8,14 +8,14 @@ import {Redirect, Route} from "react-router-dom";
 import {News} from "./components/News/News";
 import {Music} from "./components/Music/Music";
 import {Settings} from "./components/Settings/Settings";
-import {ActionType, State} from './redux/state';
+import {ActionType, commonActionTypes, State} from './redux/state';
 import {Friends} from "./components/Friends/Friends";
 
 
 type AppPropsType = {
     state: State;
     newPostText: string;
-    dispatch: (action: ActionType) => void;
+    dispatch: (action: commonActionTypes) => void;
 }
 
 function App(props: AppPropsType) {
