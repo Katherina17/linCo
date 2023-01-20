@@ -1,27 +1,35 @@
 import React from "react";
 import Post from "./Post/Post";
 import s from './MyPosts.module.css';
-import {MyPost} from "../../../redux/state";
+import {ActionType, MyPost} from "../../../redux/state";
 import {TextArea} from "../../TextArea/TextArea";
 import {Button} from "../../Button/Button";
 
 
 type MyPostProps = {
     posts: MyPost[];
-    addPost: () => void;
-    updatePostText: (text: string) => void;
+    dispatch: (action: ActionType) => void;
     newPostText: string;
 }
 
 
 const MyPosts = (props: MyPostProps) => {
     let placeholder = 'write a new text';
+
+    const updatePostText = (text: string) => {
+        props.dispatch({type: 'UPDATE-POST-TEXT', payload: text})
+    }
+
+    const addPost = () => {
+        props.dispatch({type: 'ADD-POST', payload: 'newText'})
+    }
+
     return (
         <div className={s.post}>
             <h2 className={s.h2}>My posts</h2>
             <div className={s.textareaAndButton}>
-                <TextArea callBack={props.updatePostText} placeholder={placeholder} value={props.newPostText} className={s.textareaPost}/>
-                <Button name={'Add Post'} callBack={props.addPost}/>
+                <TextArea callBack={(text) => updatePostText(text)} placeholder={placeholder} value={props.newPostText} className={s.textareaPost}/>
+                <Button name={'Add Post'} callBack={addPost}/>
             </div>
             {
 

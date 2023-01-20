@@ -8,15 +8,14 @@ import {Redirect, Route} from "react-router-dom";
 import {News} from "./components/News/News";
 import {Music} from "./components/Music/Music";
 import {Settings} from "./components/Settings/Settings";
-import {State, updatePostText} from './redux/state';
+import {ActionType, State} from './redux/state';
 import {Friends} from "./components/Friends/Friends";
 
 
 type AppPropsType = {
     state: State;
-    addPost: () => void;
-    updatePostText: (text: string) => void;
     newPostText: string;
+    dispatch: (action: ActionType) => void;
 }
 
 function App(props: AppPropsType) {
@@ -27,7 +26,7 @@ function App(props: AppPropsType) {
                   <div className="App_wrapper menu_user_container">
                       <NavBar/>
                       <Redirect from="/" to="/profile" />
-                      <Route path={'/profile'} render={() => <Profile profile={props.state.profile} addPost={props.addPost} updatePostText={props.updatePostText} newPostText={props.newPostText}/>}/>
+                      <Route path={'/profile'} render={() => <Profile profile={props.state.profile} dispatch={props.dispatch} newPostText={props.newPostText}/>}/>
                       <Route path={'/friends'} render={() => <Friends friends={props.state.profile.user.friends}/>}/>
                       <Route path={'/dialogs'} render={() => <Dialogs dialogues={props.state.dialogues}/>}/>
                       <Route path={'/news'} component={News}/>

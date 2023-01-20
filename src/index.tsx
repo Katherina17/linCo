@@ -3,20 +3,19 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import { BrowserRouter } from 'react-router-dom';
-import {state, State, subscriber, updatePostText} from "./redux/state";
-import {addPost} from "./redux/state";
+import { State, store} from "./redux/state";
 
 export const RenderAllTree = (state: State) => {
     ReactDOM.render(
         <BrowserRouter>
-            <App state={state} addPost={addPost} updatePostText={updatePostText} newPostText={state.profile.newPostText}/>
+            <App state={store.getState()} dispatch={store.dispatch.bind(store)} newPostText={store.getState().profile.newPostText}/>
         </BrowserRouter>,
         document.getElementById('root')
     );
 }
 
-RenderAllTree(state)
+RenderAllTree(store.getState())
 
-subscriber(RenderAllTree);
+store.subscriber(RenderAllTree);
 
 
