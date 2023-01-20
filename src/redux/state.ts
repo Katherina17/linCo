@@ -35,9 +35,16 @@ export type DialogType = {
     messages: MessageType[];
 }
 
+type Dialogs = {
+    dialogs: DialogType[];
+    newContent: string;
+}
+
+
+
 export type State = {
     profile: ProfileType;
-    dialogues: DialogType[];
+    dialogues: Dialogs;
 }
 
 const users: UserType[] = [
@@ -80,8 +87,6 @@ type Store = {
     _state: State;
     getState: () => State;
     _callSubscriber: (state: State) => void;
-    updatePostText: (text: string) => void;
-    addPost: () => void;
     subscriber: (callback: (state: State) => void) => void;
     dispatch: (action: commonActionTypes) => void;
 }
@@ -115,55 +120,58 @@ type Store = {
             ],
             newPostText: '',
                 },
-        dialogues: [
-            {
-                id: v1(),
-                currentUser: users[0],
-                friendUser: users[1],
-                messages: [
-                    {
-                        id: v1(),
-                        senderId: users[1].id,
-                        content: "Hello, what's up?"
-                    },
-                ],
-            }, {
-                id: v1(),
-                currentUser: users[0],
-                friendUser: users[2],
-                messages: [
-                    {
-                        id: v1(),
-                        senderId: users[2].id,
-                        content: "So delightful up dissimilar by unreserved it connection frequently. Do an high room so in paid. Up on cousin ye dinner should in."
-                    },
-                ],
-            }, {
-                id: v1(),
-                currentUser: users[0],
-                friendUser: users[3],
-                messages: [
-                    {
-                        id: v1(),
-                        senderId: users[3].id,
-                        content: "It allowance prevailed enjoyment in it. Calling observe for who pressed raising his. Can connection instrument astonished unaffected his motionless preference."
-                    },
-                ],
-            },
-            {
-                id: v1(),
-                currentUser: users[0],
-                friendUser: users[4],
-                messages: [
-                    {
-                        id: v1(),
-                        senderId: users[4].id,
-                        content: "Started his hearted any civilly."
-                    },
-                ],
-            }
-        ],
-        },
+        dialogues: {
+            dialogs: [
+                {
+                    id: v1(),
+                    currentUser: users[0],
+                    friendUser: users[1],
+                    messages: [
+                        {
+                            id: v1(),
+                            senderId: users[1].id,
+                            content: "Hello, what's up?"
+                        },
+                    ],
+                }, {
+                    id: v1(),
+                    currentUser: users[0],
+                    friendUser: users[2],
+                    messages: [
+                        {
+                            id: v1(),
+                            senderId: users[2].id,
+                            content: "So delightful up dissimilar by unreserved it connection frequently. Do an high room so in paid. Up on cousin ye dinner should in."
+                        },
+                    ],
+                }, {
+                    id: v1(),
+                    currentUser: users[0],
+                    friendUser: users[3],
+                    messages: [
+                        {
+                            id: v1(),
+                            senderId: users[3].id,
+                            content: "It allowance prevailed enjoyment in it. Calling observe for who pressed raising his. Can connection instrument astonished unaffected his motionless preference."
+                        },
+                    ],
+                },
+                {
+                    id: v1(),
+                    currentUser: users[0],
+                    friendUser: users[4],
+                    messages: [
+                        {
+                            id: v1(),
+                            senderId: users[4].id,
+                            content: "Started his hearted any civilly."
+                        },
+                    ],
+                },
+            ],
+            newContent: ''
+        }
+    },
      getState(){
          return this._state;
      },
@@ -171,21 +179,6 @@ type Store = {
      },
      subscriber(callback){
          this._callSubscriber = callback;
-     },
-     updatePostText(text: string) {
-         this._state.profile.newPostText= text;
-         this._callSubscriber(this._state);
-     },
-     addPost() {
-         /*let newMessage: MyPost = {
-             id: v1(),
-             like: 0,
-             message: this._state.profile.newPostText,
-             imgSrc: users[0].imgSrc
-         }
-         this._state.profile.posts= [newMessage, ...this._state.profile.posts];
-         this._state.profile.newPostText = '';
-         this._callSubscriber(this._state);*/
      },
      dispatch(action: commonActionTypes){
         switch (action.type){
@@ -206,6 +199,22 @@ type Store = {
                 this._callSubscriber(this._state);
                 break;
             }
+            case "ADD-NEW-MESSAGE": {
+                let newMessage : MessageType = {
+                    id: v1(),
+                    senderId: users[0].id,
+                    content: this._state.dialogues.newContent
+                }
+                this._state.dialogues.dialogs[0].messages = [...this._state.dialogues.dialogs[0].messages, newMessage,];
+                this._state.dialogues.newContent = '';
+                this._callSubscriber(this._state);
+                break;
+            }
+            case "UPDATE-MESSAGE-TEXT": {
+                this._state.dialogues.newContent = action.payload.newMessage;
+                this._callSubscriber(this._state);
+                break;
+            }
         }
      },
 }
@@ -213,9 +222,11 @@ type Store = {
 
 type addPostActionCreatorPropsType = ReturnType<typeof addPostActionCreator>;
 type updatePostTextActionCreator = ReturnType<typeof updatePostTextActionCreator>;
+type addNewMessageActionCreator = ReturnType<typeof addNewMessageActionCreator>;
+type updateMessageActionCreator = ReturnType<typeof updateMessageActionCreator>;
 
 
-export type commonActionTypes = addPostActionCreatorPropsType | updatePostTextActionCreator;
+export type commonActionTypes = addPostActionCreatorPropsType | updatePostTextActionCreator | addNewMessageActionCreator | updateMessageActionCreator;
 
 export const addPostActionCreator = () => {
     return {
@@ -227,5 +238,20 @@ export const updatePostTextActionCreator = (text: string) => {
     return {
         type: 'UPDATE-POST-TEXT',
         payload: text
+    } as const
+}
+
+export const addNewMessageActionCreator = () => {
+    return {
+        type: 'ADD-NEW-MESSAGE'
+    } as const
+}
+
+export const updateMessageActionCreator = (newMessage: string) => {
+    return {
+        type: 'UPDATE-MESSAGE-TEXT',
+        payload: {
+            newMessage
+        }
     } as const
 }

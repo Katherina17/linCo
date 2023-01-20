@@ -15,6 +15,7 @@ import {Friends} from "./components/Friends/Friends";
 type AppPropsType = {
     state: State;
     newPostText: string;
+    newMessageText: string;
     dispatch: (action: commonActionTypes) => void;
 }
 
@@ -28,7 +29,7 @@ function App(props: AppPropsType) {
                       <Redirect from="/" to="/profile" />
                       <Route path={'/profile'} render={() => <Profile profile={props.state.profile} dispatch={props.dispatch} newPostText={props.newPostText}/>}/>
                       <Route path={'/friends'} render={() => <Friends friends={props.state.profile.user.friends}/>}/>
-                      <Route path={'/dialogs'} render={() => <Dialogs dialogues={props.state.dialogues}/>}/>
+                      <Route path={'/dialogs'} render={() => <Dialogs dialogues={props.state.dialogues.dialogs } dispatch={props.dispatch} newMessageText={props.newMessageText}/>}/>
                       <Route path={'/news'} component={News}/>
                       <Route path={'/music'} component={Music}/>
                       <Route path={'/settings'} component={Settings}/>
