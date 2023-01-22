@@ -1,7 +1,8 @@
 import {TextArea} from "../../../../TextArea/TextArea";
 import {Button} from "../../../../Button/Button";
 import s from './SenderMessage.module.css'
-import {addNewMessageActionCreator, commonActionTypes, updateMessageActionCreator} from "../../../../../redux/state";
+import {commonActionTypes} from "../../../../../redux/state";
+import {addNewMessageActionCreator, updateMessageActionCreator} from "../../../../../redux/dialogsReducer";
 
 type SenderMessagePropsType = {
     newMessageText: string;
