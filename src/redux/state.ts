@@ -1,4 +1,6 @@
 import {v1} from "uuid";
+import {addPostActionCreator, profileReducer, updatePostTextActionCreator} from "./profileReducer";
+import {addNewMessageActionCreator, dialogsReducer, updateMessageActionCreator} from './dialogsReducer';
 export type MessageType = {
     id: string;
     senderId: string;
@@ -35,7 +37,7 @@ export type DialogType = {
     messages: MessageType[];
 }
 
-type Dialogs = {
+export type Dialogs = {
     dialogs: DialogType[];
     newContent: string;
 }
@@ -47,7 +49,7 @@ export type State = {
     dialogues: Dialogs;
 }
 
-const users: UserType[] = [
+export const users: UserType[] = [
     {
         id: v1(),
         name: "Emilia Olsen",
@@ -181,77 +183,18 @@ type Store = {
          this._callSubscriber = callback;
      },
      dispatch(action: commonActionTypes){
-        switch (action.type){
-            case 'ADD-POST': {
-                let newMessage: MyPost = {
-                    id: v1(),
-                    like: 0,
-                    message: this._state.profile.newPostText,
-                    imgSrc: users[0].imgSrc
-                }
-                this._state.profile.posts= [newMessage, ...this._state.profile.posts];
-                this._state.profile.newPostText = '';
-                this._callSubscriber(this._state);
-                break;
-            }
-            case 'UPDATE-POST-TEXT': {
-                this._state.profile.newPostText= action.payload;
-                this._callSubscriber(this._state);
-                break;
-            }
-            case "ADD-NEW-MESSAGE": {
-                let newMessage : MessageType = {
-                    id: v1(),
-                    senderId: users[0].id,
-                    content: this._state.dialogues.newContent
-                }
-                this._state.dialogues.dialogs[0].messages = [...this._state.dialogues.dialogs[0].messages, newMessage,];
-                this._state.dialogues.newContent = '';
-                this._callSubscriber(this._state);
-                break;
-            }
-            case "UPDATE-MESSAGE-TEXT": {
-                this._state.dialogues.newContent = action.payload.newMessage;
-                this._callSubscriber(this._state);
-                break;
-            }
+         profileReducer(this._state.profile, action);
+         dialogsReducer(this._state.dialogues, action)
+         this._callSubscriber(this._state);
         }
-     },
 }
 
 
-type addPostActionCreatorPropsType = ReturnType<typeof addPostActionCreator>;
-type updatePostTextActionCreator = ReturnType<typeof updatePostTextActionCreator>;
+
 type addNewMessageActionCreator = ReturnType<typeof addNewMessageActionCreator>;
 type updateMessageActionCreator = ReturnType<typeof updateMessageActionCreator>;
+type addPostActionCreatorPropsType = ReturnType<typeof addPostActionCreator>;
+type updatePostTextActionCreatorType = ReturnType<typeof updatePostTextActionCreator>;
 
+export type commonActionTypes = addNewMessageActionCreator | updateMessageActionCreator | addPostActionCreatorPropsType| updatePostTextActionCreatorType;
 
-export type commonActionTypes = addPostActionCreatorPropsType | updatePostTextActionCreator | addNewMessageActionCreator | updateMessageActionCreator;
-
-export const addPostActionCreator = () => {
-    return {
-        type: 'ADD-POST'
-    } as const
-}
-
-export const updatePostTextActionCreator = (text: string) => {
-    return {
-        type: 'UPDATE-POST-TEXT',
-        payload: text
-    } as const
-}
-
-export const addNewMessageActionCreator = () => {
-    return {
-        type: 'ADD-NEW-MESSAGE'
-    } as const
-}
-
-export const updateMessageActionCreator = (newMessage: string) => {
-    return {
-        type: 'UPDATE-MESSAGE-TEXT',
-        payload: {
-            newMessage
-        }
-    } as const
-}

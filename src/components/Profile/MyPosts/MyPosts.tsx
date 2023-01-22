@@ -2,14 +2,12 @@ import React from "react";
 import Post from "./Post/Post";
 import s from './MyPosts.module.css';
 import {
-    ActionType,
-    addPostActionCreator,
     commonActionTypes,
     MyPost,
-    updatePostTextActionCreator
 } from "../../../redux/state";
 import {TextArea} from "../../TextArea/TextArea";
 import {Button} from "../../Button/Button";
+import {addPostActionCreator, updatePostTextActionCreator} from "../../../redux/profileReducer";
 
 
 type MyPostProps = {
