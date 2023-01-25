@@ -1,27 +1,26 @@
 import {TextArea} from "../../../../TextArea/TextArea";
 import {Button} from "../../../../Button/Button";
 import s from './SenderMessage.module.css'
-import {commonActionTypes} from "../../../../../redux/state";
-import {addNewMessageActionCreator, updateMessageActionCreator} from "../../../../../redux/dialogsReducer";
 
 type SenderMessagePropsType = {
     newMessageText: string;
-    dispatch: (action: commonActionTypes) => void;
+    updateValue: (newMess: string) => void
+    sendMessage: () => void;
 }
 
 export const SenderMessage: React.FC<SenderMessagePropsType> = (props) => {
-    const{newMessageText, dispatch} = props;
-    const updateValue = (newMessage: string) => {
-        dispatch(updateMessageActionCreator(newMessage))
+    const{newMessageText, updateValue, sendMessage } = props;
+    const onChangeUpdateValue = (newMessage: string) => {
+        updateValue(newMessage)
     }
 
     const sendMessageOnClickHandler = () => {
-        dispatch(addNewMessageActionCreator())
+        sendMessage();
     }
 
     return(
         <div className={s.senderMessage}>
-            <TextArea callBack={(newPostText) =>{updateValue(newPostText)}} placeholder={'type a message'} value={newMessageText}/>
+            <TextArea callBack={(newPostText) =>{onChangeUpdateValue(newPostText)}} placeholder={'type a message'} value={newMessageText}/>
             <Button name={'send'} callBack={sendMessageOnClickHandler}/>
         </div>
     )

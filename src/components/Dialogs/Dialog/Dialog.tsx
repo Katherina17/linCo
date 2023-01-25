@@ -1,12 +1,12 @@
 import {HeaderDialogs} from "./HeaderDialogs/HeaderDialogs";
 import s from './Dialog.module.css';
-import {commonActionTypes, DialogType, MessageType} from "../../../redux/state";
+import {commonActionTypes, DialogsType, DialogType, ProfileType} from "../../../redux/state";
 import {Message} from "./Message/Message";
-import {SenderMessage} from "./Message/SenderMessage/SenderMessage";
+import {EmptyObject, Store} from "redux";
+import {SenderMessageContainer} from "./Message/SenderMessage/SenderMessageContainer";
 type DialogPropsType = {
     dialog: DialogType;
-    newMessageText: string;
-    dispatch: (action: commonActionTypes) => void;
+    store: Store<EmptyObject & {profile: ProfileType, dialogs: DialogsType}, commonActionTypes>;
 }
 
 export const Dialog = (props: DialogPropsType) => {
@@ -24,7 +24,7 @@ export const Dialog = (props: DialogPropsType) => {
                              friendUserId={props.dialog.friendUser.id}/>
                 )
             })}
-            <SenderMessage newMessageText={props.newMessageText} dispatch={props.dispatch}/>
+            <SenderMessageContainer store={props.store}/>
         </div>
     )
 }

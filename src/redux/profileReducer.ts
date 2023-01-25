@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import {commonActionTypes, MyPost, ProfileType, UserType} from "./state";
 import {v1} from "uuid";
 
@@ -62,13 +61,6 @@ const initialState : ProfileType = {
 }
 
 export const profileReducer = (state: ProfileType = initialState, action: commonActionTypes) => {
-=======
-import {commonActionTypes, MyPost, ProfileType, State, users} from "./state";
-import {v1} from "uuid";
-
-
-export const profileReducer = (state: ProfileType, action: commonActionTypes) => {
->>>>>>> 7242b2ddf0c36a9312a4059fb02ba81802815fa9
     switch (action.type) {
         case 'ADD-POST': {
             let newMessage: MyPost = {
@@ -85,14 +77,10 @@ export const profileReducer = (state: ProfileType, action: commonActionTypes) =>
             state.newPostText = action.payload;
             break;
         }
-<<<<<<< HEAD
         default: break;
     }
     return state;
-=======
     }
->>>>>>> 7242b2ddf0c36a9312a4059fb02ba81802815fa9
-}
 
 export const addPostActionCreator = () => {
     return {

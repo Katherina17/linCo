@@ -1,10 +1,7 @@
 import {v1} from "uuid";
 import {addPostActionCreator, profileReducer, updatePostTextActionCreator} from "./profileReducer";
 import {addNewMessageActionCreator, dialogsReducer, updateMessageActionCreator} from './dialogsReducer';
-<<<<<<< HEAD
-import {EmptyObject} from "redux";
-=======
->>>>>>> 7242b2ddf0c36a9312a4059fb02ba81802815fa9
+
 export type MessageType = {
     id: string;
     senderId: string;
@@ -41,7 +38,7 @@ export type DialogType = {
     messages: MessageType[];
 }
 
-export type Dialogs = {
+export type DialogsType = {
     dialogs: DialogType[];
     newContent: string;
 }
@@ -50,7 +47,7 @@ export type Dialogs = {
 
 export type State = {
     profile: ProfileType;
-    dialogues: Dialogs ;
+    dialogues: DialogsType ;
 }
 
 export const users: UserType[] = [
