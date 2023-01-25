@@ -1,7 +1,10 @@
 import {v1} from "uuid";
 import {addPostActionCreator, profileReducer, updatePostTextActionCreator} from "./profileReducer";
 import {addNewMessageActionCreator, dialogsReducer, updateMessageActionCreator} from './dialogsReducer';
+<<<<<<< HEAD
 import {EmptyObject} from "redux";
+=======
+>>>>>>> 7242b2ddf0c36a9312a4059fb02ba81802815fa9
 export type MessageType = {
     id: string;
     senderId: string;

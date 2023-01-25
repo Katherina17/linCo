@@ -1,6 +1,7 @@
 import {commonActionTypes, Dialogs, MessageType, users} from "./state";
 import {v1} from "uuid";
 
+<<<<<<< HEAD
 const initialState = {
     dialogs: [
         {
@@ -54,6 +55,9 @@ const initialState = {
 }
 
 export const dialogsReducer = (state: Dialogs = initialState, action: commonActionTypes) => {
+=======
+export const dialogsReducer = (state: Dialogs, action: commonActionTypes) => {
+>>>>>>> 7242b2ddf0c36a9312a4059fb02ba81802815fa9
     switch (action.type) {
         case "ADD-NEW-MESSAGE": {
             let newMessage: MessageType = {
@@ -69,9 +73,13 @@ export const dialogsReducer = (state: Dialogs = initialState, action: commonActi
             state.newContent = action.payload.newMessage;
             break;
         }
+<<<<<<< HEAD
         default: break;
     }
     return state;
+=======
+    }
+>>>>>>> 7242b2ddf0c36a9312a4059fb02ba81802815fa9
 }
 
 export const addNewMessageActionCreator = () => {
