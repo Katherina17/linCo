@@ -6,7 +6,6 @@ import {EmptyObject, Store} from "redux";
 import {SenderMessageContainer} from "./Message/SenderMessage/SenderMessageContainer";
 type DialogPropsType = {
     dialog: DialogType;
-    store: Store<EmptyObject & {profile: ProfileType, dialogs: DialogsType}, commonActionTypes>;
 }
 
 export const Dialog = (props: DialogPropsType) => {
@@ -24,7 +23,7 @@ export const Dialog = (props: DialogPropsType) => {
                              friendUserId={props.dialog.friendUser.id}/>
                 )
             })}
-            <SenderMessageContainer store={props.store}/>
+            <SenderMessageContainer/>
         </div>
     )
 }

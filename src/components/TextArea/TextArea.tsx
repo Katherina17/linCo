@@ -6,7 +6,7 @@ type TextAreaPropsType = {
     callBack: (newPostText: string) => void;
     className?: string;
     placeholder: string;
-    value: string;
+    value: string | undefined;
 }
 
 export const TextArea: React.FC<TextAreaPropsType> = (props) => {

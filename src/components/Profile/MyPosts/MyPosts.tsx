@@ -9,9 +9,9 @@ import {Button} from "../../Button/Button";
 
 
 type MyPostProps = {
-    posts: MyPost[];
+    posts: MyPost[] | undefined;
     updatePostText: (text: string) => void
-    newPostText: string;
+    newPostText: string | undefined;
     addPost: () => void;
 }
 
@@ -29,10 +29,10 @@ const MyPosts = (props: MyPostProps) => {
         <div className={s.post}>
             <h2 className={s.h2}>My posts</h2>
             <div className={s.textareaAndButton}>
-                <TextArea callBack={(text) => onChangeUpdatePostText(text)} placeholder={placeholder} value={props.newPostText} className={s.textareaPost}/>
+                <TextArea callBack={(text) => onChangeUpdatePostText(text)} placeholder={placeholder} value={props?.newPostText} className={s.textareaPost}/>
                 <Button name={'Add Post'} callBack={addPostOnClickHandler}/>
             </div>
-            {props.posts.map(i => {
+            {props.posts?.map(i => {
                 return (
                     <Post key={i.id} message={i.message} like={i.like} id={i.id} imgSrc={i.imgSrc}/>
                 )

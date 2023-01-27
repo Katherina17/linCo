@@ -3,7 +3,7 @@ import {Button} from "../../../../Button/Button";
 import s from './SenderMessage.module.css'
 
 type SenderMessagePropsType = {
-    newMessageText: string;
+    newMessageText: string | undefined;
     updateValue: (newMess: string) => void
     sendMessage: () => void;
 }
