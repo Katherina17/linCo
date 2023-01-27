@@ -79,17 +79,13 @@ export const dialogsReducer = (state: DialogsType = initialState, action: common
                 senderId: users[0].id,
                 content: state.newContent
             }
-            state.dialogs[0].messages = [...state.dialogs[0].messages, newMessage];
-            state.newContent = '';
-            break;
+            return {...state, newContent: '', dialogs: state.dialogs.map((el, index) => index === 0 ? {...el, messages: [...el.messages, newMessage]} : el)}
         }
         case "UPDATE-MESSAGE-TEXT": {
-            state.newContent = action.payload.newMessage;
-            break;
+            return {...state, newContent: action.payload.newMessage}
         }
-        default: break;
+        default: return state;
     }
-    return state;
     }
 
 

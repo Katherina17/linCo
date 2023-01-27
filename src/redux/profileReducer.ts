@@ -91,17 +91,13 @@ export const profileReducer = (state: ProfileType = initialState, action: common
                 message: state.newPostText,
                 imgSrc: users[0].imgSrc
             }
-            state.posts = [newMessage, ...state.posts];
-            state.newPostText = '';
-            break;
+            return {...state, newPostText: '', posts: [newMessage, ...state.posts]}
         }
         case 'UPDATE-POST-TEXT': {
-            state.newPostText = action.payload;
-            break;
+            return {...state, newPostText: action.payload}
         }
-        default: break;
+        default: return state;
     }
-    return state;
     }
 
 export const addPostActionCreator = () => {
