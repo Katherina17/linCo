@@ -1,21 +1,21 @@
 import {v1} from "uuid";
-import {addPostActionCreator, profileReducer, updatePostTextActionCreator} from "./profileReducer";
-import {addNewMessageActionCreator, dialogsReducer, updateMessageActionCreator} from './dialogsReducer';
+import {addPostActionCreator, updatePostTextActionCreator} from "./profileReducer";
+import {addNewMessageActionCreator, updateMessageActionCreator} from './dialogsReducer';
 
-export type MessageType = {
+type MessageType = {
     id: string;
     senderId: string;
     content: string;
 }
 
-export type MyPost = {
+type MyPost = {
     id: string,
     message: string,
     like: number,
     imgSrc: string
 }
 
-export type ProfileType = {
+type ProfileType = {
     user: UserType,
     dataBirth: string;
     city: string;
@@ -24,33 +24,33 @@ export type ProfileType = {
     newPostText: string;
 }
 
-export type UserType = {
+type UserType = {
     id: string;
     name: string;
     imgSrc: string;
     friends: UserType[];
 }
 
-export type DialogType = {
+type DialogType = {
     id: string;
     currentUser: UserType;
     friendUser: UserType;
     messages: MessageType[];
 }
 
-export type DialogsType = {
+type DialogsType = {
     dialogs: DialogType[];
     newContent: string;
 }
 
 
 
-export type State = {
+type State = {
     profile: ProfileType;
     dialogues: DialogsType ;
 }
 
-export const users: UserType[] = [
+const users: UserType[] = [
     {
         id: v1(),
         name: "Emilia Olsen",
@@ -94,7 +94,7 @@ type Store = {
     dispatch: (action: commonActionTypes) => void;
 }
 
- export const storeOutOfRedux: Store = {
+/* export const storeOutOfRedux: Store = {
     _state: {
         profile: {
             user: users[0],
@@ -188,7 +188,7 @@ type Store = {
          dialogsReducer(this._state.dialogues, action)
          this._callSubscriber(this._state);
         }
-}
+}*/
 
 
 
@@ -197,5 +197,5 @@ type updateMessageActionCreator = ReturnType<typeof updateMessageActionCreator>;
 type addPostActionCreatorPropsType = ReturnType<typeof addPostActionCreator>;
 type updatePostTextActionCreatorType = ReturnType<typeof updatePostTextActionCreator>;
 
-export type commonActionTypes = addNewMessageActionCreator | updateMessageActionCreator | addPostActionCreatorPropsType| updatePostTextActionCreatorType;
+type commonActionTypes = addNewMessageActionCreator | updateMessageActionCreator | addPostActionCreatorPropsType| updatePostTextActionCreatorType;
 

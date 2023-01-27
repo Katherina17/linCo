@@ -1,6 +1,5 @@
 import React from "react";
 import s from './UserNameProfile.module.css';
-import {UserType, ProfileType} from '../../../redux/state';
 
 type UserNameProfileProps = {
     imgSrc: string;

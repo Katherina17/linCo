@@ -1,9 +1,8 @@
 import {HeaderDialogs} from "./HeaderDialogs/HeaderDialogs";
 import s from './Dialog.module.css';
-import {commonActionTypes, DialogsType, DialogType, ProfileType} from "../../../redux/state";
 import {Message} from "./Message/Message";
-import {EmptyObject, Store} from "redux";
 import {SenderMessageContainer} from "./Message/SenderMessage/SenderMessageContainer";
+import {DialogType} from "../../../redux/dialogsReducer";
 type DialogPropsType = {
     dialog: DialogType;
 }

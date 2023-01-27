@@ -1,7 +1,29 @@
-import {commonActionTypes, MyPost, ProfileType, UserType} from "./state";
 import {v1} from "uuid";
 
-const users: UserType[] = [
+export type MyPost = {
+    id: string,
+    message: string,
+    like: number,
+    imgSrc: string
+}
+
+export type ProfileType = {
+    user: UserType,
+    dataBirth: string;
+    city: string;
+    education: string;
+    posts: MyPost[];
+    newPostText: string;
+}
+
+export type UserType = {
+    id: string;
+    name: string;
+    imgSrc: string;
+    friends: UserType[];
+}
+
+export const users: UserType[] = [
     {
         id: v1(),
         name: "Emilia Olsen",
@@ -60,7 +82,7 @@ const initialState : ProfileType = {
     newPostText: '',
 }
 
-export const profileReducer = (state: ProfileType = initialState, action: commonActionTypes) => {
+export const profileReducer = (state: ProfileType = initialState, action: commonActionProfileTypes):ProfileType => {
     switch (action.type) {
         case 'ADD-POST': {
             let newMessage: MyPost = {
@@ -94,3 +116,8 @@ export const updatePostTextActionCreator = (text: string) => {
         payload: text
     } as const
 }
+
+type addPostActionCreatorPropsType = ReturnType<typeof addPostActionCreator>;
+type updatePostTextActionCreatorType = ReturnType<typeof updatePostTextActionCreator>;
+
+export type commonActionProfileTypes = addPostActionCreatorPropsType| updatePostTextActionCreatorType;

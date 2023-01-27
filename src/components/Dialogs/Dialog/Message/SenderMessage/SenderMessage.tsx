@@ -1,12 +1,7 @@
 import {TextArea} from "../../../../TextArea/TextArea";
 import {Button} from "../../../../Button/Button";
 import s from './SenderMessage.module.css'
-
-type SenderMessagePropsType = {
-    newMessageText: string | undefined;
-    updateValue: (newMess: string) => void
-    sendMessage: () => void;
-}
+import {SenderMessagePropsType} from "./SenderMessageContainer";
 
 export const SenderMessage: React.FC<SenderMessagePropsType> = (props) => {
     const{newMessageText, updateValue, sendMessage } = props;

@@ -1,21 +1,11 @@
 import React from "react";
 import Post from "./Post/Post";
 import s from './MyPosts.module.css';
-import {
-    MyPost,
-} from "../../../redux/state";
 import {TextArea} from "../../TextArea/TextArea";
 import {Button} from "../../Button/Button";
+import {MyPostPropsType} from "./MyPostsContainer";
 
-
-type MyPostProps = {
-    posts: MyPost[] | undefined;
-    updatePostText: (text: string) => void
-    newPostText: string | undefined;
-    addPost: () => void;
-}
-
-const MyPosts = (props: MyPostProps) => {
+const MyPosts = (props: MyPostPropsType) => {
     let placeholder = 'write a new text';
 
     const onChangeUpdatePostText = (text: string) => {
@@ -29,7 +19,7 @@ const MyPosts = (props: MyPostProps) => {
         <div className={s.post}>
             <h2 className={s.h2}>My posts</h2>
             <div className={s.textareaAndButton}>
-                <TextArea callBack={(text) => onChangeUpdatePostText(text)} placeholder={placeholder} value={props?.newPostText} className={s.textareaPost}/>
+                <TextArea callBack={(text) => onChangeUpdatePostText(text)} placeholder={placeholder} value={props.newPostText} className={s.textareaPost}/>
                 <Button name={'Add Post'} callBack={addPostOnClickHandler}/>
             </div>
             {props.posts?.map(i => {

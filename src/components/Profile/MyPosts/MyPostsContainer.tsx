@@ -1,28 +1,38 @@
 import React from "react";
 import MyPosts from "./MyPosts";
-import {addPostActionCreator, updatePostTextActionCreator} from "../../../redux/profileReducer";
-import {StoreContext} from "../../../redux/StoreContext";
+import {
+    addPostActionCreator,
+    commonActionProfileTypes,
+    MyPost,
+    updatePostTextActionCreator
+} from "../../../redux/profileReducer";
+import {connect} from "react-redux";
+import {State} from "../../../redux/redux-store";
 
-
-export const MyPostsContainer = () => {
-    return (
-        <StoreContext.Consumer>
-            { store => {
-                const updatePostText = (text: string) => {
-                    store?.dispatch(updatePostTextActionCreator(text));
-                }
-
-                const addPost = () => {
-                    store?.dispatch(addPostActionCreator())
-                }
-                return <MyPosts posts={store?.getState().profile.posts}
-                         updatePostText={(text) => updatePostText(text)}
-                         newPostText={store?.getState().profile.newPostText}
-                         addPost={addPost}
-                />
-            }
-
-            }
-        </StoreContext.Consumer>
-    )
+type mapStateToPropsType = {
+    newPostText: string;
+    posts: MyPost[]
 }
+
+type mapDispatchToPropsType = {
+    updatePostText: (text: string) => void;
+    addPost: () => void;
+}
+
+export type MyPostPropsType = mapStateToPropsType & mapDispatchToPropsType
+
+const mapStateToProps = (state: State):mapStateToPropsType => {
+    return{
+        newPostText: state.profile!.newPostText,
+        posts: state.profile!.posts
+    }
+}
+
+const mapDispatchToProps = (dispatch: (action: commonActionProfileTypes) => void): mapDispatchToPropsType => {
+    return {
+        updatePostText: (text: string) => dispatch(updatePostTextActionCreator(text)),
+        addPost: () => dispatch(addPostActionCreator())
+    }
+}
+
+export const MyPostsContainer = connect(mapStateToProps,mapDispatchToProps )(MyPosts)

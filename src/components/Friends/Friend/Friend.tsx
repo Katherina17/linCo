@@ -1,5 +1,5 @@
 import s from '../Friends.module.css'
-import {UserType} from "../../../redux/state";
+import {UserType} from "../../../redux/profileReducer";
 
 type FriendPropsType = {
     friend: UserType;

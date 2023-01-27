@@ -1,6 +1,6 @@
 import s from './DialogList.module.css';
 import {DialogItemList} from "./DialogItemList/DialogItemList";
-import {DialogType} from "../../../redux/state";
+import {DialogType} from "../../../redux/dialogsReducer";
 
 export type DialogPropsList = {
     dialogues: DialogType[];

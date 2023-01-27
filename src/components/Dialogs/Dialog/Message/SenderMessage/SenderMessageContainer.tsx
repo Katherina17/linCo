@@ -1,24 +1,36 @@
-import {addNewMessageActionCreator, updateMessageActionCreator} from "../../../../../redux/dialogsReducer";
+import {
+    addNewMessageActionCreator,
+    commonActionDialogsTypes,
+    updateMessageActionCreator
+} from "../../../../../redux/dialogsReducer";
 import {SenderMessage} from "./SenderMessage";
-import {StoreContext} from "../../../../../redux/StoreContext";
 import React from "react";
+import {connect} from "react-redux";
+import {State} from "../../../../../redux/redux-store";
 
-
-export const SenderMessageContainer: React.FC = (props) => {
-    return(
-        <StoreContext.Consumer>
-            {
-                store => {
-                    const updateValue = (newMessage: string) => {
-                        store?.dispatch(updateMessageActionCreator(newMessage));
-                    }
-
-                    const sendMessage = () => {
-                        store?.dispatch(addNewMessageActionCreator());
-                    }
-                    return <SenderMessage newMessageText={store?.getState().dialogs.newContent} updateValue={(newMessage) => updateValue(newMessage)} sendMessage={sendMessage}/>
-                }
-            }
-        </StoreContext.Consumer>
-    )
+type mapStateToPropsType = {
+    newMessageText: string
 }
+
+type mapDispatchToPropsType = {
+    updateValue: (newMessage: string) => void;
+    sendMessage: () => void;
+}
+
+export type SenderMessagePropsType = mapDispatchToPropsType & mapStateToPropsType;
+
+const mapStateToProps = (state: State):mapStateToPropsType => {
+    return{
+        newMessageText: state.dialogs!.newContent
+    }
+}
+
+const mapDispatchToProps = (dispatch: (action: commonActionDialogsTypes) => void): mapDispatchToPropsType => {
+    return{
+        updateValue: (newMessage: string) => dispatch(updateMessageActionCreator(newMessage)),
+        sendMessage: () => dispatch(addNewMessageActionCreator()),
+    }
+}
+
+
+export const SenderMessageContainer = connect(mapStateToProps, mapDispatchToProps)(SenderMessage);

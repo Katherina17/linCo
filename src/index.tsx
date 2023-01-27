@@ -4,16 +4,21 @@ import './index.css';
 import App from './App';
 import { BrowserRouter } from 'react-router-dom';
 import {store} from './redux/redux-store';
-import {DialogsType, ProfileType} from "./redux/state";
-import {StoreContext} from "./redux/StoreContext";
+import {Provider} from "react-redux";
+import {ProfileType} from "./redux/profileReducer";
+import {DialogsType} from "./redux/dialogsReducer";
 
+type RenderAllTreeStateType = {
+    profile: ProfileType | undefined;
+    dialogs: DialogsType | undefined;
+}
 
-export const RenderAllTree = (state: {profile: ProfileType | undefined, dialogs: DialogsType | undefined}) => {
+export const RenderAllTree = (state: RenderAllTreeStateType) => {
     ReactDOM.render(
         <BrowserRouter>
-            <StoreContext.Provider value={store}  >
+            <Provider store={store}>
                 <App state={state}/>
-            </StoreContext.Provider >
+            </Provider >
         </BrowserRouter>,
         document.getElementById('root')
     );

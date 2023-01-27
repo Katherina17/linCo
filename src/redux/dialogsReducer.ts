@@ -1,7 +1,25 @@
-import {commonActionTypes, DialogsType, MessageType, users} from "./state";
 import {v1} from "uuid";
+import {UserType, users} from "./profileReducer";
 
-const initialState = {
+export type MessageType = {
+    id: string;
+    senderId: string;
+    content: string;
+}
+
+export type DialogType = {
+    id: string;
+    currentUser: UserType;
+    friendUser: UserType;
+    messages: MessageType[];
+}
+
+export type DialogsType = {
+    dialogs: DialogType[];
+    newContent: string;
+}
+
+const initialState: DialogsType = {
     dialogs: [
         {
             id: v1(),
@@ -53,7 +71,7 @@ const initialState = {
     newContent: ''
 }
 
-export const dialogsReducer = (state: DialogsType = initialState, action: commonActionTypes) => {
+export const dialogsReducer = (state: DialogsType = initialState, action: commonActionDialogsTypes):DialogsType => {
     switch (action.type) {
         case "ADD-NEW-MESSAGE": {
             let newMessage: MessageType = {
@@ -61,7 +79,7 @@ export const dialogsReducer = (state: DialogsType = initialState, action: common
                 senderId: users[0].id,
                 content: state.newContent
             }
-            state.dialogs[0].messages = [...state.dialogs[0].messages, newMessage,];
+            state.dialogs[0].messages = [...state.dialogs[0].messages, newMessage];
             state.newContent = '';
             break;
         }
@@ -89,3 +107,7 @@ export const updateMessageActionCreator = (newMessage: string) => {
         }
     } as const
 }
+
+type addNewMessageActionCreator = ReturnType<typeof addNewMessageActionCreator>;
+type updateMessageActionCreator = ReturnType<typeof updateMessageActionCreator>;
+export type commonActionDialogsTypes = addNewMessageActionCreator | updateMessageActionCreator;
