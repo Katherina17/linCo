@@ -6,6 +6,7 @@ import FeedOutlinedIcon from '@mui/icons-material/FeedOutlined';
 import AudiotrackOutlinedIcon from '@mui/icons-material/AudiotrackOutlined';
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import Diversity3OutlinedIcon from '@mui/icons-material/Diversity3Outlined';
+import PersonSearchOutlinedIcon from '@mui/icons-material/PersonSearchOutlined';
 import {NavLink} from "react-router-dom";
 
 const NavBar = () => {
@@ -16,6 +17,12 @@ const NavBar = () => {
                     <div className={s.person_icon_container}>
                         <PersonOutlineOutlinedIcon sx={{ fontSize: 16, cursor: 'pointer'}} />
                         <NavLink to="/profile"> Profile </NavLink>
+                    </div>
+                </li>
+                <li>
+                    <div className={s.person_icon_container}>
+                        <PersonSearchOutlinedIcon sx={{ fontSize: 16, cursor: 'pointer'}} />
+                        <NavLink to="/findPeople"> FindPeople </NavLink>
                     </div>
                 </li>
                 <li>

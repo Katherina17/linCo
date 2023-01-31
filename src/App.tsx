@@ -10,6 +10,8 @@ import {Settings} from "./components/Settings/Settings";
 import {Friends} from "./components/Friends/Friends";
 import {State} from './redux/redux-store'
 import {Dialogs} from "./components/Dialogs/Dialogs";
+import {FindPeople} from "./components/FindPeople/FindPeople";
+import {FindPeopleContainer} from "./components/FindPeople/FindPeopleContainer";
 
 
 
@@ -27,6 +29,7 @@ function App(props: AppPropsType) {
                       <NavBar/>
                       <Redirect from="/" to="/profile" />
                       <Route path={'/profile'} render={() => <Profile profile={props.state.profile!}/>}/>
+                      <Route path={'/findPeople'} render={() => <FindPeopleContainer/>}/>
                       <Route path={'/friends'} render={() => <Friends friends={props.state.profile!.user.friends}/>}/>
                       <Route path={'/dialogs'} render={() => <Dialogs dialogues={props.state.dialogs!.dialogs}/>}/>
                       <Route path={'/news'} component={News}/>

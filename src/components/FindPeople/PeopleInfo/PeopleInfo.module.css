@@ -1,0 +1,35 @@
+.imgAndInfo{
+    display: flex;
+    align-items: center;
+}
+
+.image_container{
+    overflow: hidden;
+    display:inline-block;
+    vertical-align:middle;
+    max-width: 100px;
+    max-height: 100px;
+    border-radius: 50%;
+    margin-right: 3rem;
+    box-shadow: 0 0 2px #000000d9;
+}
+
+.image_container img{
+    width: 100%;
+    height: auto;
+}
+
+.info{
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+    font-size: 14px;
+}
+.info h2{
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.info p:last-child{
+    font-style: italic;
+}
