@@ -1,23 +1,24 @@
-import {v1} from "uuid";
-
 export type PeopleType = {
-    id: string;
-    fullName: string;
-    imgSrc: string;
-    isFollow: boolean;
-    status: string;
-    location: {
-        country: string;
-        city: string;
-    }
+    id: number;
+    name: string;
+    photos: {
+        small: null | string,
+        large: null| string
+    };
+    followed: boolean;
+    status: string | null;
+    uniqueUrlName: string | null;
 }
 
 export type FindPeopleType = {
-    people: PeopleType[]
+    items: PeopleType[],
+    totalCount: number,
+    error: null | string
+
 }
 
 const initialState : FindPeopleType = {
-    people: [
+   /* people: [
          {
             id: v1(),
             imgSrc: 'https://images.unsplash.com/photo-1542740348-39501cd6e2b4?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80',
@@ -61,22 +62,29 @@ const initialState : FindPeopleType = {
                 city: 'Chicago'
             }
         },
-    ]
+    ]*/
+    items: [],
+    totalCount: 0,
+    error: null
+
 }
 
 export const findPeopleReducer = (state: FindPeopleType = initialState, action: commonACFindPeopleTypes):FindPeopleType => {
     switch (action.type) {
         case "FOLLOW": {
-            return {...state, people: state.people.map(el => el.id === action.payload.userID ? {...el, isFollow: true} : el)}
+            return {...state, items: state.items.map(el => el.id === action.payload.userID ? {...el, followed: true} : el)}
         }
         case "UNFOLLOW": {
-            return {...state, people: state.people.map(el => el.id === action.payload.userID ? {...el, isFollow: false} : el)}
+            return {...state, items: state.items.map(el => el.id === action.payload.userID ? {...el, followed: false} : el)}
+        }
+        case "SET_USERS": {
+            return {...state, items: action.payload.users}
         }
         default: return state;
     }
     }
 
-export const followAC = (userID: string) => {
+export const followAC = (userID: number) => {
     return {
         type: 'FOLLOW',
         payload: {
@@ -84,7 +92,7 @@ export const followAC = (userID: string) => {
         }
     } as const
 }
-export const unFollowAC = (userID: string) => {
+export const unFollowAC = (userID: number) => {
     return {
         type: 'UNFOLLOW',
         payload: {
@@ -93,9 +101,19 @@ export const unFollowAC = (userID: string) => {
     } as const
 }
 
+export const setUsersAC = (users: PeopleType[]) => {
+    return {
+        type: 'SET_USERS',
+        payload: {
+            users
+        }
+    } as const
+}
+
 
 
 type followACType = ReturnType<typeof followAC>;
 type unFollowACType = ReturnType<typeof unFollowAC>;
+type setUsersAC = ReturnType<typeof setUsersAC>;
 
-export type commonACFindPeopleTypes = followACType| unFollowACType;
+export type commonACFindPeopleTypes = followACType| unFollowACType | setUsersAC;
