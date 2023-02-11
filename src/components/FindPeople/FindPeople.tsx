@@ -11,8 +11,11 @@ import React from 'react';
 export class FindPeople extends React.Component<FindPeoplePropsType>{
     constructor(props: FindPeoplePropsType){
         super(props);
-        axios.get('https://social-network.samuraijs.com/api/1.0/users').then(response => props.setUsers(response.data.items))
     }
+    componentDidMount() {
+        axios.get('https://social-network.samuraijs.com/api/1.0/users').then(response => this.props.setUsers(response.data.items))
+    }
+
     render(){
         return <section className={s.section}>
             {this.props.state.map(el => {

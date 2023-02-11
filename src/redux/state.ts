@@ -94,6 +94,9 @@ type Store = {
     dispatch: (action: commonActionTypes) => void;
 }
 
+
+
+
 /* export const storeOutOfRedux: Store = {
     _state: {
         profile: {
