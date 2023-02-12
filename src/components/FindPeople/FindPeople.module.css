@@ -12,11 +12,13 @@
     padding: 1.5rem;
 }
 .infoAndButton:last-child{
-
     border-bottom: none;
-
 }
 
-.currentPage{
-    font-weight: bold;
+
+.pagination{
+    margin: 2rem 0;
+    display: flex;
+    width: 80%;
+    justify-content: center;
 }

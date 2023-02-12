@@ -1,9 +1,8 @@
 import {connect} from "react-redux";
 import {State} from "../../redux/redux-store";
 import {
-    commonACFindPeopleTypes,
     followAC,
-    PeopleType, setCurrentPageAC, setFirstAndLastPagesAC, setNextPageAC, setPreviousPageAC,
+    PeopleType, setCurrentPageAC, setFetchAC,
     setTotalPageAC,
     setUsersAC,
     unFollowAC
@@ -11,6 +10,10 @@ import {
 import React from "react";
 import axios from "axios";
 import {Users} from "./Users";
+import CircularProgress from '@mui/material/CircularProgress';
+import Box from '@mui/material/Box';
+
+
 
 type mapDispatchToProps = {
     followUser: (userID: number) => void;
@@ -18,9 +21,7 @@ type mapDispatchToProps = {
     setUsers: (users: PeopleType[]) => void;
     setTotalPage: (totalPage: number) => void;
     setCurrentPage: (currentPage: number) => void;
-    setNextPageAC: () => void;
-    setPreviousPageAC: () => void;
-    setFirstAndLastPagesAC: (firstPages: number[], lastPages: number[]) => void
+    setFetch: (isFetch: boolean) => void
 }
 
 export type mapStateToProps = {
@@ -28,8 +29,7 @@ export type mapStateToProps = {
     currentPage: number,
     totalCount: number,
     pageSize: number,
-    firstPages: number[],
-    lastPages: number[]
+    isFetching?: boolean
 }
 
 export type FindPeoplePropsType = mapDispatchToProps & mapStateToProps;
@@ -39,22 +39,12 @@ export class FindPeople extends React.Component<FindPeoplePropsType> {
     constructor(props: FindPeoplePropsType) {
         super(props);
     }
-
     componentDidMount() {
         axios.get(`https://social-network.samuraijs.com/api/1.0/users?count=${this.props.pageSize}&page=${this.props.currentPage}`)
             .then(response => {
                     this.props.setUsers(response.data.items)
+                    this.props.setFetch(false)
                     this.props.setTotalPage(response.data.totalCount)
-                    let pagesCount = Math.ceil(this.props.totalCount / this.props.pageSize);
-                    let firstPages = [];
-                    for (let i = 1; i <= 4; i++) {
-                        firstPages.push(i);
-                    }
-                    let lastPages = []
-                    for (let i = pagesCount - 2; i <= pagesCount; i++) {
-                        lastPages.push(i);
-                    }
-                    this.props.setFirstAndLastPagesAC(firstPages, lastPages)
                 }
             )
     }
@@ -62,31 +52,29 @@ export class FindPeople extends React.Component<FindPeoplePropsType> {
     componentDidUpdate(prevProps: Readonly<FindPeoplePropsType>, prevState: Readonly<FindPeoplePropsType>, snapshot?: any) {
         if (prevProps.currentPage !== this.props.currentPage) {
             axios.get(`https://social-network.samuraijs.com/api/1.0/users?count=${this.props.pageSize}&page=${this.props.currentPage}`)
-                .then(response => this.props.setUsers(response.data.items)
+                .then(response => {
+                    this.props.setUsers(response.data.items);
+                    this.props.setFetch(false)
+                }
                 )
         }
     }
-
-    setNextPage() {
-        this.props.setNextPageAC()
-    }
-
-    setPreviousPage() {
-        this.props.setPreviousPageAC()
-    }
-
     setCurrentPage(currentPage: number) {
         this.props.setCurrentPage(currentPage)
-        axios.get(`https://social-network.samuraijs.com/api/1.0/users?count=${this.props.pageSize}&page=${currentPage}`).then(response => this.props.setUsers(response.data.items))
+        this.props.setFetch(true)
+        axios.get(`https://social-network.samuraijs.com/api/1.0/users?count=${this.props.pageSize}&page=${currentPage}`).then(response => {this.props.setUsers(response.data.items);  this.props.setFetch(false)})
     }
 
     render() {
-        return <Users setNextPage={() => this.setNextPage()} setPreviousPage={() => this.setPreviousPage()}
-                      setCurrentPage={(cur) => this.setCurrentPage(cur)} unFollowUser={this.props.unFollowUser}
-                      followUser={this.props.followUser} state={this.props.state}
-                      currentPage={this.props.currentPage} totalCount={this.props.totalCount}
-                      pageSize={this.props.pageSize} firstPages={this.props.firstPages}
-                      lastPages={this.props.lastPages}/>
+        return this.props.isFetching ?
+            <Box sx={{display: 'flex', alignItems: 'center', width: '100%', justifyContent: 'center'}}>
+                <CircularProgress/>
+            </Box>
+            :
+            <Users setCurrentPage={(cur) => this.setCurrentPage(cur)} unFollowUser={this.props.unFollowUser}
+                   followUser={this.props.followUser} state={this.props.state}
+                   currentPage={this.props.currentPage} totalCount={this.props.totalCount}
+                   pageSize={this.props.pageSize}/>
     }
 
 }
@@ -97,24 +85,13 @@ const mapStateToProps = (state: State): mapStateToProps => {
         currentPage: state.findPeople!.currentPage,
         totalCount: state.findPeople!.totalCount,
         pageSize: state.findPeople!.pageSize,
-        firstPages: state.findPeople!.firstPages,
-        lastPages: state.findPeople!.lastPages
+        isFetching: state.findPeople!.isFetching
     }
 }
 
-const mapDispatchToProps = (dispatch: (action: commonACFindPeopleTypes) => void): mapDispatchToProps => {
-    return {
-        followUser: (userID) => dispatch(followAC(userID)),
-        unFollowUser: (userID) => dispatch(unFollowAC(userID)),
-        setUsers: (users: PeopleType[]) => dispatch(setUsersAC(users)),
-        setTotalPage: (totalPage: number) => dispatch(setTotalPageAC(totalPage)),
-        setCurrentPage: (currentPage: number) => dispatch(setCurrentPageAC(currentPage)),
-        setFirstAndLastPagesAC: (firstPages: number[], lastPages: number[]) => dispatch(setFirstAndLastPagesAC(firstPages, lastPages)),
-        setNextPageAC: () => dispatch(setNextPageAC()),
-        setPreviousPageAC: () => dispatch(setPreviousPageAC())
-
-    }
-}
-
-
-export const FindPeopleContainer = connect(mapStateToProps, mapDispatchToProps)(FindPeople);
+export const FindPeopleContainer = connect(mapStateToProps, { followUser:followAC,
+    unFollowUser: unFollowAC,
+    setUsers: setUsersAC,
+    setTotalPage: setTotalPageAC,
+    setCurrentPage: setCurrentPageAC,
+    setFetch: setFetchAC})(FindPeople);

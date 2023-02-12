@@ -2,12 +2,12 @@ import s from "./FindPeople.module.css";
 import {v1} from "uuid";
 import {PeopleInfo} from "./PeopleInfo/PeopleInfo";
 import {Button} from "../Button/Button";
-import React from "react";
+import React, {ChangeEvent} from "react";
 import {mapStateToProps} from "./FindPeopleContainer";
+import Pagination from '@mui/material/Pagination';
+import Stack from '@mui/material/Stack';
 
 type UsersPropsType = {
-   setNextPage: () => void
-   setPreviousPage: () => void
    setCurrentPage: (num: number) => void
     unFollowUser: (id: number) => void
     followUser: (id: number) => void
@@ -15,21 +15,16 @@ type UsersPropsType = {
 
 export const Users = (props:  UsersPropsType) => {
     let pagesCount = Math.ceil(props.totalCount/props.pageSize);
-    return <section className={s.section}>
-        <button onClick={() => props.setPreviousPage()} disabled={props.currentPage <= 1} >Previous</button>
+    const onChangePaginationHandler = (event:ChangeEvent<unknown>, page: number) => {
+        props.setCurrentPage(page)
+    }
+    const paginationStyle = {
+        display: 'flex',
+        alignItems: 'center',
+        width: '100%',
 
-        {props.firstPages.map(p => {
-            return (
-                <span key={p} className={props.currentPage === p ? s.currentPage : ''} style={{marginRight: '10px'}} onClick={() => props.setCurrentPage(p)}>{p}</span>
-            )
-        })}
-        <span>...</span>
-        {props.lastPages.map((p, index) => {
-            return (
-                <span key={p} className={props.currentPage === p ? s.currentPage : ''}  style={{marginLeft: '10px'}}  onClick={() => props.setCurrentPage(p)}>{p}</span>
-            )
-        })}
-        <button onClick={props.setNextPage} disabled={pagesCount === props.currentPage} >Next</button>
+}
+    return <section className={s.section}>
         {props.state.map(el => {
             return (
                 <div className={s.infoAndButton} key={v1()}>
@@ -41,5 +36,13 @@ export const Users = (props:  UsersPropsType) => {
                 </div>
             )
         })}
+        <div className={s.pagination}>
+            <Stack style={paginationStyle}>
+                <Pagination count={pagesCount}
+                            page={props.currentPage}
+                            size={"large"}
+                            onChange={onChangePaginationHandler}/>
+            </Stack>
+        </div>
     </section>
 }

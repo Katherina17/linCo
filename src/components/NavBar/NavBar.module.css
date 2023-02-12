@@ -26,7 +26,7 @@
     transition: ease-in-out all 10ms;
 }
 
-nav{
+.nav_bar{
     background-color: #fafafa;
     width: 12%;
     height: auto;
