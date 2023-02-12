@@ -10,7 +10,6 @@ import {Settings} from "./components/Settings/Settings";
 import {Friends} from "./components/Friends/Friends";
 import {State} from './redux/redux-store'
 import {Dialogs} from "./components/Dialogs/Dialogs";
-import {FindPeople} from "./components/FindPeople/FindPeople";
 import {FindPeopleContainer} from "./components/FindPeople/FindPeopleContainer";
 
 

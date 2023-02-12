@@ -13,58 +13,21 @@ export type PeopleType = {
 export type FindPeopleType = {
     items: PeopleType[],
     totalCount: number,
+    pageSize: number,
+    currentPage: number,
+    firstPages: number[],
+    lastPages: number[],
     error: null | string
 
 }
 
 const initialState : FindPeopleType = {
-   /* people: [
-         {
-            id: v1(),
-            imgSrc: 'https://images.unsplash.com/photo-1542740348-39501cd6e2b4?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80',
-            fullName: 'Lana Wolf',
-            isFollow: true,
-            status: 'I would be happy to be your friend',
-            location: {
-                country: 'USA',
-                city: 'Los Angeles'
-            }
-
-        }, {
-            id: v1(),
-            imgSrc: 'https://images.unsplash.com/photo-1524502397800-2eeaad7c3fe5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80',
-            fullName: 'Enola Kit',
-            isFollow: true,
-            status: 'Hello everyone',
-            location: {
-                country: 'USA',
-                city: 'Chicago'
-            }
-
-        },{
-            id: v1(),
-            imgSrc: 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80',
-            fullName: 'Jeff Berton',
-            isFollow: true,
-            status: '...',
-            location: {
-                country: 'USA',
-                city: 'Los Angeles'
-            }
-        },{
-            id: v1(),
-            imgSrc: 'https://images.unsplash.com/photo-1523224042829-4731dd15a3bb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=688&q=80',
-            fullName: 'Ann Peters',
-            isFollow: true,
-            status: 'I am looking for a job',
-            location: {
-                country: 'USA',
-                city: 'Chicago'
-            }
-        },
-    ]*/
     items: [],
     totalCount: 0,
+    pageSize: 15,
+    currentPage: 1,
+    firstPages: [],
+    lastPages: [],
     error: null
 
 }
@@ -79,6 +42,23 @@ export const findPeopleReducer = (state: FindPeopleType = initialState, action: 
         }
         case "SET_USERS": {
             return {...state, items: action.payload.users}
+        }
+        case "SET_TOTAL_PAGE": {
+            return {...state, totalCount: action.payload.countPage}
+        }
+        case "SET_CURRENT_PAGE": {
+            return {...state, currentPage: action.payload.currentPage}
+        }
+        case "SET_FIRST_LAST_PAGES": {
+            return {...state, firstPages: action.payload.firstPages, lastPages: action.payload.lastPages}
+        }
+        case "SET_NEXT_PAGE": {
+            return {...state, firstPages: [...state.firstPages, state.firstPages[state.firstPages.length - 1] + 1].filter((el, index) => index !== 0), currentPage: state.currentPage + 1}
+        }  case "SET_PREVIOUS_PAGE": {
+            if(state.currentPage === 1 || state.currentPage === 2 || state.currentPage === 3 || state.currentPage === 4){
+                return {...state, firstPages: [1,2,3,4], currentPage: state.currentPage  - 1}
+            }
+            return {...state, firstPages: [state.firstPages[0]-1, ...state.firstPages ].filter((el, index) => index !== 3), currentPage: state.currentPage  - 1}
         }
         default: return state;
     }
@@ -109,11 +89,54 @@ export const setUsersAC = (users: PeopleType[]) => {
         }
     } as const
 }
+export const setTotalPageAC = (countPage: number) => {
+    return {
+        type: 'SET_TOTAL_PAGE',
+        payload: {
+            countPage
+        }
+    } as const
+}
+
+
+export const setCurrentPageAC = (currentPage: number) => {
+    return {
+        type: 'SET_CURRENT_PAGE',
+        payload: {
+            currentPage
+        }
+    } as const
+}
+
+export const setNextPageAC = () => {
+    return {
+        type: 'SET_NEXT_PAGE',
+    } as const
+}
+
+export const setPreviousPageAC = () => {
+    return {
+        type: 'SET_PREVIOUS_PAGE',
+    } as const
+}
+export const setFirstAndLastPagesAC= (firstPages: number[], lastPages: number[]) => {
+    return {
+        type: 'SET_FIRST_LAST_PAGES',
+        payload: {
+            firstPages, lastPages
+        }
+    } as const
+}
 
 
 
 type followACType = ReturnType<typeof followAC>;
 type unFollowACType = ReturnType<typeof unFollowAC>;
 type setUsersAC = ReturnType<typeof setUsersAC>;
+type setTotalPageAC = ReturnType<typeof setTotalPageAC>;
+type setCurrentPageAC = ReturnType<typeof setCurrentPageAC>;
+type setNextPageAC = ReturnType<typeof setNextPageAC>;
+type setPreviousPageAC = ReturnType<typeof setPreviousPageAC>;
+type setFirstAndLastPagesAC = ReturnType<typeof setFirstAndLastPagesAC>;
 
-export type commonACFindPeopleTypes = followACType| unFollowACType | setUsersAC;
+export type commonACFindPeopleTypes = followACType| unFollowACType | setUsersAC | setTotalPageAC | setCurrentPageAC | setNextPageAC | setPreviousPageAC | setFirstAndLastPagesAC;
