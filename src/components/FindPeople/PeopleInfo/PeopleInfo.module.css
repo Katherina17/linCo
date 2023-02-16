@@ -33,3 +33,10 @@
 .info p:last-child{
     font-style: italic;
 }
+
+.status{
+    max-width: 150px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}

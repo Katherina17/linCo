@@ -9,6 +9,7 @@ import Diversity3OutlinedIcon from '@mui/icons-material/Diversity3Outlined';
 import PersonSearchOutlinedIcon from '@mui/icons-material/PersonSearchOutlined';
 import {NavLink} from "react-router-dom";
 
+
 const NavBar = () => {
     return(
         <nav className={s.nav_bar}>
@@ -61,3 +62,4 @@ const NavBar = () => {
 }
 
 export default NavBar;
+

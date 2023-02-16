@@ -14,6 +14,29 @@ export type ProfileType = {
     education: string;
     posts: MyPost[];
     newPostText: string;
+    userProfile: boolean;
+    newUsersProfile: null | UserProfile
+}
+
+export type UserProfile = {
+    userId: number;
+    lookingForAJob: boolean;
+    lookingForAJobDescription: string;
+    fullName: string;
+    contacts: {
+        github: null | string
+        vk: null | string
+        facebook: null | string
+        instagram: null | string
+        twitter: null | string
+        website: null | string
+        youtube: null | string
+        mainLink: null | string
+    }
+    photos: {
+        small: null | string,
+        large: null | string
+    }
 }
 
 export type UserType = {
@@ -80,6 +103,10 @@ const initialState : ProfileType = {
         },
     ],
     newPostText: '',
+    userProfile: true,
+    newUsersProfile: null
+
+
 }
 
 export const profileReducer = (state: ProfileType = initialState, action: commonActionProfileTypes):ProfileType => {
@@ -95,6 +122,9 @@ export const profileReducer = (state: ProfileType = initialState, action: common
         }
         case 'UPDATE-POST-TEXT': {
             return {...state, newPostText: action.payload}
+        }
+        case "SET_USER_PROFILE": {
+            return {...state, newUsersProfile: action.payload.user, userProfile: action.payload.isUserProfile}
         }
         default: return state;
     }
@@ -113,7 +143,15 @@ export const updatePostTextActionCreator = (text: string) => {
     } as const
 }
 
+export const setUserProfile = (user: UserProfile | null, isUserProfile: boolean) => {
+    return {
+        type: 'SET_USER_PROFILE',
+        payload: {user, isUserProfile}
+    } as const
+}
+
 type addPostActionCreatorPropsType = ReturnType<typeof addPostActionCreator>;
 type updatePostTextActionCreatorType = ReturnType<typeof updatePostTextActionCreator>;
+type setUserProfile = ReturnType<typeof setUserProfile>;
 
-export type commonActionProfileTypes = addPostActionCreatorPropsType| updatePostTextActionCreatorType;
+export type commonActionProfileTypes = addPostActionCreatorPropsType| updatePostTextActionCreatorType | setUserProfile;

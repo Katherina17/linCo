@@ -31,7 +31,8 @@ export const Users = (props:  UsersPropsType) => {
                     <PeopleInfo key={el.id}
                                 imgSrc={el.photos.small}
                                 name={el.name}
-                                status={el.status}/>
+                                status={el.status}
+                                id={el.id}/>
                     <Button callBack={ () => el.followed? props.unFollowUser(el.id) : props.followUser(el.id)} key={v1()} name={el.followed? 'Unfollowed' : 'Follow'}/>
                 </div>
             )
