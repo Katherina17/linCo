@@ -1,6 +1,5 @@
 import React from 'react';
 import './App.css';
-import Header from './components/Header/Header';
 import NavBar from "./components/NavBar/NavBar";
 import {Redirect, Route} from "react-router-dom";
 import {News} from "./components/News/News";
@@ -11,9 +10,7 @@ import {State} from './redux/redux-store'
 import {Dialogs} from "./components/Dialogs/Dialogs";
 import {FindPeopleContainer} from "./components/FindPeople/FindPeopleContainer";
 import {ProfileContainer} from "./components/Profile/ProfileC";
-
-
-
+import {HeaderContainer} from "./components/Header/HeaderContainer";
 
 type AppPropsType = {
     state: State;
@@ -22,7 +19,7 @@ type AppPropsType = {
 function App(props: AppPropsType) {
   return (
           <div className="App-container">
-              <Header/>
+              <HeaderContainer/>
               <main>
                   <div className="App_wrapper menu_user_container">
                       <NavBar/>

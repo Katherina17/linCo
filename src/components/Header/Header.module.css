@@ -1,8 +1,8 @@
 header{
     height: 5rem;
     display: flex;
-    border-bottom: 2px solid #fa66381c;
-    background-color: #fafafa;
+    border-bottom: 2px solid #0000000d;
+    background-color: white;
 }
 
 header div{
@@ -10,4 +10,24 @@ header div{
     flex-direction: row;
     justify-content: flex-start;
     align-items: center;
+}
+
+.headerAndLogin{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    align-self: center;
+}
+.headerAndLogin p{
+    font-family: var(--font-family);
+    cursor: pointer;
+    width: 10rem;
+    padding: 0.7rem;
+    text-align: center;
+
+}
+
+.headerAndLogin p:hover{
+    background: #fa66384d;
+    border-radius: 7px;
 }

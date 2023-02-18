@@ -6,6 +6,7 @@ import React, {ChangeEvent} from "react";
 import {mapStateToProps} from "./FindPeopleContainer";
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
+import axios from "axios";
 
 type UsersPropsType = {
    setCurrentPage: (num: number) => void
@@ -24,6 +25,28 @@ export const Users = (props:  UsersPropsType) => {
         width: '100%',
 
 }
+    const subscribeUser = (userID: number) => {
+        axios.post(`https://social-network.samuraijs.com/api/1.0/follow/${userID}`, {},
+            {withCredentials: true,
+            headers: {"API-KEY" : '43a60f90-0234-478e-9be6-fcfce5403846'}})
+            .then((response) => {
+                if(response.data.resultCode === 0){
+                    props.followUser(userID)
+                }
+            }
+        )
+    }
+
+    const unsubscribeUser = (userID: number) => {
+        axios.delete(`https://social-network.samuraijs.com/api/1.0/follow/${userID}`, {withCredentials: true,
+            headers: {"API-KEY" : '43a60f90-0234-478e-9be6-fcfce5403846'}})
+            .then((response) => {
+                    if (response.data.resultCode === 0) {
+                        props.unFollowUser(userID)
+                    }
+                }
+            )
+    }
     return <section className={s.section}>
         {props.state.map(el => {
             return (
@@ -33,7 +56,7 @@ export const Users = (props:  UsersPropsType) => {
                                 name={el.name}
                                 status={el.status}
                                 id={el.id}/>
-                    <Button callBack={ () => el.followed? props.unFollowUser(el.id) : props.followUser(el.id)} key={v1()} name={el.followed? 'Unfollowed' : 'Follow'}/>
+                    <Button callBack={ () => el.followed? unsubscribeUser(el.id) : subscribeUser(el.id)} key={v1()} name={el.followed? 'Unfollowed' : 'Follow'}/>
                 </div>
             )
         })}

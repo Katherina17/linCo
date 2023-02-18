@@ -14,7 +14,6 @@ import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
 
 
-
 type mapDispatchToProps = {
     followUser: (userID: number) => void;
     unFollowUser: (userID: number) => void;
@@ -39,8 +38,9 @@ export class FindPeople extends React.Component<FindPeoplePropsType> {
     constructor(props: FindPeoplePropsType) {
         super(props);
     }
+
     componentDidMount() {
-        axios.get(`https://social-network.samuraijs.com/api/1.0/users?count=${this.props.pageSize}&page=${this.props.currentPage}`)
+        axios.get(`https://social-network.samuraijs.com/api/1.0/users?count=${this.props.pageSize}&page=${this.props.currentPage}`, {withCredentials: true})
             .then(response => {
                     this.props.setUsers(response.data.items)
                     this.props.setFetch(false)
@@ -51,18 +51,23 @@ export class FindPeople extends React.Component<FindPeoplePropsType> {
 
     componentDidUpdate(prevProps: Readonly<FindPeoplePropsType>, prevState: Readonly<FindPeoplePropsType>, snapshot?: any) {
         if (prevProps.currentPage !== this.props.currentPage) {
-            axios.get(`https://social-network.samuraijs.com/api/1.0/users?count=${this.props.pageSize}&page=${this.props.currentPage}`)
+            axios.get(`https://social-network.samuraijs.com/api/1.0/users?count=${this.props.pageSize}&page=${this.props.currentPage}`, {withCredentials: true})
                 .then(response => {
-                    this.props.setUsers(response.data.items);
-                    this.props.setFetch(false)
-                }
+                        this.props.setUsers(response.data.items);
+                        this.props.setFetch(false)
+                    }
                 )
         }
     }
+
     setCurrentPage(currentPage: number) {
         this.props.setCurrentPage(currentPage)
         this.props.setFetch(true)
-        axios.get(`https://social-network.samuraijs.com/api/1.0/users?count=${this.props.pageSize}&page=${currentPage}`).then(response => {this.props.setUsers(response.data.items);  this.props.setFetch(false)})
+        axios.get(`https://social-network.samuraijs.com/api/1.0/users?count=${this.props.pageSize}&page=${currentPage}`, {withCredentials: true})
+            .then(response => {
+                this.props.setUsers(response.data.items);
+                this.props.setFetch(false)
+            })
     }
 
     render() {
@@ -85,13 +90,15 @@ const mapStateToProps = (state: State): mapStateToProps => {
         currentPage: state.findPeople!.currentPage,
         totalCount: state.findPeople!.totalCount,
         pageSize: state.findPeople!.pageSize,
-        isFetching: state.findPeople!.isFetching
+        isFetching: state.findPeople!.isFetching,
     }
 }
 
-export const FindPeopleContainer = connect(mapStateToProps, { followUser:followAC,
+export const FindPeopleContainer = connect(mapStateToProps, {
+    followUser: followAC,
     unFollowUser: unFollowAC,
     setUsers: setUsersAC,
     setTotalPage: setTotalPageAC,
     setCurrentPage: setCurrentPageAC,
-    setFetch: setFetchAC})(FindPeople);
+    setFetch: setFetchAC
+})(FindPeople);
