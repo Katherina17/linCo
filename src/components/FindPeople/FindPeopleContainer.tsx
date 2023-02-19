@@ -8,10 +8,10 @@ import {
     unFollowAC
 } from "../../redux/findPeopleReducer";
 import React from "react";
-import axios from "axios";
 import {Users} from "./Users";
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
+import {userAPI} from "../../api/api";
 
 
 type mapDispatchToProps = {
@@ -40,20 +40,18 @@ export class FindPeople extends React.Component<FindPeoplePropsType> {
     }
 
     componentDidMount() {
-        axios.get(`https://social-network.samuraijs.com/api/1.0/users?count=${this.props.pageSize}&page=${this.props.currentPage}`, {withCredentials: true})
-            .then(response => {
-                    this.props.setUsers(response.data.items)
+        userAPI.getUsers(this.props.pageSize, this.props.currentPage).then(data => {
+                    this.props.setUsers(data.items)
                     this.props.setFetch(false)
-                    this.props.setTotalPage(response.data.totalCount)
+                    this.props.setTotalPage(data.totalCount)
                 }
             )
     }
 
     componentDidUpdate(prevProps: Readonly<FindPeoplePropsType>, prevState: Readonly<FindPeoplePropsType>, snapshot?: any) {
         if (prevProps.currentPage !== this.props.currentPage) {
-            axios.get(`https://social-network.samuraijs.com/api/1.0/users?count=${this.props.pageSize}&page=${this.props.currentPage}`, {withCredentials: true})
-                .then(response => {
-                        this.props.setUsers(response.data.items);
+            userAPI.getUsers(this.props.pageSize, this.props.currentPage).then(data => {
+                        this.props.setUsers(data.items);
                         this.props.setFetch(false)
                     }
                 )
@@ -63,9 +61,9 @@ export class FindPeople extends React.Component<FindPeoplePropsType> {
     setCurrentPage(currentPage: number) {
         this.props.setCurrentPage(currentPage)
         this.props.setFetch(true)
-        axios.get(`https://social-network.samuraijs.com/api/1.0/users?count=${this.props.pageSize}&page=${currentPage}`, {withCredentials: true})
-            .then(response => {
-                this.props.setUsers(response.data.items);
+        userAPI.getUsers(this.props.pageSize, this.props.currentPage)
+            .then(data=> {
+                this.props.setUsers(data.items);
                 this.props.setFetch(false)
             })
     }

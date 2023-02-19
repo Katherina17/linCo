@@ -7,6 +7,7 @@ import {mapStateToProps} from "./FindPeopleContainer";
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
 import axios from "axios";
+import {followAPI} from "../../api/api";
 
 type UsersPropsType = {
    setCurrentPage: (num: number) => void
@@ -26,10 +27,7 @@ export const Users = (props:  UsersPropsType) => {
 
 }
     const subscribeUser = (userID: number) => {
-        axios.post(`https://social-network.samuraijs.com/api/1.0/follow/${userID}`, {},
-            {withCredentials: true,
-            headers: {"API-KEY" : '43a60f90-0234-478e-9be6-fcfce5403846'}})
-            .then((response) => {
+        followAPI.followUser(userID).then((response) => {
                 if(response.data.resultCode === 0){
                     props.followUser(userID)
                 }
@@ -38,9 +36,7 @@ export const Users = (props:  UsersPropsType) => {
     }
 
     const unsubscribeUser = (userID: number) => {
-        axios.delete(`https://social-network.samuraijs.com/api/1.0/follow/${userID}`, {withCredentials: true,
-            headers: {"API-KEY" : '43a60f90-0234-478e-9be6-fcfce5403846'}})
-            .then((response) => {
+        followAPI.unFollowUser(userID).then((response) => {
                     if (response.data.resultCode === 0) {
                         props.unFollowUser(userID)
                     }

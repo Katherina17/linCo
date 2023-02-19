@@ -3,9 +3,9 @@ import {connect} from "react-redux";
 import {State} from "../../redux/redux-store";
 import {Profile} from "./Profile";
 import {setUserProfile, UserProfile} from "../../redux/profileReducer";
-import axios from "axios";
 import { withRouter} from "react-router-dom";
 import {RouteComponentProps} from "react-router";
+import {profileAPI} from "../../api/api";
 
 type ProfileCType = {
     setUserProfile: (user: UserProfile | null, isUserProfile: boolean) => void
@@ -21,9 +21,7 @@ export class ProfileC extends React.Component<ProfileCType>{
     checkAndGetUser(){
         let userID = this.props.match.params.userID;
         if(userID !== undefined) {
-            axios.get(`https://social-network.samuraijs.com/api/1.0/profile/${userID}`).then(
-                response => this.props.setUserProfile(response.data, false)
-            )
+            profileAPI.downloadUserPage(userID).then(data => this.props.setUserProfile(data, false))
         }
         else {
             this.props.setUserProfile(null, true);
