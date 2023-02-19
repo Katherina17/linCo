@@ -2,7 +2,7 @@ import {connect} from "react-redux";
 import {State} from "../../redux/redux-store";
 import {
     followAC,
-    PeopleType, setCurrentPageAC, setFetchAC,
+    PeopleType, setCurrentPageAC, setFetchAC, setFollowingAC,
     setTotalPageAC,
     setUsersAC,
     unFollowAC
@@ -21,6 +21,7 @@ type mapDispatchToProps = {
     setTotalPage: (totalPage: number) => void;
     setCurrentPage: (currentPage: number) => void;
     setFetch: (isFetch: boolean) => void
+    setFollowingAC: (userID: number, isFollowing: boolean) => void
 }
 
 export type mapStateToProps = {
@@ -28,7 +29,8 @@ export type mapStateToProps = {
     currentPage: number,
     totalCount: number,
     pageSize: number,
-    isFetching?: boolean
+    isFetching?: boolean,
+    followingInProgress: number[]
 }
 
 export type FindPeoplePropsType = mapDispatchToProps & mapStateToProps;
@@ -77,7 +79,10 @@ export class FindPeople extends React.Component<FindPeoplePropsType> {
             <Users setCurrentPage={(cur) => this.setCurrentPage(cur)} unFollowUser={this.props.unFollowUser}
                    followUser={this.props.followUser} state={this.props.state}
                    currentPage={this.props.currentPage} totalCount={this.props.totalCount}
-                   pageSize={this.props.pageSize}/>
+                   pageSize={this.props.pageSize}
+                   setFollowingAC = {this.props.setFollowingAC}
+                   followingInProgress={this.props.followingInProgress}
+            />
     }
 
 }
@@ -89,6 +94,7 @@ const mapStateToProps = (state: State): mapStateToProps => {
         totalCount: state.findPeople!.totalCount,
         pageSize: state.findPeople!.pageSize,
         isFetching: state.findPeople!.isFetching,
+        followingInProgress: state.findPeople!.followingInProgress
     }
 }
 
@@ -98,5 +104,6 @@ export const FindPeopleContainer = connect(mapStateToProps, {
     setUsers: setUsersAC,
     setTotalPage: setTotalPageAC,
     setCurrentPage: setCurrentPageAC,
-    setFetch: setFetchAC
+    setFetch: setFetchAC,
+    setFollowingAC: setFollowingAC
 })(FindPeople);

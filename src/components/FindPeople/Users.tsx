@@ -6,13 +6,14 @@ import React, {ChangeEvent} from "react";
 import {mapStateToProps} from "./FindPeopleContainer";
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
-import axios from "axios";
 import {followAPI} from "../../api/api";
+
 
 type UsersPropsType = {
    setCurrentPage: (num: number) => void
     unFollowUser: (id: number) => void
     followUser: (id: number) => void
+    setFollowingAC: (userID: number, isFollowing: boolean) => void
 } &  mapStateToProps
 
 export const Users = (props:  UsersPropsType) => {
@@ -26,25 +27,30 @@ export const Users = (props:  UsersPropsType) => {
         width: '100%',
 
 }
-    const subscribeUser = (userID: number) => {
-        followAPI.followUser(userID).then((response) => {
-                if(response.data.resultCode === 0){
-                    props.followUser(userID)
-                }
-            }
-        )
-    }
 
-    const unsubscribeUser = (userID: number) => {
-        followAPI.unFollowUser(userID).then((response) => {
-                    if (response.data.resultCode === 0) {
-                        props.unFollowUser(userID)
-                    }
-                }
-            )
-    }
     return <section className={s.section}>
         {props.state.map(el => {
+            const subscribeUser = (userID: number) => {
+                props.setFollowingAC(el.id,true)
+                followAPI.followUser(userID).then((response) => {
+                        if(response.data.resultCode === 0){
+                            props.followUser(userID)
+                        }
+                        props.setFollowingAC(el.id,false)
+                    }
+                )
+            }
+
+            const unsubscribeUser = (userID: number) => {
+                props.setFollowingAC(el.id,true)
+                followAPI.unFollowUser(userID).then((response) => {
+                        if (response.data.resultCode === 0) {
+                            props.unFollowUser(userID)
+                        }
+                        props.setFollowingAC(el.id,false)
+                    }
+                )
+            }
             return (
                 <div className={s.infoAndButton} key={v1()}>
                     <PeopleInfo key={el.id}
@@ -52,7 +58,11 @@ export const Users = (props:  UsersPropsType) => {
                                 name={el.name}
                                 status={el.status}
                                 id={el.id}/>
-                    <Button callBack={ () => el.followed? unsubscribeUser(el.id) : subscribeUser(el.id)} key={v1()} name={el.followed? 'Unfollowed' : 'Follow'}/>
+                     <Button callBack={ () => el.followed? unsubscribeUser(el.id) : subscribeUser(el.id)} key={v1()}
+                                     name={el.followed? 'Unfollowed' : 'Follow'}
+                                     disabled={props.followingInProgress  ? props.followingInProgress.some((e:number) => e === el.id) : false}
+                    />
+
                 </div>
             )
         })}

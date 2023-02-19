@@ -16,6 +16,7 @@ export type FindPeopleType = {
     pageSize: number,
     currentPage: number,
     isFetching: boolean,
+    followingInProgress: number[],
     error: null | string
 
 }
@@ -26,6 +27,7 @@ const initialState: FindPeopleType = {
     pageSize: 15,
     currentPage: 1,
     isFetching: false,
+    followingInProgress: [],
     error: null
 
 }
@@ -55,6 +57,11 @@ export const findPeopleReducer = (state: FindPeopleType = initialState, action: 
         }
         case "SET_FETCH": {
             return {...state, isFetching: action.payload.isFetch}
+        }
+        case "SET_FOLLOWING":{
+            return {...state, followingInProgress: action.payload.isFollow ?
+                    [...state.followingInProgress, action.payload.userID]
+                    : state.followingInProgress.filter(el => el!== action.payload.userID)}
         }
         default:
             return state;
@@ -116,6 +123,15 @@ export const setFetchAC = (isFetch: boolean) => {
     } as const
 }
 
+export const setFollowingAC = (userID: number, isFollow: boolean) => {
+    return {
+        type: 'SET_FOLLOWING',
+        payload: {
+            userID, isFollow
+        }
+    } as const
+}
+
 
 type followACType = ReturnType<typeof followAC>;
 type unFollowACType = ReturnType<typeof unFollowAC>;
@@ -123,6 +139,7 @@ type setUsersAC = ReturnType<typeof setUsersAC>;
 type setTotalPageAC = ReturnType<typeof setTotalPageAC>;
 type setCurrentPageAC = ReturnType<typeof setCurrentPageAC>;
 type setFetchAC = ReturnType<typeof setFetchAC>;
+type setFollowingAC = ReturnType<typeof setFollowingAC>;
 
 export type commonACFindPeopleTypes =
     followACType
@@ -130,4 +147,5 @@ export type commonACFindPeopleTypes =
     | setUsersAC
     | setTotalPageAC
     | setCurrentPageAC
-    | setFetchAC;
+    | setFetchAC
+    | setFollowingAC;
