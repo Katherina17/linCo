@@ -2,22 +2,15 @@ import React from "react";
 import Header from "./Header";
 import {connect} from "react-redux";
 import {State} from "../../redux/redux-store";
-import {setAuthDataAC} from "../../redux/authReducer";
-import axios from "axios";
+import {getAuthorizedUser} from "../../redux/authReducer";
 
 type HeaderClassPropsType = {
-    setAuthDataAC: (id : number, login: string, email: string) => void
+    getAuthorizedUser: () => void
 } & mapStateToProps
 
  class HeaderC extends React.Component<HeaderClassPropsType>{
     componentDidMount() {
-        axios.get('https://social-network.samuraijs.com/api/1.0/auth/me', {withCredentials: true})
-            .then(response => {
-            if(response.data.resultCode === 0){
-                let{id, login, email} = response.data.data
-                this.props.setAuthDataAC(id,login, email)
-            }
-        })
+        this.props.getAuthorizedUser()
     }
     render(){
         return <Header isAuth={this.props.isAuth} userLogin={this.props.userLogin}/>
@@ -37,4 +30,4 @@ const mapStateToProps = (state: State): mapStateToProps => {
     }
 }
 
-export const HeaderContainer = connect(mapStateToProps, {setAuthDataAC})(HeaderC)
+export const HeaderContainer = connect(mapStateToProps, {getAuthorizedUser})(HeaderC)

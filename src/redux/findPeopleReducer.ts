@@ -1,3 +1,6 @@
+import {AppDispatch} from "./redux-store";
+import {followAPI, userAPI} from "../api/api";
+
 export type PeopleType = {
     id: number;
     name: string;
@@ -149,3 +152,51 @@ export type commonACFindPeopleTypes =
     | setCurrentPageAC
     | setFetchAC
     | setFollowingAC;
+
+export const getUsersThunkCreator = (pageSize: number, currentPage: number) => {
+    return (dispatch: AppDispatch) => {
+        userAPI.getUsers(pageSize, currentPage).then(data => {
+                dispatch(setUsersAC(data.items))
+                dispatch(setFetchAC(false))
+                dispatch(setTotalPageAC(data.totalCount))
+            }
+        )
+    }
+}
+
+export const changeUsersThunkCreator = (pageSize: number, currentPage: number) => {
+    return (dispatch: AppDispatch) => {
+        dispatch(setFetchAC(true))
+        userAPI.getUsers(pageSize, currentPage).then(data => {
+                dispatch(setUsersAC(data.items))
+                dispatch(setFetchAC(false))
+            }
+        )
+    }
+}
+
+
+export const subscribeUserThunkCreator = (userID: number) => {
+    return (dispatch: AppDispatch) => {
+        dispatch(setFollowingAC(userID,true))
+        followAPI.followUser(userID).then((response) => {
+                if(response.data.resultCode === 0){
+                    dispatch(followAC(userID))
+                }
+                dispatch(setFollowingAC(userID,false))
+            }
+        )
+    }
+}
+export const unSubscribeUserThunkCreator = (userID: number) => {
+    return (dispatch: AppDispatch) => {
+        dispatch(setFollowingAC(userID,true))
+        followAPI.unFollowUser(userID).then((response) => {
+                if (response.data.resultCode === 0) {
+                    dispatch(unFollowAC(userID))
+                }
+                dispatch(setFollowingAC(userID,false))
+            }
+        )
+    }
+}

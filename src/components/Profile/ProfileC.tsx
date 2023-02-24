@@ -2,13 +2,14 @@ import React from "react";
 import {connect} from "react-redux";
 import {State} from "../../redux/redux-store";
 import {Profile} from "./Profile";
-import {setUserProfile, UserProfile} from "../../redux/profileReducer";
+import {getProfileUserThunk, setUserProfile, UserProfile} from "../../redux/profileReducer";
 import { withRouter} from "react-router-dom";
 import {RouteComponentProps} from "react-router";
-import {profileAPI} from "../../api/api";
+
 
 type ProfileCType = {
-    setUserProfile: (user: UserProfile | null, isUserProfile: boolean) => void
+    setUserProfile: (user: UserProfile | null, isUserProfile: boolean) => void,
+    getProfileUserThunk: (userID: string) => void
 } & mapStateToPropsType & RouteComponentProps<PathParam>;
 
 
@@ -21,7 +22,7 @@ export class ProfileC extends React.Component<ProfileCType>{
     checkAndGetUser(){
         let userID = this.props.match.params.userID;
         if(userID !== undefined) {
-            profileAPI.downloadUserPage(userID).then(data => this.props.setUserProfile(data, false))
+            this.props.getProfileUserThunk(userID)
         }
         else {
             this.props.setUserProfile(null, true);
@@ -69,9 +70,7 @@ const mapStateToProps = (state: State):mapStateToPropsType => {
     }
 }
 
-
-
 const ProfileWIthRouter = withRouter(ProfileC)
 
-export const ProfileContainer = connect(mapStateToProps, {setUserProfile})(ProfileWIthRouter)
+export const ProfileContainer = connect(mapStateToProps, {setUserProfile, getProfileUserThunk})(ProfileWIthRouter)
 

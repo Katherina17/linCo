@@ -1,8 +1,9 @@
-import {combineReducers, createStore} from "redux";
+import {applyMiddleware, combineReducers, createStore} from "redux";
 import {profileReducer, ProfileType} from "./profileReducer";
 import {dialogsReducer, DialogsType} from "./dialogsReducer";
 import {FindPeopleType, findPeopleReducer} from "./findPeopleReducer";
 import {authReducer, authStateType} from "./authReducer";
+import thunk from "redux-thunk";
 
 export type State = {
     profile?: ProfileType;
@@ -18,4 +19,7 @@ export const rootReducer = combineReducers({
     auth: authReducer
 })
 
-export const store = createStore(rootReducer);
+export type AppDispatch = typeof store.dispatch
+
+
+export const store = createStore(rootReducer, applyMiddleware(thunk));

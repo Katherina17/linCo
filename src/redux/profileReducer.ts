@@ -1,4 +1,6 @@
 import {v1} from "uuid";
+import {AppDispatch} from "./redux-store";
+import {profileAPI} from "../api/api";
 
 export type MyPost = {
     id: string,
@@ -154,4 +156,12 @@ type addPostActionCreatorPropsType = ReturnType<typeof addPostActionCreator>;
 type updatePostTextActionCreatorType = ReturnType<typeof updatePostTextActionCreator>;
 type setUserProfile = ReturnType<typeof setUserProfile>;
 
-export type commonActionProfileTypes = addPostActionCreatorPropsType| updatePostTextActionCreatorType | setUserProfile;
+export type commonActionProfileTypes = addPostActionCreatorPropsType|
+    updatePostTextActionCreatorType |
+    setUserProfile;
+
+export const getProfileUserThunk = (userID: string) => {
+    return (dispatch: AppDispatch) => {
+        profileAPI.downloadUserPage(userID).then(data => dispatch(setUserProfile(data, false)))
+    }
+}

@@ -1,3 +1,5 @@
+import {AppDispatch} from "./redux-store";
+import {authAPI} from "../api/api";
 
 type DataType = {
     id: number | null;
@@ -40,3 +42,14 @@ export const setAuthDataAC = (id : number, login: string, email: string) => {
 
 type setAuthData = ReturnType<typeof setAuthDataAC>;
 type commonActions = setAuthData
+
+export const getAuthorizedUser = () => {
+    return (dispatch: AppDispatch) => {
+        authAPI().then(data => {
+            if(data.resultCode === 0){
+                let{id, login, email} = data.data
+                dispatch(setAuthDataAC(id,login, email))
+            }
+        })
+    }
+}

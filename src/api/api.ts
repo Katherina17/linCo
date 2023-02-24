@@ -28,6 +28,15 @@ export const profileAPI = {
     },
 }
 
+export const authAPI = () => {
+        return instance.get('https://social-network.samuraijs.com/api/1.0/auth/me')
+            .then(response => {
+                    return response.data
+                }
+            )
+
+}
+
 
 export const followAPI = {
     followUser(userID: number) {
@@ -44,6 +53,5 @@ export const followAPI = {
                 }
             )
     },
-
 }
 

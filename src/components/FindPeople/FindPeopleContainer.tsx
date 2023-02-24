@@ -1,27 +1,23 @@
 import {connect} from "react-redux";
 import {State} from "../../redux/redux-store";
 import {
-    followAC,
-    PeopleType, setCurrentPageAC, setFetchAC, setFollowingAC,
-    setTotalPageAC,
-    setUsersAC,
-    unFollowAC
+    changeUsersThunkCreator,
+     getUsersThunkCreator,
+    PeopleType, setCurrentPageAC, subscribeUserThunkCreator,
+     unSubscribeUserThunkCreator
 } from "../../redux/findPeopleReducer";
 import React from "react";
 import {Users} from "./Users";
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
-import {userAPI} from "../../api/api";
 
 
 type mapDispatchToProps = {
-    followUser: (userID: number) => void;
-    unFollowUser: (userID: number) => void;
-    setUsers: (users: PeopleType[]) => void;
-    setTotalPage: (totalPage: number) => void;
+    getUsersThunkCreator: (pageSize: number, currentPage: number) => void;
+    changeUsersThunkCreator: (pageSize: number, currentPage: number) => void;
+    subscribeUserThunkCreator: (userID: number) => void,
+    unSubscribeUserThunkCreator: (userID: number) => void,
     setCurrentPage: (currentPage: number) => void;
-    setFetch: (isFetch: boolean) => void
-    setFollowingAC: (userID: number, isFollowing: boolean) => void
 }
 
 export type mapStateToProps = {
@@ -42,32 +38,18 @@ export class FindPeople extends React.Component<FindPeoplePropsType> {
     }
 
     componentDidMount() {
-        userAPI.getUsers(this.props.pageSize, this.props.currentPage).then(data => {
-                    this.props.setUsers(data.items)
-                    this.props.setFetch(false)
-                    this.props.setTotalPage(data.totalCount)
-                }
-            )
+        this.props.getUsersThunkCreator(this.props.pageSize, this.props.currentPage);
     }
 
     componentDidUpdate(prevProps: Readonly<FindPeoplePropsType>, prevState: Readonly<FindPeoplePropsType>, snapshot?: any) {
         if (prevProps.currentPage !== this.props.currentPage) {
-            userAPI.getUsers(this.props.pageSize, this.props.currentPage).then(data => {
-                        this.props.setUsers(data.items);
-                        this.props.setFetch(false)
-                    }
-                )
+            this.props.changeUsersThunkCreator(this.props.pageSize, this.props.currentPage)
         }
     }
 
     setCurrentPage(currentPage: number) {
         this.props.setCurrentPage(currentPage)
-        this.props.setFetch(true)
-        userAPI.getUsers(this.props.pageSize, this.props.currentPage)
-            .then(data=> {
-                this.props.setUsers(data.items);
-                this.props.setFetch(false)
-            })
+        this.props.changeUsersThunkCreator(this.props.pageSize, this.props.currentPage)
     }
 
     render() {
@@ -76,12 +58,14 @@ export class FindPeople extends React.Component<FindPeoplePropsType> {
                 <CircularProgress/>
             </Box>
             :
-            <Users setCurrentPage={(cur) => this.setCurrentPage(cur)} unFollowUser={this.props.unFollowUser}
-                   followUser={this.props.followUser} state={this.props.state}
-                   currentPage={this.props.currentPage} totalCount={this.props.totalCount}
+            <Users setCurrentPage={(cur) => this.setCurrentPage(cur)}
+                   state={this.props.state}
+                   currentPage={this.props.currentPage}
+                   totalCount={this.props.totalCount}
                    pageSize={this.props.pageSize}
-                   setFollowingAC = {this.props.setFollowingAC}
                    followingInProgress={this.props.followingInProgress}
+                   subscribeUserThunkCreator={this.props.subscribeUserThunkCreator}
+                   unSubscribeUserThunkCreator={this.props.unSubscribeUserThunkCreator}
             />
     }
 
@@ -99,11 +83,9 @@ const mapStateToProps = (state: State): mapStateToProps => {
 }
 
 export const FindPeopleContainer = connect(mapStateToProps, {
-    followUser: followAC,
-    unFollowUser: unFollowAC,
-    setUsers: setUsersAC,
-    setTotalPage: setTotalPageAC,
     setCurrentPage: setCurrentPageAC,
-    setFetch: setFetchAC,
-    setFollowingAC: setFollowingAC
+    getUsersThunkCreator,
+    changeUsersThunkCreator,
+    subscribeUserThunkCreator,
+    unSubscribeUserThunkCreator
 })(FindPeople);
