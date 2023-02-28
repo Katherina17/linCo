@@ -12,6 +12,7 @@ import {FindPeopleContainer} from "./components/FindPeople/FindPeopleContainer";
 import {ProfileContainer} from "./components/Profile/ProfileC";
 import {HeaderContainer} from "./components/Header/HeaderContainer";
 import {Authorization} from "./components/Authorization/Authorization";
+import {AuthRedirect} from "./components/hoc/AuthRedirect";
 
 type AppPropsType = {
     state: State;

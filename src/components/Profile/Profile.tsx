@@ -12,9 +12,6 @@ type ProfilePropsType = {
 } & mapStateToPropsType
 
 export const Profile = (props: ProfilePropsType) => {
-    if(!props.isAuth){
-        return <Redirect to={'/login'}/>
-    } else {
         if(props.userProfile !== null) {
             return <main className={s.main_container}>
                 <UserNameProfile imgSrc={props.userProfile.photos.large === null ? userPhoto : props.userProfile.photos.large}
@@ -38,7 +35,5 @@ export const Profile = (props: ProfilePropsType) => {
                     <MyPostsContainer/>
                 </main>
             )
-    }
-
     }
 }
