@@ -11,6 +11,7 @@ import {Dialogs} from "./components/Dialogs/Dialogs";
 import {FindPeopleContainer} from "./components/FindPeople/FindPeopleContainer";
 import {ProfileContainer} from "./components/Profile/ProfileC";
 import {HeaderContainer} from "./components/Header/HeaderContainer";
+import {Authorization} from "./components/Authorization/Authorization";
 
 type AppPropsType = {
     state: State;
@@ -31,6 +32,7 @@ function App(props: AppPropsType) {
                       <Route path={'/news'} component={News}/>
                       <Route path={'/music'} component={Music}/>
                       <Route path={'/settings'} component={Settings}/>
+                      <Route path={'/login'} component={Authorization}/>
                   </div>
               </main>
           </div>

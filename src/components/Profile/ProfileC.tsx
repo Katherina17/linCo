@@ -3,7 +3,7 @@ import {connect} from "react-redux";
 import {State} from "../../redux/redux-store";
 import {Profile} from "./Profile";
 import {getProfileUserThunk, setUserProfile, UserProfile} from "../../redux/profileReducer";
-import { withRouter} from "react-router-dom";
+import {Redirect, withRouter} from "react-router-dom";
 import {RouteComponentProps} from "react-router";
 
 
@@ -54,7 +54,8 @@ export type mapStateToPropsType = {
     city: string,
     dateBirth: string,
     education: string,
-    userProfile: UserProfile | null
+    userProfile: UserProfile | null,
+    isAuth: boolean
 
 }
 
@@ -65,7 +66,8 @@ const mapStateToProps = (state: State):mapStateToPropsType => {
         city: state.profile!.city,
         dateBirth: state.profile!.dataBirth,
         education: state.profile!.education,
-        userProfile: state.profile!.newUsersProfile
+        userProfile: state.profile!.newUsersProfile,
+        isAuth: state.auth!.isAuth
 
     }
 }

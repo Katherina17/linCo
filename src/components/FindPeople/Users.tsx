@@ -6,6 +6,7 @@ import React, {ChangeEvent} from "react";
 import {mapStateToProps} from "./FindPeopleContainer";
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
+import {Redirect} from "react-router-dom";
 
 
 type UsersPropsType = {
@@ -25,31 +26,35 @@ export const Users = (props:  UsersPropsType) => {
         width: '100%',
 
 }
+    if(!props.isAuth){
+        return <Redirect to={'/login'}/>
+    } else {
+        return <section className={s.section}>
+            {props.state.map(el => {
+                return (
+                    <div className={s.infoAndButton} key={v1()}>
+                        <PeopleInfo key={el.id}
+                                    imgSrc={el.photos.small}
+                                    name={el.name}
+                                    status={el.status}
+                                    id={el.id}/>
+                        <Button callBack={ () => el.followed? props.unSubscribeUserThunkCreator(el.id): props.subscribeUserThunkCreator(el.id)} key={v1()}
+                                name={el.followed? 'Unfollowed' : 'Follow'}
+                                disabled={props.followingInProgress  ? props.followingInProgress.some((e:number) => e === el.id) : false}
+                        />
 
-    return <section className={s.section}>
-        {props.state.map(el => {
-            return (
-                <div className={s.infoAndButton} key={v1()}>
-                    <PeopleInfo key={el.id}
-                                imgSrc={el.photos.small}
-                                name={el.name}
-                                status={el.status}
-                                id={el.id}/>
-                     <Button callBack={ () => el.followed? props.unSubscribeUserThunkCreator(el.id): props.subscribeUserThunkCreator(el.id)} key={v1()}
-                                     name={el.followed? 'Unfollowed' : 'Follow'}
-                                     disabled={props.followingInProgress  ? props.followingInProgress.some((e:number) => e === el.id) : false}
-                    />
+                    </div>
+                )
+            })}
+            <div className={s.pagination}>
+                <Stack style={paginationStyle}>
+                    <Pagination count={pagesCount}
+                                page={props.currentPage}
+                                size={"large"}
+                                onChange={onChangePaginationHandler}/>
+                </Stack>
+            </div>
+        </section>
+    }
 
-                </div>
-            )
-        })}
-        <div className={s.pagination}>
-            <Stack style={paginationStyle}>
-                <Pagination count={pagesCount}
-                            page={props.currentPage}
-                            size={"large"}
-                            onChange={onChangePaginationHandler}/>
-            </Stack>
-        </div>
-    </section>
 }

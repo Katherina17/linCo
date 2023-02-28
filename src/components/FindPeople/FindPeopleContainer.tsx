@@ -26,7 +26,8 @@ export type mapStateToProps = {
     totalCount: number,
     pageSize: number,
     isFetching?: boolean,
-    followingInProgress: number[]
+    followingInProgress: number[],
+    isAuth: boolean
 }
 
 export type FindPeoplePropsType = mapDispatchToProps & mapStateToProps;
@@ -66,6 +67,7 @@ export class FindPeople extends React.Component<FindPeoplePropsType> {
                    followingInProgress={this.props.followingInProgress}
                    subscribeUserThunkCreator={this.props.subscribeUserThunkCreator}
                    unSubscribeUserThunkCreator={this.props.unSubscribeUserThunkCreator}
+                   isAuth={this.props.isAuth}
             />
     }
 
@@ -78,7 +80,8 @@ const mapStateToProps = (state: State): mapStateToProps => {
         totalCount: state.findPeople!.totalCount,
         pageSize: state.findPeople!.pageSize,
         isFetching: state.findPeople!.isFetching,
-        followingInProgress: state.findPeople!.followingInProgress
+        followingInProgress: state.findPeople!.followingInProgress,
+        isAuth: state.auth!.isAuth
     }
 }
 
