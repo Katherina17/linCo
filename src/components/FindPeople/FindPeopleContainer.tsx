@@ -10,9 +10,10 @@ import React from "react";
 import {Users} from "./Users";
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
-import {AuthRedirect} from "../hoc/AuthRedirect";
+import {withAuthRedirect, mapStateToPropsForRedirect} from "../hoc/WithAuthRedirect";
 import {Friends} from "../Friends/Friends";
 import {SenderMessage} from "../Dialogs/Dialog/Message/SenderMessage/SenderMessage";
+import {compose} from "redux";
 
 
 type mapDispatchToProps = {
@@ -88,22 +89,14 @@ const mapStateToProps = (state: State): mapStateToProps => {
     }
 }
 
-let withRedirectFindPeople:any = AuthRedirect(FindPeople);
+
+export default compose<React.ComponentType>(connect(mapStateToProps, {
+        setCurrentPage: setCurrentPageAC,
+        getUsersThunkCreator,
+        changeUsersThunkCreator,
+        subscribeUserThunkCreator,
+        unSubscribeUserThunkCreator
+    }), withAuthRedirect
+)(FindPeople)
 
 
-type mapStateToPropsForRedirect = {
-    isAuth: boolean
-}
-
-const mapStateToPropsForRedirect = (state:State):mapStateToPropsForRedirect => {
-    return {isAuth: state.auth!.isAuth}
-}
-withRedirectFindPeople = connect(mapStateToPropsForRedirect)(withRedirectFindPeople)
-
-export const FindPeopleContainer = connect(mapStateToProps, {
-    setCurrentPage: setCurrentPageAC,
-    getUsersThunkCreator,
-    changeUsersThunkCreator,
-    subscribeUserThunkCreator,
-    unSubscribeUserThunkCreator
-})(withRedirectFindPeople);

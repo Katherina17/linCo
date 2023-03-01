@@ -1,11 +1,12 @@
 import React from "react";
-import {connect, ConnectedComponent} from "react-redux";
+import {connect} from "react-redux";
 import {State} from "../../redux/redux-store";
 import {Profile} from "./Profile";
 import {getProfileUserThunk, setUserProfile, UserProfile} from "../../redux/profileReducer";
-import {Redirect, withRouter} from "react-router-dom";
+import {withRouter} from "react-router-dom";
 import {RouteComponentProps} from "react-router";
-import {AuthRedirect} from "../hoc/AuthRedirect";
+import {withAuthRedirect} from "../hoc/WithAuthRedirect";
+import {compose} from "redux";
 
 
 type ProfileCType = {
@@ -70,18 +71,9 @@ const mapStateToProps = (state: State):mapStateToPropsType => {
     }
 }
 
-type mapStateToPropsForRedirect = {
-    isAuth: boolean
-}
-
-const mapStateToPropsForRedirect = (state:State):mapStateToPropsForRedirect => {
-    return {isAuth: state.auth!.isAuth}
-}
-
-const ProfileWIthRouter = withRouter(ProfileC)
-
-let withRedirectProfile:any = AuthRedirect(ProfileWIthRouter)
-withRedirectProfile = connect(mapStateToPropsForRedirect)(withRedirectProfile)
-
-export const ProfileContainer = connect(mapStateToProps, {setUserProfile, getProfileUserThunk})(withRedirectProfile)
+export default compose<React.ComponentType>(
+    connect(mapStateToProps, {setUserProfile, getProfileUserThunk}),
+    withAuthRedirect,
+    withRouter,
+)(ProfileC)
 

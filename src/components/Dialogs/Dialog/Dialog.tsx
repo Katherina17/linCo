@@ -1,7 +1,7 @@
 import {HeaderDialogs} from "./HeaderDialogs/HeaderDialogs";
 import s from './Dialog.module.css';
 import {Message} from "./Message/Message";
-import {SenderMessageContainer} from "./Message/SenderMessage/SenderMessageContainer";
+import SenderMessageContainer from "./Message/SenderMessage/SenderMessageContainer";
 import {DialogType} from "../../../redux/dialogsReducer";
 type DialogPropsType = {
     dialog: DialogType;

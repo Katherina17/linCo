@@ -1,9 +1,16 @@
+import {compose} from "redux";
+import {withAuthRedirect} from "../hoc/WithAuthRedirect";
+import React from "react";
 
 
-export const News = () => {
+const News = () => {
     return(
         <div>
             news
         </div>
     )
 }
+
+export default compose<React.ComponentType>(
+    withAuthRedirect
+)(News)

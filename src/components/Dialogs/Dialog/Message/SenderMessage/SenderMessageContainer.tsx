@@ -7,7 +7,8 @@ import {SenderMessage} from "./SenderMessage";
 import React from "react";
 import {connect} from "react-redux";
 import {State} from "../../../../../redux/redux-store";
-import {AuthRedirect} from "../../../../hoc/AuthRedirect";
+import {withAuthRedirect, mapStateToPropsForRedirect} from "../../../../hoc/WithAuthRedirect";
+import {compose} from "redux";
 
 type mapStateToPropsType = {
     newMessageText: string
@@ -33,15 +34,9 @@ const mapDispatchToProps = (dispatch: (action: commonActionDialogsTypes) => void
     }
 }
 
-let withRediretcSenderMessage:any = AuthRedirect(SenderMessage);
 
-type mapStateToPropsForRedirect = {
-    isAuth: boolean
-}
+export default compose<React.ComponentType>(
+    connect(mapStateToProps, mapDispatchToProps),
+    withAuthRedirect
+)(SenderMessage)
 
-const mapStateToPropsForRedirect = (state:State):mapStateToPropsForRedirect => {
-    return {isAuth: state.auth!.isAuth}
-}
-withRediretcSenderMessage = connect(mapStateToPropsForRedirect)(withRediretcSenderMessage)
-
-export const SenderMessageContainer = connect(mapStateToProps, mapDispatchToProps)(withRediretcSenderMessage);

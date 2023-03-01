@@ -2,17 +2,16 @@ import React from 'react';
 import './App.css';
 import NavBar from "./components/NavBar/NavBar";
 import {Redirect, Route} from "react-router-dom";
-import {News} from "./components/News/News";
-import {Music} from "./components/Music/Music";
-import {Settings} from "./components/Settings/Settings";
+import News from "./components/News/News";
+import Music from "./components/Music/Music";
+import Settings from "./components/Settings/Settings";
 import {Friends} from "./components/Friends/Friends";
 import {State} from './redux/redux-store'
 import {Dialogs} from "./components/Dialogs/Dialogs";
-import {FindPeopleContainer} from "./components/FindPeople/FindPeopleContainer";
-import {ProfileContainer} from "./components/Profile/ProfileC";
+import FindPeopleContainer from "./components/FindPeople/FindPeopleContainer";
 import {HeaderContainer} from "./components/Header/HeaderContainer";
 import {Authorization} from "./components/Authorization/Authorization";
-import {AuthRedirect} from "./components/hoc/AuthRedirect";
+import ProfileContainer from './components/Profile/ProfileC'
 
 type AppPropsType = {
     state: State;
