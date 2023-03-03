@@ -10,9 +10,7 @@ import React from "react";
 import {Users} from "./Users";
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
-import {withAuthRedirect, mapStateToPropsForRedirect} from "../hoc/WithAuthRedirect";
-import {Friends} from "../Friends/Friends";
-import {SenderMessage} from "../Dialogs/Dialog/Message/SenderMessage/SenderMessage";
+import {withAuthRedirect} from "../hoc/WithAuthRedirect";
 import {compose} from "redux";
 
 

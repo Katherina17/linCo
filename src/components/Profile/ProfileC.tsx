@@ -2,7 +2,7 @@ import React from "react";
 import {connect} from "react-redux";
 import {State} from "../../redux/redux-store";
 import {Profile} from "./Profile";
-import {getProfileUserThunk, setUserProfile, UserProfile} from "../../redux/profileReducer";
+import {changeUserStatusAC, getProfileUserThunk, setUserProfile, UserProfile} from "../../redux/profileReducer";
 import {withRouter} from "react-router-dom";
 import {RouteComponentProps} from "react-router";
 import {withAuthRedirect} from "../hoc/WithAuthRedirect";
@@ -12,6 +12,7 @@ import {compose} from "redux";
 type ProfileCType = {
     setUserProfile: (user: UserProfile | null, isUserProfile: boolean) => void,
     getProfileUserThunk: (userID: string) => void
+    changeUserStatusAC: (status: string) => void
 } & mapStateToPropsType & RouteComponentProps<PathParam>;
 
 
@@ -57,7 +58,7 @@ export type mapStateToPropsType = {
     dateBirth: string,
     education: string,
     userProfile: UserProfile | null,
-
+    status: string
 }
 
 const mapStateToProps = (state: State):mapStateToPropsType => {
@@ -68,11 +69,12 @@ const mapStateToProps = (state: State):mapStateToPropsType => {
         dateBirth: state.profile!.dataBirth,
         education: state.profile!.education,
         userProfile: state.profile!.newUsersProfile,
+        status: state.profile!.status
     }
 }
 
 export default compose<React.ComponentType>(
-    connect(mapStateToProps, {setUserProfile, getProfileUserThunk}),
+    connect(mapStateToProps, {setUserProfile, getProfileUserThunk, changeUserStatusAC}),
     withAuthRedirect,
     withRouter,
 )(ProfileC)

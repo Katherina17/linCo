@@ -18,6 +18,7 @@ export type ProfileType = {
     newPostText: string;
     userProfile: boolean;
     newUsersProfile: null | UserProfile
+    status: string;
 }
 
 export type UserProfile = {
@@ -106,9 +107,8 @@ const initialState : ProfileType = {
     ],
     newPostText: '',
     userProfile: true,
-    newUsersProfile: null
-
-
+    newUsersProfile: null,
+    status: 'Hello world'
 }
 
 export const profileReducer = (state: ProfileType = initialState, action: commonActionProfileTypes):ProfileType => {
@@ -127,6 +127,9 @@ export const profileReducer = (state: ProfileType = initialState, action: common
         }
         case "SET_USER_PROFILE": {
             return {...state, newUsersProfile: action.payload.user, userProfile: action.payload.isUserProfile}
+        }
+        case "CHANGE_USER_STATUS":{
+            return {...state, status: action.payload.status}
         }
         default: return state;
     }
@@ -152,13 +155,21 @@ export const setUserProfile = (user: UserProfile | null, isUserProfile: boolean)
     } as const
 }
 
+export const changeUserStatusAC = (status: string) => {
+    return {
+        type: 'CHANGE_USER_STATUS',
+        payload: {status}
+    } as const
+}
+
 type addPostActionCreatorPropsType = ReturnType<typeof addPostActionCreator>;
 type updatePostTextActionCreatorType = ReturnType<typeof updatePostTextActionCreator>;
 type setUserProfile = ReturnType<typeof setUserProfile>;
+type changeUserStatusAC = ReturnType<typeof changeUserStatusAC>;
 
 export type commonActionProfileTypes = addPostActionCreatorPropsType|
     updatePostTextActionCreatorType |
-    setUserProfile;
+    setUserProfile | changeUserStatusAC;
 
 export const getProfileUserThunk = (userID: string) => {
     return (dispatch: AppDispatch) => {

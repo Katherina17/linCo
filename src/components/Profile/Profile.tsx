@@ -5,10 +5,10 @@ import React from "react";
 import {mapStateToPropsType} from "./ProfileC";
 import {UserProfile} from "../../redux/profileReducer";
 import userPhoto from '../../assets/user.png'
-import {Redirect} from "react-router-dom";
 
 type ProfilePropsType = {
-    userProfile: UserProfile | null
+    userProfile: UserProfile | null;
+    changeUserStatusAC: (status: string) => void
 } & mapStateToPropsType
 
 export const Profile = (props: ProfilePropsType) => {
@@ -21,6 +21,8 @@ export const Profile = (props: ProfilePropsType) => {
                                  github = {props.userProfile.contacts.github}
                                  insta = {props.userProfile.contacts.instagram}
                                  facebook = {props.userProfile.contacts.facebook}
+                                 status={props.status}
+                                 changeUserStatusAC={props.changeUserStatusAC}
                 />
             </main>
         }
@@ -31,7 +33,10 @@ export const Profile = (props: ProfilePropsType) => {
                                      userName={props.userName}
                                      city={props.city}
                                      dateBirth={props.dateBirth}
-                                     education={props.education}/>
+                                     education={props.education}
+                                     status={props.status}
+                                     changeUserStatusAC={props.changeUserStatusAC}
+                    />
                     <MyPostsContainer/>
                 </main>
             )
