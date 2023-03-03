@@ -131,6 +131,9 @@ export const profileReducer = (state: ProfileType = initialState, action: common
         case "CHANGE_USER_STATUS":{
             return {...state, status: action.payload.status}
         }
+        case "GET_USER_STATUS":{
+            return {...state, status: action.payload.status}
+        }
         default: return state;
     }
     }
@@ -162,17 +165,40 @@ export const changeUserStatusAC = (status: string) => {
     } as const
 }
 
+export const getUserStatusAC = (status: string) => {
+    return {
+        type: 'GET_USER_STATUS',
+        payload: {status}
+    } as const
+}
+
 type addPostActionCreatorPropsType = ReturnType<typeof addPostActionCreator>;
 type updatePostTextActionCreatorType = ReturnType<typeof updatePostTextActionCreator>;
 type setUserProfile = ReturnType<typeof setUserProfile>;
 type changeUserStatusAC = ReturnType<typeof changeUserStatusAC>;
+type getUserStatusAC  = ReturnType<typeof getUserStatusAC >;
 
 export type commonActionProfileTypes = addPostActionCreatorPropsType|
     updatePostTextActionCreatorType |
-    setUserProfile | changeUserStatusAC;
+    setUserProfile | changeUserStatusAC| getUserStatusAC ;
 
-export const getProfileUserThunk = (userID: string) => {
+export function getProfileUserThunk(userID: string) {
     return (dispatch: AppDispatch) => {
         profileAPI.downloadUserPage(userID).then(data => dispatch(setUserProfile(data, false)))
+
+    }
+}
+
+export const getUserStatusThunk = (userID: string) => {
+    return (dispatch: AppDispatch) => {
+        profileAPI.getUserStatus(userID).then(data => {
+            dispatch(getUserStatusAC(data))
+        })
+    }
+}
+
+export const changeUserStatusThunk = (newStatus: string) => {
+    return (dispatch: AppDispatch) => {
+        profileAPI.changeUserStatus(newStatus).then(data => dispatch(changeUserStatusAC(data)))
     }
 }

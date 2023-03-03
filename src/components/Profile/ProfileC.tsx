@@ -2,7 +2,12 @@ import React from "react";
 import {connect} from "react-redux";
 import {State} from "../../redux/redux-store";
 import {Profile} from "./Profile";
-import {changeUserStatusAC, getProfileUserThunk, setUserProfile, UserProfile} from "../../redux/profileReducer";
+import {
+    changeUserStatusThunk,
+    getProfileUserThunk, getUserStatusThunk,
+    setUserProfile,
+    UserProfile
+} from "../../redux/profileReducer";
 import {withRouter} from "react-router-dom";
 import {RouteComponentProps} from "react-router";
 import {withAuthRedirect} from "../hoc/WithAuthRedirect";
@@ -11,8 +16,9 @@ import {compose} from "redux";
 
 type ProfileCType = {
     setUserProfile: (user: UserProfile | null, isUserProfile: boolean) => void,
-    getProfileUserThunk: (userID: string) => void
-    changeUserStatusAC: (status: string) => void
+    getProfileUserThunk: (userID: string) =>  void
+    getUserStatusThunk: (userID: string) => void
+
 } & mapStateToPropsType & RouteComponentProps<PathParam>;
 
 
@@ -26,6 +32,7 @@ export class ProfileC extends React.Component<ProfileCType>{
         let userID = this.props.match.params.userID;
         if(userID !== undefined) {
             this.props.getProfileUserThunk(userID)
+            this.props.getUserStatusThunk(userID)
         }
         else {
             this.props.setUserProfile(null, true);
@@ -74,7 +81,11 @@ const mapStateToProps = (state: State):mapStateToPropsType => {
 }
 
 export default compose<React.ComponentType>(
-    connect(mapStateToProps, {setUserProfile, getProfileUserThunk, changeUserStatusAC}),
+    connect(mapStateToProps, {setUserProfile,
+        getProfileUserThunk,
+        getUserStatusThunk,
+        changeUserStatusThunk
+    }),
     withAuthRedirect,
     withRouter,
 )(ProfileC)

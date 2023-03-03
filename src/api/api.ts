@@ -26,6 +26,20 @@ export const profileAPI = {
             )
 
     },
+    getUserStatus(userID: string){
+        return instance.get(`profile/status/${userID}`)
+            .then(response => {
+                    return response.data
+                }
+            )
+    },
+    changeUserStatus(newStatus: string){
+        return instance.put('profile/status', {newStatus})
+            .then(response => {
+                    return response.data
+                }
+            )
+    }
 }
 
 export const authAPI = () => {

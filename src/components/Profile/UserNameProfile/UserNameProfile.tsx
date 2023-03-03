@@ -1,6 +1,6 @@
 import React from "react";
 import s from './UserNameProfile.module.css';
-import {ProfileStatus} from "./ProfileStatus/ProfileStatus";
+import {ProfileStatus, ProfileStatusContainer} from "./ProfileStatus/ProfileStatus";
 
 type UserNameProfileProps = {
     imgSrc: string;
@@ -14,7 +14,6 @@ type UserNameProfileProps = {
     facebook?: null | string;
     insta?: null | string;
     status: string;
-    changeUserStatusAC: (status: string) => void
 }
 
 const UserNameProfile = (props: UserNameProfileProps) => {
@@ -25,7 +24,7 @@ const UserNameProfile = (props: UserNameProfileProps) => {
             </div>
             <div className={s.user_description}>
                 <h1>{props.userName}</h1>
-                <ProfileStatus status={props.status} changeUserStatusAC={props.changeUserStatusAC}/>
+                <ProfileStatusContainer/>
                 {props.isLookingAJob && <span> is looking a job? {props.isLookingAJob ? 'yes' : 'no'}</span>}
                 {props.descJob && <span> Description for a job: {props.descJob}</span>}
                 {props.facebook && <span> Contacts: {props.facebook}</span>}

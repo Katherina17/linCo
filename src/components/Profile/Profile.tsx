@@ -8,7 +8,6 @@ import userPhoto from '../../assets/user.png'
 
 type ProfilePropsType = {
     userProfile: UserProfile | null;
-    changeUserStatusAC: (status: string) => void
 } & mapStateToPropsType
 
 export const Profile = (props: ProfilePropsType) => {
@@ -22,7 +21,6 @@ export const Profile = (props: ProfilePropsType) => {
                                  insta = {props.userProfile.contacts.instagram}
                                  facebook = {props.userProfile.contacts.facebook}
                                  status={props.status}
-                                 changeUserStatusAC={props.changeUserStatusAC}
                 />
             </main>
         }
@@ -35,7 +33,6 @@ export const Profile = (props: ProfilePropsType) => {
                                      dateBirth={props.dateBirth}
                                      education={props.education}
                                      status={props.status}
-                                     changeUserStatusAC={props.changeUserStatusAC}
                     />
                     <MyPostsContainer/>
                 </main>

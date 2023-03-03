@@ -1,9 +1,11 @@
-import React, {ChangeEvent, MouseEvent, FocusEvent} from "react";
+import React, {ChangeEvent} from "react";
+import {connect} from "react-redux";
+import {changeUserStatusThunk} from "../../../../redux/profileReducer";
+import {State} from "../../../../redux/redux-store";
 
 type ProfileStatusPropsType = {
-    status: string,
-    changeUserStatusAC: (status: string) => void
-}
+    changeUserStatusThunk: (newStatus: string) => void
+} & mapStateToPropsType
 
 type StateType = {
     status: string,
@@ -18,6 +20,13 @@ export class ProfileStatus extends React.Component<ProfileStatusPropsType, State
             editableMode: false
         }
     }
+
+    componentDidUpdate(prevProps: Readonly<ProfileStatusPropsType>, prevState: Readonly<StateType>, snapshot?: any) {
+        if(prevProps.status !== this.props.status){
+            this.setState({status: this.props.status})
+        }
+    }
+
     render() {
         const onChangeHandler = (e:ChangeEvent<HTMLInputElement>) => {
             this.setState({status: e.currentTarget.value})
@@ -26,7 +35,7 @@ export class ProfileStatus extends React.Component<ProfileStatusPropsType, State
             this.setState({editableMode: true})
         }
         const onBlurInputHandler = () => {
-            this.props.changeUserStatusAC(this.state.status)
+            this.props.changeUserStatusThunk(this.state.status)
             this.setState({editableMode: false})
         }
         return (
@@ -38,3 +47,15 @@ export class ProfileStatus extends React.Component<ProfileStatusPropsType, State
         )
     }
 }
+
+type mapStateToPropsType = {
+    status: string
+}
+
+const mapStateToProps = (state: State): mapStateToPropsType => {
+    return {
+        status: state.profile!.status
+    }
+}
+
+export const ProfileStatusContainer = connect(mapStateToProps,{changeUserStatusThunk})(ProfileStatus)
