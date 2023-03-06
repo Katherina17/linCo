@@ -34,16 +34,12 @@ export const profileAPI = {
             )
     },
     changeUserStatus(newStatus: string){
-        return instance.put('profile/status', {newStatus})
-            .then(response => {
-                    return response.data
-                }
-            )
+        return instance.put('profile/status', {status: newStatus})
     }
 }
 
 export const authAPI = () => {
-        return instance.get('https://social-network.samuraijs.com/api/1.0/auth/me')
+        return instance.get('auth/me')
             .then(response => {
                     return response.data
                 }

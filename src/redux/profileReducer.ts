@@ -198,7 +198,13 @@ export const getUserStatusThunk = (userID: string) => {
 }
 
 export const changeUserStatusThunk = (newStatus: string) => {
+    debugger
     return (dispatch: AppDispatch) => {
-        profileAPI.changeUserStatus(newStatus).then(data => dispatch(changeUserStatusAC(data)))
+        profileAPI.changeUserStatus(newStatus).then(data => {
+            if(data.data.resultCode === 0){
+                dispatch(changeUserStatusAC(newStatus))
+            }
+        }
+        )
     }
 }
