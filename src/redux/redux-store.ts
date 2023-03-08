@@ -4,6 +4,7 @@ import {dialogsReducer, DialogsType} from "./dialogsReducer";
 import {FindPeopleType, findPeopleReducer} from "./findPeopleReducer";
 import {authReducer, authStateType} from "./authReducer";
 import thunk from "redux-thunk";
+import {reducer as formReducer} from 'redux-form'
 
 export type State = {
     profile?: ProfileType;
@@ -16,7 +17,8 @@ export const rootReducer = combineReducers({
     profile: profileReducer,
     dialogs: dialogsReducer,
     findPeople: findPeopleReducer,
-    auth: authReducer
+    auth: authReducer,
+    form: formReducer
 })
 
 export type AppDispatch = typeof store.dispatch

@@ -1,4 +1,12 @@
+import {FormDataType, LoginForm, LoginFormContainer} from "./LoginForm";
 
 export const Authorization = () => {
-    return <h1> LOGIN</h1>
+
+    const onSubmit = (data: FormDataType) => {
+        console.log(data)
+    }
+
+    return <>
+        <LoginFormContainer onSubmit={onSubmit}/>
+    </>
 }
