@@ -1,6 +1,6 @@
 import {v1} from "uuid";
-import {addPostActionCreator, updatePostTextActionCreator} from "./profileReducer";
-import {addNewMessageActionCreator, updateMessageActionCreator} from './dialogsReducer';
+import {addPostActionCreator} from "./profileReducer";
+import {addNewMessageActionCreator} from './dialogsReducer';
 
 type MessageType = {
     id: string;
@@ -196,9 +196,7 @@ type Store = {
 
 
 type addNewMessageActionCreator = ReturnType<typeof addNewMessageActionCreator>;
-type updateMessageActionCreator = ReturnType<typeof updateMessageActionCreator>;
 type addPostActionCreatorPropsType = ReturnType<typeof addPostActionCreator>;
-type updatePostTextActionCreatorType = ReturnType<typeof updatePostTextActionCreator>;
 
-type commonActionTypes = addNewMessageActionCreator | updateMessageActionCreator | addPostActionCreatorPropsType| updatePostTextActionCreatorType;
+type commonActionTypes = addNewMessageActionCreator | addPostActionCreatorPropsType
 

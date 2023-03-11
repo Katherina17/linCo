@@ -1,26 +1,22 @@
 import React from "react";
 import Post from "./Post/Post";
 import s from './MyPosts.module.css';
-import {TextArea} from "../../TextArea/TextArea";
-import {Button} from "../../Button/Button";
 import {MyPostPropsType} from "./MyPostsContainer";
+import {PostFormContainer, PostFormDataType} from "./PostForm";
 
 const MyPosts = (props: MyPostPropsType) => {
-    let placeholder = 'write a new text';
-
-    const onChangeUpdatePostText = (text: string) => {
-       props.updatePostText(text)
+    const onSubmitHandler = (data: PostFormDataType) => {
+        props.addPost(data.post);
     }
 
-    const addPostOnClickHandler = () => {
-        props.addPost();
-    }
     return (
         <div className={s.post}>
             <h2 className={s.h2}>My posts</h2>
             <div className={s.textareaAndButton}>
-                <TextArea callBack={(text) => onChangeUpdatePostText(text)} placeholder={placeholder} value={props.newPostText} className={s.textareaPost}/>
-                <Button name={'Add Post'} callBack={addPostOnClickHandler}/>
+               {/* <TextArea callBack={(text) => onChangeUpdatePostText(text)} placeholder={placeholder} value={props.newPostText} className={s.textareaPost}/>
+                <Button name={'Add Post'} callBack={addPostOnClickHandler}/>*/}
+
+                <PostFormContainer onSubmit={onSubmitHandler}/>
             </div>
             {props.posts?.map(i => {
                 return (

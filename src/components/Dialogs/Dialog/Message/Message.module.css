@@ -22,7 +22,6 @@
 .imageAndText{
     display: flex;
     flex-direction: row-reverse;
-    margin-bottom: 47px;
     align-items: center;
     margin-right: 1rem;
 }

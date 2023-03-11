@@ -15,7 +15,6 @@ export type ProfileType = {
     city: string;
     education: string;
     posts: MyPost[];
-    newPostText: string;
     userProfile: boolean;
     newUsersProfile: null | UserProfile
     status: string;
@@ -105,7 +104,6 @@ const initialState : ProfileType = {
             imgSrc: users[0].imgSrc
         },
     ],
-    newPostText: '',
     userProfile: true,
     newUsersProfile: null,
     status: 'Hello world'
@@ -117,13 +115,10 @@ export const profileReducer = (state: ProfileType = initialState, action: common
             let newMessage: MyPost = {
                 id: v1(),
                 like: 0,
-                message: state.newPostText,
+                message: action.payload.text,
                 imgSrc: users[0].imgSrc
             }
-            return {...state, newPostText: '', posts: [newMessage, ...state.posts]}
-        }
-        case 'UPDATE-POST-TEXT': {
-            return {...state, newPostText: action.payload}
+            return {...state, posts: [newMessage, ...state.posts]}
         }
         case "SET_USER_PROFILE": {
             return {...state, newUsersProfile: action.payload.user, userProfile: action.payload.isUserProfile}
@@ -138,18 +133,13 @@ export const profileReducer = (state: ProfileType = initialState, action: common
     }
     }
 
-export const addPostActionCreator = () => {
+export const addPostActionCreator = (text: string) => {
     return {
-        type: 'ADD-POST'
+        type: 'ADD-POST',
+        payload: {text}
     } as const
 }
 
-export const updatePostTextActionCreator = (text: string) => {
-    return {
-        type: 'UPDATE-POST-TEXT',
-        payload: text
-    } as const
-}
 
 export const setUserProfile = (user: UserProfile | null, isUserProfile: boolean) => {
     return {
@@ -173,13 +163,11 @@ export const getUserStatusAC = (status: string) => {
 }
 
 type addPostActionCreatorPropsType = ReturnType<typeof addPostActionCreator>;
-type updatePostTextActionCreatorType = ReturnType<typeof updatePostTextActionCreator>;
 type setUserProfile = ReturnType<typeof setUserProfile>;
 type changeUserStatusAC = ReturnType<typeof changeUserStatusAC>;
 type getUserStatusAC  = ReturnType<typeof getUserStatusAC >;
 
 export type commonActionProfileTypes = addPostActionCreatorPropsType|
-    updatePostTextActionCreatorType |
     setUserProfile | changeUserStatusAC| getUserStatusAC ;
 
 export function getProfileUserThunk(userID: string) {

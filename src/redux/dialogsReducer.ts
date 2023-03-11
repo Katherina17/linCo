@@ -16,7 +16,6 @@ export type DialogType = {
 
 export type DialogsType = {
     dialogs: DialogType[];
-    newContent: string;
 }
 
 const initialState: DialogsType = {
@@ -68,7 +67,6 @@ const initialState: DialogsType = {
             ],
         },
     ],
-    newContent: ''
 }
 
 export const dialogsReducer = (state: DialogsType = initialState, action: commonActionDialogsTypes):DialogsType => {
@@ -77,33 +75,22 @@ export const dialogsReducer = (state: DialogsType = initialState, action: common
             let newMessage: MessageType = {
                 id: v1(),
                 senderId: users[0].id,
-                content: state.newContent
+                content: action.payload.newMessage
             }
-            return {...state, newContent: '', dialogs: state.dialogs.map((el, index) => index === 0 ? {...el, messages: [...el.messages, newMessage]} : el)}
+            return {...state, dialogs: state.dialogs.map((el, index) => index === 0 ? {...el, messages: [...el.messages, newMessage]} : el)}
         }
-        case "UPDATE-MESSAGE-TEXT": {
-            return {...state, newContent: action.payload.newMessage}
-        }
+
         default: return state;
     }
     }
 
 
-export const addNewMessageActionCreator = () => {
+export const addNewMessageActionCreator = (newMessage: string) => {
     return {
-        type: 'ADD-NEW-MESSAGE'
-    } as const
-}
-
-export const updateMessageActionCreator = (newMessage: string) => {
-    return {
-        type: 'UPDATE-MESSAGE-TEXT',
-        payload: {
-            newMessage
-        }
+        type: 'ADD-NEW-MESSAGE',
+        payload: {newMessage}
     } as const
 }
 
 type addNewMessageActionCreator = ReturnType<typeof addNewMessageActionCreator>;
-type updateMessageActionCreator = ReturnType<typeof updateMessageActionCreator>;
-export type commonActionDialogsTypes = addNewMessageActionCreator | updateMessageActionCreator;
+export type commonActionDialogsTypes = addNewMessageActionCreator

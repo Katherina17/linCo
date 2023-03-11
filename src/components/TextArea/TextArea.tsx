@@ -3,19 +3,20 @@ import React, {ChangeEvent} from "react";
 
 
 type TextAreaPropsType = {
-    callBack: (newPostText: string) => void;
+    callBack?: (newPostText: string) => void;
     className?: string;
-    placeholder: string;
-    value: string
+    placeholder?: string;
+    value?: string
 }
 
 export const TextArea: React.FC<TextAreaPropsType> = (props) => {
     let textAreaValue =  React.createRef<HTMLTextAreaElement>();
     const onChangeTextAreaHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
-        props.callBack(textAreaValue.current!.value);
+        if(props.callBack){
+            props.callBack(textAreaValue.current!.value);
+        }
     }
     let finalClassName = props.className ? `${props.className}`: `${s.textArea}`;
-
 
     return(
         <textarea onChange={onChangeTextAreaHandler}

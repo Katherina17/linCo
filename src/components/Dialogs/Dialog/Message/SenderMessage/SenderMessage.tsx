@@ -1,22 +1,18 @@
-import {TextArea} from "../../../../TextArea/TextArea";
-import {Button} from "../../../../Button/Button";
+
 import s from './SenderMessage.module.css'
 import {SenderMessagePropsType} from "./SenderMessageContainer";
+import {MessageFormDataType, SenderMessageFormContainer} from "./SenderMessageForm";
 
 export const SenderMessage: React.FC<SenderMessagePropsType> = (props) => {
-    const{newMessageText, updateValue, sendMessage } = props;
-    const onChangeUpdateValue = (newMessage: string) => {
-        updateValue(newMessage)
-    }
+    const{sendMessage} = props;
 
-    const sendMessageOnClickHandler = () => {
-        sendMessage();
+    const onSubmitHandler = (data: MessageFormDataType) => {
+        sendMessage(data.message)
     }
 
     return(
         <div className={s.senderMessage}>
-            <TextArea callBack={(newPostText) =>{onChangeUpdateValue(newPostText)}} placeholder={'type a message'} value={newMessageText}/>
-            <Button name={'send'} callBack={sendMessageOnClickHandler}/>
+            <SenderMessageFormContainer onSubmit={onSubmitHandler}/>
         </div>
     )
 }

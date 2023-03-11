@@ -3,6 +3,7 @@ import s from './Dialog.module.css';
 import {Message} from "./Message/Message";
 import SenderMessageContainer from "./Message/SenderMessage/SenderMessageContainer";
 import {DialogType} from "../../../redux/dialogsReducer";
+
 type DialogPropsType = {
     dialog: DialogType;
 }
@@ -11,7 +12,7 @@ export const Dialog = (props: DialogPropsType) => {
     return (
         <div className={s.Dialog_container}>
             <HeaderDialogs name={props.dialog.friendUser.name} imgSrc={props.dialog.friendUser.imgSrc}/>
-            {props.dialog.messages.map(el => {
+            {  props.dialog.messages.map(el => {
                 return(
                     <Message key={el.id}
                             imgFriendSrc={props.dialog.friendUser.imgSrc}

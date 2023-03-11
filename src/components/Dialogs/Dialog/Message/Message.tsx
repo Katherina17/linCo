@@ -16,7 +16,7 @@ export const Message = (props: MessagePropsType) => {
                 <div className={s.image}>
                     <img
                         alt={'friend photo'}
-                        src={props.imgFriendSrc}
+                        src={ props.senderId === props.friendUserId ? props.imgFriendSrc : props.imgUserSrc}
                     />
                 </div>
                 <div className={ props.senderId === props.friendUserId ? s.friendText : s.text }>

@@ -7,7 +7,7 @@ import Music from "./components/Music/Music";
 import Settings from "./components/Settings/Settings";
 import {Friends} from "./components/Friends/Friends";
 import {State} from './redux/redux-store'
-import {Dialogs} from "./components/Dialogs/Dialogs";
+import {Dialogs, DialogsContainer} from "./components/Dialogs/Dialogs";
 import FindPeopleContainer from "./components/FindPeople/FindPeopleContainer";
 import {HeaderContainer} from "./components/Header/HeaderContainer";
 import {Authorization} from "./components/Authorization/Authorization";
@@ -28,7 +28,7 @@ function App(props: AppPropsType) {
                       <Route path={'/profile/:userID?'} render={() => <ProfileContainer/>}/>
                       <Route path={'/findPeople'} render={() => <FindPeopleContainer/>}/>
                       <Route path={'/friends'} render={() => <Friends friends={props.state.profile!.user.friends}/>}/>
-                      <Route path={'/dialogs'} render={() => <Dialogs dialogues={props.state.dialogs!.dialogs}/>}/>
+                      <Route path={'/dialogs'} render={() => <DialogsContainer/>}/>
                       <Route path={'/news'} component={News}/>
                       <Route path={'/music'} component={Music}/>
                       <Route path={'/settings'} component={Settings}/>
