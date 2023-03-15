@@ -13,6 +13,9 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import {Field, InjectedFormProps, reduxForm} from "redux-form";
+import {email, required} from "../../utils/validators/validators";
+import {MUField} from "./MUField";
+import {TextArea} from "../TextArea/TextArea";
 
 const theme = createTheme();
 
@@ -23,16 +26,11 @@ export type FormDataType = {
 
 }
 
+/*
+InjectedFormProps<FormDataType>
+*/
+
 export const LoginForm = (props: InjectedFormProps<FormDataType>) => {
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        const data = new FormData(event.currentTarget);
-        console.log({
-            login: data.get('login'),
-            password: data.get('password'),
-        });
-    };
-    console.log(props)
 
     return (
         <ThemeProvider theme={theme}>
@@ -52,27 +50,9 @@ export const LoginForm = (props: InjectedFormProps<FormDataType>) => {
                     <Typography component="h1" variant="h5">
                         Sign in
                     </Typography>
-                    <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-                      <Field name='login' component={() => <TextField
-                          margin="normal"
-                          required
-                          fullWidth
-                          id="login"
-                          label="Login"
-                          name="Login"
-                          autoComplete="Login"
-                          autoFocus
-                      />} />
-                        <Field name='password' component={() => <TextField
-                            margin="normal"
-                            required
-                            fullWidth
-                            name="password"
-                            label="Password"
-                            type="password"
-                            id="password"
-                            autoComplete="current-password"
-                        />} />
+                    <Box component="form" onSubmit={props.handleSubmit} noValidate sx={{ mt: 1 }}>
+                        <Field name={'login'} component={TextArea} validate={[required,  email]}/>
+                        <Field name='password' component={MUField} validate={[required]} />
                         <Field name='rememberMe' component={() =>  <FormControlLabel
                             control={<Checkbox value="remember" color="primary" />}
                             label="Remember me"
@@ -83,7 +63,6 @@ export const LoginForm = (props: InjectedFormProps<FormDataType>) => {
                             fullWidth
                             variant="contained"
                             sx={{ mt: 3, mb: 2 }}
-                            onSubmit={props.handleSubmit}
                         >
                             Sign In
                         </Button>
@@ -109,3 +88,16 @@ export const LoginForm = (props: InjectedFormProps<FormDataType>) => {
 export const LoginFormContainer = reduxForm<FormDataType>({
     form: 'logInOrLigOut'
 })(LoginForm)
+
+
+/*
+() => <TextField
+    margin="normal"
+    required
+    fullWidth
+    name="password"
+    label="Password"
+    type="password"
+    id="password"
+    autoComplete="current-password"
+/>*/

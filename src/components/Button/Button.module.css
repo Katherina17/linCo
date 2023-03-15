@@ -1,13 +1,14 @@
 .button {
     border-radius: 20px;
     background-color: #fa6638;
-    height: 40px;
     width: 8.57rem;
+    min-height: 40px;
     color: white;
     font-family: var(--font-family);
     font-weight: 600;
     font-size: 16px;
     line-height: 20px;
+    padding: 0.5rem;
 }
 
 .button:disabled{

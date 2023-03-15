@@ -3,6 +3,7 @@ import Post from "./Post/Post";
 import s from './MyPosts.module.css';
 import {MyPostPropsType} from "./MyPostsContainer";
 import {PostFormContainer, PostFormDataType} from "./PostForm";
+import {reset} from "redux-form";
 
 const MyPosts = (props: MyPostPropsType) => {
     const onSubmitHandler = (data: PostFormDataType) => {

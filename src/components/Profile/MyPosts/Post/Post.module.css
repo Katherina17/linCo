@@ -3,8 +3,10 @@
     flex-direction: column;
     background-color: white;
     border-radius: 2rem;
-    width: 46%;
+    max-width: 45%;
     margin-bottom: 1.5rem;
+    overflow-wrap: break-word;
+    padding: 1rem;
 }
 
 .post_item{
