@@ -7,10 +7,10 @@ import Music from "./components/Music/Music";
 import Settings from "./components/Settings/Settings";
 import {Friends} from "./components/Friends/Friends";
 import {State} from './redux/redux-store'
-import {Dialogs, DialogsContainer} from "./components/Dialogs/Dialogs";
+import {DialogsContainer} from "./components/Dialogs/Dialogs";
 import FindPeopleContainer from "./components/FindPeople/FindPeopleContainer";
 import {HeaderContainer} from "./components/Header/HeaderContainer";
-import {Authorization} from "./components/Authorization/Authorization";
+import { AuthorizationContainer} from "./components/Authorization/Authorization";
 import ProfileContainer from './components/Profile/ProfileC'
 
 type AppPropsType = {
@@ -32,7 +32,7 @@ function App(props: AppPropsType) {
                       <Route path={'/news'} component={News}/>
                       <Route path={'/music'} component={Music}/>
                       <Route path={'/settings'} component={Settings}/>
-                      <Route path={'/login'} component={Authorization}/>
+                      <Route path={'/login'} component={AuthorizationContainer}/>
                   </div>
               </main>
           </div>

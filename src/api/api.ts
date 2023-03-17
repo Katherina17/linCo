@@ -38,14 +38,24 @@ export const profileAPI = {
     }
 }
 
-export const authAPI = () => {
+
+export const authAPI = {
+    authMeAPI() {
         return instance.get('auth/me')
             .then(response => {
                     return response.data
                 }
             )
+    },
+    login(email: string, password: string, rememberMe: boolean){
+        return instance.post('auth/login', {email, password, rememberMe}).then(res => res.data)
+    },
+    logOut(){
+        return instance.delete('auth/login').then(res => res.data)
+    }
 
 }
+
 
 
 export const followAPI = {

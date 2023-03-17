@@ -21,13 +21,28 @@ header div{
 .headerAndLogin p{
     font-family: var(--font-family);
     cursor: pointer;
-    width: 10rem;
+    width: 8rem;
     padding: 0.7rem;
     text-align: center;
 
 }
 
 .headerAndLogin p:hover{
-    background: #fa66384d;
+    background-color: #F5F7FB;
     border-radius: 7px;
+}
+
+.loginAndLigOut{
+    width: 17%;
+    gap: 0.5rem;
+    display: flex;
+    justify-content: space-between;
+}
+
+.logOutBtn{
+    min-width: 70px;
+    font-size: 14px;
+    color: black;
+    background-color: #F5F7FB;
+   font-weight: 400;
 }

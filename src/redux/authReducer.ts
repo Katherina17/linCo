@@ -1,4 +1,4 @@
-import {AppDispatch} from "./redux-store";
+import {AppDispatch, ApplicationDispatch} from "./redux-store";
 import {authAPI} from "../api/api";
 
 type DataType = {
@@ -26,17 +26,17 @@ const initialState: authStateType = {
 export const authReducer = (state: authStateType = initialState, action: commonActions): authStateType => {
     switch(action.type){
         case "SET-AUTH-DATA": {
-            return {...state, data: {...action.payload}, isAuth: true}
+            return {...state, data: {...action.payload}, isAuth: action.payload.isAuth}
         }
         default: return state
     }
 }
 
 
-export const setAuthDataAC = (id : number, login: string, email: string) => {
+export const setAuthDataAC = (id : number | null, login: string | null, email: string | null, isAuth: boolean) => {
     return {
         type: 'SET-AUTH-DATA',
-        payload: { id, login, email}
+        payload: { id, login, email, isAuth}
     } as const
 }
 
@@ -45,11 +45,32 @@ type commonActions = setAuthData
 
 export const getAuthorizedUser = () => {
     return (dispatch: AppDispatch) => {
-        authAPI().then(data => {
+        authAPI.authMeAPI().then(data => {
             if(data.resultCode === 0){
                 let{id, login, email} = data.data
-                dispatch(setAuthDataAC(id,login, email))
+                dispatch(setAuthDataAC(id,login, email, true))
             }
+        })
+    }
+}
+
+export const authMainUser = (email: string, password: string, rememberMe: boolean) => {
+    return (dispatch: ApplicationDispatch) => {
+        authAPI.login(email, password, rememberMe).then(data => {
+            if(data.resultCode === 0){
+                dispatch(getAuthorizedUser())
+            } else {
+                console.log('somerror')
+            }
+        })
+    }
+}
+
+
+export const logOutUser = () => {
+    return (dispatch: AppDispatch) => {
+        authAPI.logOut().then(data => {
+            dispatch(setAuthDataAC(null, null, null, false))
         })
     }
 }

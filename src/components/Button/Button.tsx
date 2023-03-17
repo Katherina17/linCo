@@ -9,7 +9,7 @@ type ButtonPropsType = {
 
 export const Button: React.FC<ButtonPropsType> = (props) => {
     const{name, callBack, className} = props;
-    let finalClassName = className ? `${className}` : `${s.button}`
+    let finalClassName = className ? `${className} ${s.button}` : `${s.button}`
     const onClickHandler = () => {
         if(callBack){
             callBack()
