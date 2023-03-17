@@ -11,7 +11,7 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import {createTheme, ThemeProvider} from '@mui/material/styles';
 import {Field, InjectedFormProps, reduxForm} from "redux-form";
 import {email, required} from "../../utils/validators/validators";
 import {MUField} from "./MUField";
@@ -35,7 +35,7 @@ export const LoginForm = (props: InjectedFormProps<FormDataType>) => {
     return (
         <ThemeProvider theme={theme}>
             <Container component="main" maxWidth="xs">
-                <CssBaseline />
+                <CssBaseline/>
                 <Box
                     sx={{
                         marginTop: 8,
@@ -44,17 +44,19 @@ export const LoginForm = (props: InjectedFormProps<FormDataType>) => {
                         alignItems: 'center',
                     }}
                 >
-                    <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-                        <LockOutlinedIcon />
+                    <Avatar sx={{m: 1, bgcolor: 'secondary.main'}}>
+                        <LockOutlinedIcon/>
                     </Avatar>
                     <Typography component="h1" variant="h5">
                         Sign in
                     </Typography>
-                    <Box component="form" onSubmit={props.handleSubmit} noValidate sx={{ mt: 1 }}>
-                        <Field name={'login'} component={TextArea} validate={[required,  email]}/>
-                        <Field name='password' component={MUField} validate={[required]} />
-                        <Field name='rememberMe' component={() =>  <FormControlLabel
-                            control={<Checkbox value="remember" color="primary" />}
+                    <Box component="form" onSubmit={props.handleSubmit} noValidate sx={{mt: 1}}>
+                        <Field name='login' type={'email'} label={'login'} component={MUField}
+                               validate={[required, email]}/>
+                        <Field name='password' type={'password'} label={'password'} component={MUField}
+                               validate={[required]}/>
+                        <Field name='rememberMe' component={() => <FormControlLabel
+                            control={<Checkbox value="remember" color="primary"/>}
                             label="Remember me"
                         />}/>
 
@@ -62,7 +64,7 @@ export const LoginForm = (props: InjectedFormProps<FormDataType>) => {
                             type="submit"
                             fullWidth
                             variant="contained"
-                            sx={{ mt: 3, mb: 2 }}
+                            sx={{mt: 3, mb: 2}}
                         >
                             Sign In
                         </Button>
