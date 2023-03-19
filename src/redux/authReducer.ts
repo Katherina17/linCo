@@ -1,5 +1,6 @@
 import {AppDispatch, ApplicationDispatch} from "./redux-store";
 import {authAPI} from "../api/api";
+import {stopSubmit} from "redux-form";
 
 type DataType = {
     id: number | null;
@@ -60,7 +61,8 @@ export const authMainUser = (email: string, password: string, rememberMe: boolea
             if(data.resultCode === 0){
                 dispatch(getAuthorizedUser())
             } else {
-                console.log('somerror')
+                let message = data.messages.length > 0 ? data.messages[0] : 'Some error'
+               dispatch(stopSubmit('logInOrLigOut', {_error: message}))
             }
         })
     }

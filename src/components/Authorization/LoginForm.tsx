@@ -26,10 +26,6 @@ export type FormDataType = {
 
 }
 
-/*
-InjectedFormProps<FormDataType>
-*/
-
 export const LoginForm = (props: InjectedFormProps<FormDataType>) => {
 
     return (
@@ -59,6 +55,8 @@ export const LoginForm = (props: InjectedFormProps<FormDataType>) => {
                             control={<Checkbox value="remember" color="primary"/>}
                             label="Remember me"
                         />}/>
+
+                        {props.error && <p style={{color: 'red'}}> {props.error} </p>}
 
                         <Button
                             type="submit"
@@ -91,15 +89,3 @@ export const LoginFormContainer = reduxForm<FormDataType>({
     form: 'logInOrLigOut'
 })(LoginForm)
 
-
-/*
-() => <TextField
-    margin="normal"
-    required
-    fullWidth
-    name="password"
-    label="Password"
-    type="password"
-    id="password"
-    autoComplete="current-password"
-/>*/
