@@ -94,7 +94,7 @@ export default compose<React.ComponentType>(connect(mapStateToProps, {
         changeUsersThunkCreator,
         subscribeUserThunkCreator,
         unSubscribeUserThunkCreator
-    }), withAuthRedirect
+    }),
 )(FindPeople)
 
 

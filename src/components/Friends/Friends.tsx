@@ -1,12 +1,11 @@
 import s from './Friends.module.css';
 import {Friend} from "./Friend/Friend";
 import {UserType} from "../../redux/profileReducer";
+import {connect} from "react-redux";
+import {RootState} from "../../redux/redux-store";
 
-type FriendsProps = {
-    friends: UserType[];
-}
 
-export const Friends = (props: FriendsProps) => {
+export const Friends = (props: mapStateToProps) => {
     return (
         <div className={s.friendsMainContainer} >
             <h2>Friends</h2>
@@ -20,6 +19,18 @@ export const Friends = (props: FriendsProps) => {
         </div>
     )
 }
+
+type mapStateToProps = {
+    friends: UserType[]
+}
+
+const mapStateToProps = (state: RootState):mapStateToProps => {
+    return {
+        friends: state.profile.user.friends
+    }
+}
+
+export const FriendContainer = connect(mapStateToProps)(Friends)
 
 
 
