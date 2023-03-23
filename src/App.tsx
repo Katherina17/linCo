@@ -5,7 +5,7 @@ import {Redirect, Route, withRouter} from "react-router-dom";
 import News from "./components/News/News";
 import Music from "./components/Music/Music";
 import Settings from "./components/Settings/Settings";
-import {FriendContainer, Friends} from "./components/Friends/Friends";
+import {FriendContainer} from "./components/Friends/Friends";
 import {RootState, State} from './redux/redux-store'
 import {DialogsContainer} from "./components/Dialogs/Dialogs";
 import FindPeopleContainer from "./components/FindPeople/FindPeopleContainer";
@@ -37,7 +37,6 @@ class App extends React.Component<AppPropsType> {
                 <main>
                     <div className="App_wrapper menu_user_container">
                         <NavBar/>
-                        <Redirect from="/" to="/profile"/>
                         <Route path={'/profile/:userID?'} render={() => <ProfileContainer/>}/>
                         <Route path={'/findPeople'} render={() => <FindPeopleContainer/>}/>
                         <Route path={'/friends'} render={() => <FriendContainer/>}/>

@@ -1,5 +1,5 @@
 import {connect} from "react-redux";
-import {State} from "../../redux/redux-store";
+import {RootState} from "../../redux/redux-store";
 import {
     changeUsersThunkCreator,
      getUsersThunkCreator,
@@ -10,8 +10,13 @@ import React from "react";
 import {Users} from "./Users";
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
-import {withAuthRedirect} from "../hoc/WithAuthRedirect";
 import {compose} from "redux";
+import {
+    getCurrentPageSelector, getFetchingSelector,
+    getPageSizeSelector,
+    getPeopleStateSelector,
+    getTotalCountSelector, setAuthSelector, setFollowingInProgressSelector
+} from "../../redux/findPeopleSelectors";
 
 
 type mapDispatchToProps = {
@@ -75,15 +80,15 @@ export class FindPeople extends React.Component<FindPeoplePropsType> {
 
 }
 
-const mapStateToProps = (state: State): mapStateToProps => {
+const mapStateToProps = (state: RootState): mapStateToProps => {
     return {
-        state: state.findPeople!.items,
-        currentPage: state.findPeople!.currentPage,
-        totalCount: state.findPeople!.totalCount,
-        pageSize: state.findPeople!.pageSize,
-        isFetching: state.findPeople!.isFetching,
-        followingInProgress: state.findPeople!.followingInProgress,
-        isAuth: state.auth!.isAuth
+        state: getPeopleStateSelector(state),
+        currentPage: getCurrentPageSelector(state),
+        totalCount:  getTotalCountSelector(state),
+        pageSize: getPageSizeSelector(state),
+        isFetching: getFetchingSelector(state),
+        followingInProgress: setFollowingInProgressSelector(state),
+        isAuth: setAuthSelector(state)
     }
 }
 
