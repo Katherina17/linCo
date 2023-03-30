@@ -37,6 +37,7 @@ class App extends React.Component<AppPropsType> {
                 <main>
                     <div className="App_wrapper menu_user_container">
                         <NavBar/>
+                        <Route exact path={'/'} render={() => <ProfileContainer/>}/>
                         <Route path={'/profile/:userID?'} render={() => <ProfileContainer/>}/>
                         <Route path={'/findPeople'} render={() => <FindPeopleContainer/>}/>
                         <Route path={'/friends'} render={() => <FriendContainer/>}/>
