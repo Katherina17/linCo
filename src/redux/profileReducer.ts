@@ -129,6 +129,9 @@ export const profileReducer = (state: ProfileType = initialState, action: common
         case "GET_USER_STATUS":{
             return {...state, status: action.payload.status}
         }
+        case "DELETE_POST": {
+            return {...state, posts: state.posts.filter(el => el.id !== action.payload.id)}
+        }
         default: return state;
     }
     }
@@ -162,13 +165,21 @@ export const getUserStatusAC = (status: string) => {
     } as const
 }
 
+export const deletePostAC = (id: string) => {
+    return {
+        type: 'DELETE_POST',
+        payload: {id}
+    } as const
+}
+
 type addPostActionCreatorPropsType = ReturnType<typeof addPostActionCreator>;
 type setUserProfile = ReturnType<typeof setUserProfile>;
 type changeUserStatusAC = ReturnType<typeof changeUserStatusAC>;
 type getUserStatusAC  = ReturnType<typeof getUserStatusAC >;
+type deletePostAC  = ReturnType<typeof deletePostAC>;
 
 export type commonActionProfileTypes = addPostActionCreatorPropsType|
-    setUserProfile | changeUserStatusAC| getUserStatusAC ;
+    setUserProfile | changeUserStatusAC| getUserStatusAC | deletePostAC ;
 
 export function getProfileUserThunk(userID: string) {
     return (dispatch: AppDispatch) => {
@@ -188,7 +199,6 @@ export const getUserStatusThunk = (userID: string) => {
 export const changeUserStatusThunk = (newStatus: string) => {
     return (dispatch: AppDispatch) => {
         profileAPI.changeUserStatus(newStatus).then(data => {
-                console.log(data)
             if(data.data.resultCode === 0){
                 dispatch(changeUserStatusAC(newStatus))
             }

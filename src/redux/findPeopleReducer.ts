@@ -32,7 +32,6 @@ const initialState: FindPeopleType = {
     isFetching: false,
     followingInProgress: [],
     error: null
-
 }
 
 export const findPeopleReducer = (state: FindPeopleType = initialState, action: commonACFindPeopleTypes): FindPeopleType => {
