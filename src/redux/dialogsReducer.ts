@@ -71,7 +71,7 @@ const initialState: DialogsType = {
 
 export const dialogsReducer = (state: DialogsType = initialState, action: commonActionDialogsTypes):DialogsType => {
     switch (action.type) {
-        case "ADD-NEW-MESSAGE": {
+        case "dialogs/ADD-NEW-MESSAGE": {
             let newMessage: MessageType = {
                 id: v1(),
                 senderId: users[0].id,
@@ -87,7 +87,7 @@ export const dialogsReducer = (state: DialogsType = initialState, action: common
 
 export const addNewMessageActionCreator = (newMessage: string) => {
     return {
-        type: 'ADD-NEW-MESSAGE',
+        type: 'dialogs/ADD-NEW-MESSAGE',
         payload: {newMessage}
     } as const
 }

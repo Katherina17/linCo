@@ -111,7 +111,7 @@ const initialState : ProfileType = {
 
 export const profileReducer = (state: ProfileType = initialState, action: commonActionProfileTypes):ProfileType => {
     switch (action.type) {
-        case 'ADD-POST': {
+        case 'profile/ADD-POST': {
             let newMessage: MyPost = {
                 id: v1(),
                 like: 0,
@@ -120,16 +120,16 @@ export const profileReducer = (state: ProfileType = initialState, action: common
             }
             return {...state, posts: [newMessage, ...state.posts]}
         }
-        case "SET_USER_PROFILE": {
+        case "profile/SET_USER_PROFILE": {
             return {...state, newUsersProfile: action.payload.user, userProfile: action.payload.isUserProfile}
         }
-        case "CHANGE_USER_STATUS":{
+        case "profile/CHANGE_USER_STATUS":{
             return {...state, status: action.payload.status}
         }
-        case "GET_USER_STATUS":{
+        case "profile/GET_USER_STATUS":{
             return {...state, status: action.payload.status}
         }
-        case "DELETE_POST": {
+        case "profile/DELETE_POST": {
             return {...state, posts: state.posts.filter(el => el.id !== action.payload.id)}
         }
         default: return state;
@@ -138,7 +138,7 @@ export const profileReducer = (state: ProfileType = initialState, action: common
 
 export const addPostActionCreator = (text: string) => {
     return {
-        type: 'ADD-POST',
+        type: 'profile/ADD-POST',
         payload: {text}
     } as const
 }
@@ -146,28 +146,28 @@ export const addPostActionCreator = (text: string) => {
 
 export const setUserProfile = (user: UserProfile | null, isUserProfile: boolean) => {
     return {
-        type: 'SET_USER_PROFILE',
+        type: 'profile/SET_USER_PROFILE',
         payload: {user, isUserProfile}
     } as const
 }
 
 export const changeUserStatusAC = (status: string) => {
     return {
-        type: 'CHANGE_USER_STATUS',
+        type: 'profile/CHANGE_USER_STATUS',
         payload: {status}
     } as const
 }
 
 export const getUserStatusAC = (status: string) => {
     return {
-        type: 'GET_USER_STATUS',
+        type: 'profile/GET_USER_STATUS',
         payload: {status}
     } as const
 }
 
 export const deletePostAC = (id: string) => {
     return {
-        type: 'DELETE_POST',
+        type: 'profile/DELETE_POST',
         payload: {id}
     } as const
 }
@@ -182,27 +182,39 @@ export type commonActionProfileTypes = addPostActionCreatorPropsType|
     setUserProfile | changeUserStatusAC| getUserStatusAC | deletePostAC ;
 
 export function getProfileUserThunk(userID: string) {
-    return (dispatch: AppDispatch) => {
-        profileAPI.downloadUserPage(userID).then(data => dispatch(setUserProfile(data, false)))
-
+    return async (dispatch: AppDispatch) => {
+        try{
+            let data = await profileAPI.downloadUserPage(userID)
+            dispatch(setUserProfile(data, false))
+        }
+        catch (e) {
+            console.log(e)
+        }
     }
 }
 
 export const getUserStatusThunk = (userID: string) => {
-    return (dispatch: AppDispatch) => {
-        profileAPI.getUserStatus(userID).then(data => {
+    return async (dispatch: AppDispatch) => {
+        try{
+            let data = await  profileAPI.getUserStatus(userID)
             dispatch(getUserStatusAC(data))
-        })
+        }
+        catch (e) {
+            console.log(e)
+        }
     }
 }
 
 export const changeUserStatusThunk = (newStatus: string) => {
-    return (dispatch: AppDispatch) => {
-        profileAPI.changeUserStatus(newStatus).then(data => {
+    return async (dispatch: AppDispatch) => {
+        try {
+            let data = await  profileAPI.changeUserStatus(newStatus)
             if(data.data.resultCode === 0){
                 dispatch(changeUserStatusAC(newStatus))
             }
         }
-        )
+        catch (e) {
+            console.log(e)
+        }
     }
 }

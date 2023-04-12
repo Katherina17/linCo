@@ -1,7 +1,7 @@
 import React, {ChangeEvent, useEffect, useState} from "react";
 import {connect} from "react-redux";
-import {changeUserStatusThunk} from "redux/profileReducer";
-import {State} from "redux/redux-store";
+import {State} from "../../../../redux/redux-store";
+import {changeUserStatusThunk} from "../../../../redux/profileReducer";
 
 type ProfileStatusPropsType = {
     changeUserStatusThunk: (newStatus: string) => void

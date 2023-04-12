@@ -1,8 +1,5 @@
-import {AppDispatch, ApplicationActionThunk, ApplicationDispatch} from "./redux-store";
-import {authAPI} from "../api/api";
-import {stopSubmit} from "redux-form";
+import {ApplicationActionThunk} from "./redux-store";
 import {getAuthorizedUser} from "./authReducer";
-
 
 
 export type appReducerType = {
@@ -15,29 +12,31 @@ const initialState = {
 
 
 export const appReducer = (state: appReducerType = initialState, action: appActionsType): appReducerType => {
-    switch(action.type){
-        case "SET-INITIALIZE-DATA":{
+    switch (action.type) {
+        case "app/SET-INITIALIZE-DATA": {
             return {...state, initialized: true}
         }
-        default: return state
+        default:
+            return state
     }
 }
 
 
 export const setInitializeAppAC = () => {
     return {
-        type: 'SET-INITIALIZE-DATA',
+        type: 'app/SET-INITIALIZE-DATA',
     } as const
 }
 
-export type appActionsType =  ReturnType<typeof setInitializeAppAC>
+export type appActionsType = ReturnType<typeof setInitializeAppAC>
 
-export const getInitializedApp = ():ApplicationActionThunk => {
-    return (dispatch) => {
+export const getInitializedApp = (): ApplicationActionThunk => {
+    return async (dispatch) => {
         let authorizedUser = dispatch(getAuthorizedUser());
-        Promise.all([authorizedUser]).then(() => {
+        let isAuthorized = await Promise.all([authorizedUser])
+        if (isAuthorized) {
             dispatch(setInitializeAppAC())
-        })
+        }
     }
 }
 

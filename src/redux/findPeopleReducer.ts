@@ -36,31 +36,31 @@ const initialState: FindPeopleType = {
 
 export const findPeopleReducer = (state: FindPeopleType = initialState, action: commonACFindPeopleTypes): FindPeopleType => {
     switch (action.type) {
-        case "FOLLOW": {
+        case "findPeople/FOLLOW": {
             return {
                 ...state,
                 items: state.items.map(el => el.id === action.payload.userID ? {...el, followed: true} : el)
             }
         }
-        case "UNFOLLOW": {
+        case "findPeople/UNFOLLOW": {
             return {
                 ...state,
                 items: state.items.map(el => el.id === action.payload.userID ? {...el, followed: false} : el)
             }
         }
-        case "SET_USERS": {
+        case "findPeople/SET_USERS": {
             return {...state, items: action.payload.users}
         }
-        case "SET_TOTAL_PAGE": {
+        case "findPeople/SET_TOTAL_PAGE": {
             return {...state, totalCount: action.payload.countPage}
         }
-        case "SET_CURRENT_PAGE": {
+        case "findPeople/SET_CURRENT_PAGE": {
             return {...state, currentPage: action.payload.currentPage}
         }
-        case "SET_FETCH": {
+        case "findPeople/SET_FETCH": {
             return {...state, isFetching: action.payload.isFetch}
         }
-        case "SET_FOLLOWING":{
+        case "findPeople/SET_FOLLOWING":{
             return {...state, followingInProgress: action.payload.isFollow ?
                     [...state.followingInProgress, action.payload.userID]
                     : state.followingInProgress.filter(el => el!== action.payload.userID)}
@@ -72,7 +72,7 @@ export const findPeopleReducer = (state: FindPeopleType = initialState, action: 
 
 export const followAC = (userID: number) => {
     return {
-        type: 'FOLLOW',
+        type: 'findPeople/FOLLOW',
         payload: {
             userID
         }
@@ -80,7 +80,7 @@ export const followAC = (userID: number) => {
 }
 export const unFollowAC = (userID: number) => {
     return {
-        type: 'UNFOLLOW',
+        type: 'findPeople/UNFOLLOW',
         payload: {
             userID
         }
@@ -89,7 +89,7 @@ export const unFollowAC = (userID: number) => {
 
 export const setUsersAC = (users: PeopleType[]) => {
     return {
-        type: 'SET_USERS',
+        type: 'findPeople/SET_USERS',
         payload: {
             users
         }
@@ -97,7 +97,7 @@ export const setUsersAC = (users: PeopleType[]) => {
 }
 export const setTotalPageAC = (countPage: number) => {
     return {
-        type: 'SET_TOTAL_PAGE',
+        type: 'findPeople/SET_TOTAL_PAGE',
         payload: {
             countPage
         }
@@ -107,7 +107,7 @@ export const setTotalPageAC = (countPage: number) => {
 
 export const setCurrentPageAC = (currentPage: number) => {
     return {
-        type: 'SET_CURRENT_PAGE',
+        type: 'findPeople/SET_CURRENT_PAGE',
         payload: {
             currentPage
         }
@@ -118,7 +118,7 @@ export const setCurrentPageAC = (currentPage: number) => {
 
 export const setFetchAC = (isFetch: boolean) => {
     return {
-        type: 'SET_FETCH',
+        type: 'findPeople/SET_FETCH',
         payload: {
             isFetch
         }
@@ -127,7 +127,7 @@ export const setFetchAC = (isFetch: boolean) => {
 
 export const setFollowingAC = (userID: number, isFollow: boolean) => {
     return {
-        type: 'SET_FOLLOWING',
+        type: 'findPeople/SET_FOLLOWING',
         payload: {
             userID, isFollow
         }
@@ -153,49 +153,57 @@ export type commonACFindPeopleTypes =
     | setFollowingAC;
 
 export const getUsersThunkCreator = (pageSize: number, currentPage: number) => {
-    return (dispatch: AppDispatch) => {
-        userAPI.getUsers(pageSize, currentPage).then(data => {
-                dispatch(setUsersAC(data.items))
-                dispatch(setFetchAC(false))
-                dispatch(setTotalPageAC(data.totalCount))
-            }
-        )
+    return async (dispatch: AppDispatch) => {
+        try {
+            let data = await userAPI.getUsers(pageSize, currentPage)
+            dispatch(setUsersAC(data.items))
+            dispatch(setFetchAC(false))
+            dispatch(setTotalPageAC(data.totalCount))
+        } catch (e) {
+            console.log(e)
+        }
     }
 }
 
 export const changeUsersThunkCreator = (pageSize: number, currentPage: number) => {
-    return (dispatch: AppDispatch) => {
-        dispatch(setFetchAC(true))
-        userAPI.getUsers(pageSize, currentPage).then(data => {
-                dispatch(setUsersAC(data.items))
-                dispatch(setFetchAC(false))
-            }
-        )
+    return async (dispatch: AppDispatch) => {
+        try {
+            dispatch(setFetchAC(true))
+            let data = await userAPI.getUsers(pageSize, currentPage);
+            dispatch(setUsersAC(data.items))
+            dispatch(setFetchAC(false))
+        } catch (e) {
+            console.log(e)
+        }
     }
 }
 
 
 export const subscribeUserThunkCreator = (userID: number) => {
-    return (dispatch: AppDispatch) => {
-        dispatch(setFollowingAC(userID,true))
-        followAPI.followUser(userID).then((response) => {
-                if(response.data.resultCode === 0){
-                    dispatch(followAC(userID))
-                }
-                dispatch(setFollowingAC(userID,false))
+    return async (dispatch: AppDispatch) => {
+        try {
+            dispatch(setFollowingAC(userID, true))
+            let response = await followAPI.followUser(userID);
+            if (response.data.resultCode === 0) {
+                dispatch(followAC(userID))
             }
-        )
+            dispatch(setFollowingAC(userID, false))
+        } catch (e) {
+            console.log(e)
+        }
     }
 }
 export const unSubscribeUserThunkCreator = (userID: number) => {
-    return (dispatch: AppDispatch) => {
-        dispatch(setFollowingAC(userID,true))
-        followAPI.unFollowUser(userID).then((response) => {
-                if (response.data.resultCode === 0) {
-                    dispatch(unFollowAC(userID))
-                }
-                dispatch(setFollowingAC(userID,false))
+    return async (dispatch: AppDispatch) => {
+        try {
+            dispatch(setFollowingAC(userID, true))
+            let response = await followAPI.unFollowUser(userID);
+            if (response.data.resultCode === 0) {
+                dispatch(unFollowAC(userID))
             }
-        )
+            dispatch(setFollowingAC(userID, false))
+        } catch (e) {
+            console.log(e)
+        }
     }
 }

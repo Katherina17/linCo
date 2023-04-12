@@ -25,19 +25,20 @@ const initialState: authStateType = {
 }
 
 export const authReducer = (state: authStateType = initialState, action: authActionsType): authStateType => {
-    switch(action.type){
-        case "SET-AUTH-DATA": {
+    switch (action.type) {
+        case "auth/SET-AUTH-DATA": {
             return {...state, data: {...action.payload}, isAuth: action.payload.isAuth}
         }
-        default: return state
+        default:
+            return state
     }
 }
 
 
-export const setAuthDataAC = (id : number | null, login: string | null, email: string | null, isAuth: boolean) => {
+export const setAuthDataAC = (id: number | null, login: string | null, email: string | null, isAuth: boolean) => {
     return {
-        type: 'SET-AUTH-DATA',
-        payload: { id, login, email, isAuth}
+        type: 'auth/SET-AUTH-DATA',
+        payload: {id, login, email, isAuth}
     } as const
 }
 
@@ -45,34 +46,45 @@ type setAuthData = ReturnType<typeof setAuthDataAC>;
 export type authActionsType = setAuthData
 
 export const getAuthorizedUser = () => {
-    return (dispatch: AppDispatch) => {
-        return authAPI.authMeAPI().then(data => {
-            if(data.resultCode === 0){
-                let{id, login, email} = data.data
-                dispatch(setAuthDataAC(id,login, email, true))
+    return async (dispatch: AppDispatch) => {
+        try {
+            let data = await authAPI.authMeAPI()
+            if (data.resultCode === 0) {
+                let {id, login, email} = data.data
+                dispatch(setAuthDataAC(id, login, email, true))
             }
-        })
+        } catch (e) {
+            console.log(e)
+        }
     }
 }
 
 export const authMainUser = (email: string, password: string, rememberMe: boolean) => {
-    return (dispatch: ApplicationDispatch) => {
-        authAPI.login(email, password, rememberMe).then(data => {
-            if(data.resultCode === 0){
+    return async (dispatch: ApplicationDispatch) => {
+        try {
+            let data = await authAPI.login(email, password, rememberMe)
+            if (data.resultCode === 0) {
                 dispatch(getAuthorizedUser())
             } else {
                 let message = data.messages.length > 0 ? data.messages[0] : 'Some error'
-               dispatch(stopSubmit('logInOrLigOut', {_error: message}))
+                dispatch(stopSubmit('logInOrLigOut', {_error: message}))
             }
-        })
+        } catch (e) {
+            console.log(e)
+        }
     }
 }
 
 
 export const logOutUser = () => {
-    return (dispatch: AppDispatch) => {
-        authAPI.logOut().then(data => {
-            dispatch(setAuthDataAC(null, null, null, false))
-        })
+    return async (dispatch: AppDispatch) => {
+        try {
+            let isLogOut = await authAPI.logOut();
+            if (isLogOut) {
+                dispatch(setAuthDataAC(null, null, null, false))
+            }
+        } catch (e) {
+            console.log(e)
+        }
     }
 }

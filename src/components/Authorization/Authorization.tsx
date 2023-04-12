@@ -11,15 +11,15 @@ type AuthorizationPropsType = {
 }
 
 export const Authorization = (props: AuthorizationPropsType) => {
+    const {isAuth, authMainUser} = props;
 
     const onSubmit = (data: FormDataType) => {
-        props.authMainUser(data.login, data.password, data.rememberMe)
+        authMainUser(data.login, data.password, data.rememberMe)
     }
 
     return <>
         {
-            props.isAuth ? <Redirect to={'/profile'}/> : <LoginFormContainer onSubmit={onSubmit}/>
-
+           isAuth ? <Redirect to={'/profile'}/> : <LoginFormContainer onSubmit={onSubmit}/>
         }
     </>
 }

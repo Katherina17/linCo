@@ -2,7 +2,6 @@ import * as React from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
@@ -15,7 +14,6 @@ import {createTheme, ThemeProvider} from '@mui/material/styles';
 import {Field, InjectedFormProps, reduxForm} from "redux-form";
 import {email, required} from "../../utils/validators/validators";
 import {MUField} from "./MUField";
-import {TextArea} from "../TextArea/TextArea";
 
 const theme = createTheme();
 
@@ -27,7 +25,7 @@ export type FormDataType = {
 }
 
 export const LoginForm = (props: InjectedFormProps<FormDataType>) => {
-
+    const {error, handleSubmit} = props;
     return (
         <ThemeProvider theme={theme}>
             <Container component="main" maxWidth="xs">
@@ -38,15 +36,14 @@ export const LoginForm = (props: InjectedFormProps<FormDataType>) => {
                         display: 'flex',
                         flexDirection: 'column',
                         alignItems: 'center',
-                    }}
-                >
+                    }}>
                     <Avatar sx={{m: 1, bgcolor: 'secondary.main'}}>
                         <LockOutlinedIcon/>
                     </Avatar>
                     <Typography component="h1" variant="h5">
                         Sign in
                     </Typography>
-                    <Box component="form" onSubmit={props.handleSubmit} noValidate sx={{mt: 1}}>
+                    <Box component="form" onSubmit={handleSubmit} noValidate sx={{mt: 1}}>
                         <Field name='login' type={'email'} label={'login'} component={MUField}
                                validate={[required, email]}/>
                         <Field name='password' type={'password'} label={'password'} component={MUField}
@@ -55,9 +52,7 @@ export const LoginForm = (props: InjectedFormProps<FormDataType>) => {
                             control={<Checkbox value="remember" color="primary"/>}
                             label="Remember me"
                         />}/>
-
-                        {props.error && <p style={{color: 'red'}}> {props.error} </p>}
-
+                        {error && <p style={{color: 'red'}}> {error} </p>}
                         <Button
                             type="submit"
                             fullWidth
