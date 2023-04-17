@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/linCo/static/css/main.7fb60e62.css",
-    "main.js": "/linCo/static/js/main.3cb3e674.js",
+    "main.js": "/linCo/static/js/main.ea7fffae.js",
     "static/media/user.png": "/linCo/static/media/user.73a0bc1f1a3d04cb02ec.png",
     "static/media/logo.svg": "/linCo/static/media/logo.87def6e125804ce77f92cd1bb1f9d4c2.svg",
     "index.html": "/linCo/index.html",
     "main.7fb60e62.css.map": "/linCo/static/css/main.7fb60e62.css.map",
-    "main.3cb3e674.js.map": "/linCo/static/js/main.3cb3e674.js.map"
+    "main.ea7fffae.js.map": "/linCo/static/js/main.ea7fffae.js.map"
   },
   "entrypoints": [
     "static/css/main.7fb60e62.css",
-    "static/js/main.3cb3e674.js"
+    "static/js/main.ea7fffae.js"
   ]
 }
