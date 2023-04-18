@@ -5,7 +5,7 @@ import React from "react";
 
 
 type UserPropsType = {
-    imgSrc: string | null
+    img: {small: string | null, large: string | null}
     name: string
     status: string | null
     id: number
@@ -17,12 +17,14 @@ type UserPropsType = {
 
 export const UserFindPeople = (props: UserPropsType) => {
     return <div className={s.infoAndButton}>
-        <PeopleInfo imgSrc={props.imgSrc}
+        <PeopleInfo img={props.img}
                     name={props.name}
                     status={props.status}
                     id={props.id}/>
         <Button
-            callBack={() => props.followed ? props.unSubscribeUserThunkCreator(props.id) : props.subscribeUserThunkCreator(props.id)}
+            callBack={() => props.followed ?
+                props.unSubscribeUserThunkCreator(props.id)
+                : props.subscribeUserThunkCreator(props.id)}
             name={props.followed ? 'Unfollowed' : 'Follow'}
             disabled={props.followingInProgress ? props.followingInProgress.some((e: number) => e === props.id) : false}
         />

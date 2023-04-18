@@ -6,10 +6,12 @@ import {
     MyPost
 } from "../../../redux/profileReducer";
 import {connect} from "react-redux";
-import {State} from "../../../redux/redux-store";
+import {RootState} from "../../../redux/redux-store";
 
 type mapStateToPropsType = {
     posts: MyPost[]
+    imgSrc: string | null
+    userName: string | null
 }
 
 type mapDispatchToPropsType = {
@@ -18,9 +20,12 @@ type mapDispatchToPropsType = {
 
 export type MyPostPropsType = mapStateToPropsType & mapDispatchToPropsType
 
-const mapStateToProps = (state: State):mapStateToPropsType => {
+const mapStateToProps = (state: RootState):mapStateToPropsType => {
     return{
-        posts: state.profile!.posts
+        posts: state.profile.posts,
+        imgSrc: state.profile.user!.photos.small,
+        userName: state.profile.user!.fullName
+
     }
 }
 

@@ -5,6 +5,7 @@ type PostPropsType ={
     like: number,
     id: string,
     imgSrc: string
+    userName: string | null
 }
 
 const Post = (props: PostPropsType) => {
@@ -15,7 +16,7 @@ const Post = (props: PostPropsType) => {
                     <img src={props.imgSrc}
                          alt={'user image'}/>
                 </div>
-                <span> Emilia Osten</span>
+                <span> {props.userName}</span>
             </div>
             <span className={s.post_item}> {props.message}</span>
             <span className={s.post_item}> {props.like}</span>

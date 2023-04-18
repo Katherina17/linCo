@@ -17,7 +17,7 @@ export const Users = (props: UsersPropsType) => {
     }
     return <section className={s.section}>
         {props.state.map(el => {
-            return <UserFindPeople imgSrc={el.photos.small}
+            return <UserFindPeople img={el.photos}
                          name={el.name}
                          id={el.id}
                          unSubscribeUserThunkCreator={props.unSubscribeUserThunkCreator}

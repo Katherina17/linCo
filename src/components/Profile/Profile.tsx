@@ -24,14 +24,13 @@ export const Profile = (props: ProfilePropsType) => {
                                  status={props.status}
                                  owner={props.owner}
                 />
-                <MyPostsContainer/>
+                { props.owner && <MyPostsContainer/>}
             </main>
         }
         else {
             return(
                 <main className={s.main_container}>
-             <p> nout found</p>
-
+                    <p> not found</p>
                 </main>
             )
     }

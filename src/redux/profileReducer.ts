@@ -114,7 +114,7 @@ export const profileReducer = (state: ProfileType = initialState, action: common
             return {...state, posts: [newMessage, ...state.posts]}
         }
         case "profile/SET_USER_PROFILE": {
-            return {...state, newUsersProfile: action.payload.user}
+            return {...state, user: action.payload.user}
         }
         case "profile/CHANGE_USER_STATUS":{
             return {...state, status: action.payload.status}

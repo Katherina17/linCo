@@ -1,6 +1,6 @@
 import React from "react";
 import {connect} from "react-redux";
-import {RootState, State} from "../../redux/redux-store";
+import {RootState} from "../../redux/redux-store";
 import {Profile} from "./Profile";
 import {
     changeUserStatusThunk,
@@ -77,7 +77,7 @@ export type mapStateToPropsType = {
 
 const mapStateToProps = (state: RootState):mapStateToPropsType => {
     return {
-        userProfile: state.profile.newUsersProfile,
+        userProfile: state.profile.user,
         status: state.profile.status,
         statusLoading: state.app.status,
         ownerId: state.auth.data.id

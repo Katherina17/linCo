@@ -3,7 +3,7 @@ import userImg from '../../../assets/user.png';
 import {NavLink} from "react-router-dom";
 
 type PeopleInfoPropsType = {
-    imgSrc: string | null;
+    img: {small: string | null, large: string | null};
     name: string;
     status: string | null;
     id: number
@@ -15,7 +15,7 @@ export const PeopleInfo = (props: PeopleInfoPropsType) => {
         <div className={s.imgAndInfo}>
             <NavLink to={`/profile/${props.id}`}>
                 <div className={s.image_container}>
-                    <img src={props.imgSrc?.small() !== null ? userImg : props.imgSrc?.small()} alt={props.name}/>
+                    <img src={props.img.large !== null ? props.img.large : props.img.small !== null ? props.img.small : userImg} alt={props.name}/>
                 </div>
             </NavLink>
             <div className={s.info}>
