@@ -41,3 +41,9 @@
     margin-right: 0.2rem;
     color: #fa6638;
 }
+
+@media (max-width: 1023px) {
+    .nav_bar_min_width_closed{
+        display: none;
+    }
+}

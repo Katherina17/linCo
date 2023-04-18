@@ -1,5 +1,6 @@
 import {AppDispatch} from "./redux-store";
 import {followAPI, userAPI} from "../api/api";
+import {setStatus} from "./appReducer";
 
 export type PeopleType = {
     id: number;
@@ -154,19 +155,23 @@ export type commonACFindPeopleTypes =
 
 export const getUsersThunkCreator = (pageSize: number, currentPage: number) => {
     return async (dispatch: AppDispatch) => {
+        dispatch(setFetchAC(true))
         try {
             let data = await userAPI.getUsers(pageSize, currentPage)
             dispatch(setUsersAC(data.items))
-            dispatch(setFetchAC(false))
             dispatch(setTotalPageAC(data.totalCount))
         } catch (e) {
             console.log(e)
+        }
+        finally {
+            dispatch(setFetchAC(false))
         }
     }
 }
 
 export const changeUsersThunkCreator = (pageSize: number, currentPage: number) => {
     return async (dispatch: AppDispatch) => {
+        dispatch(setStatus('loading'))
         try {
             dispatch(setFetchAC(true))
             let data = await userAPI.getUsers(pageSize, currentPage);
@@ -175,6 +180,9 @@ export const changeUsersThunkCreator = (pageSize: number, currentPage: number) =
         } catch (e) {
             console.log(e)
         }
+        finally {
+            dispatch(setStatus('idle'))
+        }
     }
 }
 
@@ -182,6 +190,7 @@ export const changeUsersThunkCreator = (pageSize: number, currentPage: number) =
 export const subscribeUserThunkCreator = (userID: number) => {
     return async (dispatch: AppDispatch) => {
         try {
+            dispatch(setStatus('loading'))
             dispatch(setFollowingAC(userID, true))
             let response = await followAPI.followUser(userID);
             if (response.data.resultCode === 0) {
@@ -191,11 +200,15 @@ export const subscribeUserThunkCreator = (userID: number) => {
         } catch (e) {
             console.log(e)
         }
+        finally {
+            dispatch(setStatus('idle'))
+        }
     }
 }
 export const unSubscribeUserThunkCreator = (userID: number) => {
     return async (dispatch: AppDispatch) => {
         try {
+            dispatch(setStatus('loading'))
             dispatch(setFollowingAC(userID, true))
             let response = await followAPI.unFollowUser(userID);
             if (response.data.resultCode === 0) {
@@ -204,6 +217,9 @@ export const unSubscribeUserThunkCreator = (userID: number) => {
             dispatch(setFollowingAC(userID, false))
         } catch (e) {
             console.log(e)
+        }
+        finally {
+            dispatch(setStatus('idle'))
         }
     }
 }

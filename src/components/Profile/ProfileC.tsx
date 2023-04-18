@@ -1,6 +1,6 @@
 import React from "react";
 import {connect} from "react-redux";
-import {State} from "../../redux/redux-store";
+import {RootState, State} from "../../redux/redux-store";
 import {Profile} from "./Profile";
 import {
     changeUserStatusThunk,
@@ -12,6 +12,9 @@ import {withRouter} from "react-router-dom";
 import {RouteComponentProps} from "react-router";
 import {withAuthRedirect} from "../hoc/WithAuthRedirect";
 import {compose} from "redux";
+import {RequestStatusType} from "../../redux/appReducer";
+import CircularProgress from "@mui/material/CircularProgress";
+import Box from "@mui/material/Box";
 
 
 type ProfileCType = {
@@ -53,6 +56,11 @@ export class ProfileC extends React.Component<ProfileCType>{
     }
 
     render(){
+        if(this.props.statusLoading === 'pageLoading'){
+            return <Box sx={{display: 'flex', alignItems: 'center', width: '100%', justifyContent: 'center'}}>
+                <CircularProgress/>
+            </Box>
+        }
     return(
         <Profile {...this.props}/>
     )}
@@ -66,17 +74,19 @@ export type mapStateToPropsType = {
     education: string,
     userProfile: UserProfile | null,
     status: string
+    statusLoading: RequestStatusType
 }
 
-const mapStateToProps = (state: State):mapStateToPropsType => {
+const mapStateToProps = (state: RootState):mapStateToPropsType => {
     return {
-        imgStr: state.profile!.user.imgSrc,
-        userName: state.profile!.user.name,
-        city: state.profile!.city,
-        dateBirth: state.profile!.dataBirth,
-        education: state.profile!.education,
-        userProfile: state.profile!.newUsersProfile,
-        status: state.profile!.status
+        imgStr: state.profile.user.imgSrc,
+        userName: state.profile.user.name,
+        city: state.profile.city,
+        dateBirth: state.profile.dataBirth,
+        education: state.profile.education,
+        userProfile: state.profile.newUsersProfile,
+        status: state.profile.status,
+        statusLoading: state.app.status
     }
 }
 

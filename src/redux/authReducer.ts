@@ -1,6 +1,7 @@
 import {AppDispatch, ApplicationDispatch} from "./redux-store";
 import {authAPI} from "../api/api";
 import {stopSubmit} from "redux-form";
+import {setStatus} from "./appReducer";
 
 type DataType = {
     id: number | null;
@@ -47,6 +48,7 @@ export type authActionsType = setAuthData
 
 export const getAuthorizedUser = () => {
     return async (dispatch: AppDispatch) => {
+        dispatch(setStatus('loading'))
         try {
             let data = await authAPI.authMeAPI()
             if (data.resultCode === 0) {
@@ -56,11 +58,15 @@ export const getAuthorizedUser = () => {
         } catch (e) {
             console.log(e)
         }
+        finally {
+            dispatch(setStatus('idle'))
+        }
     }
 }
 
 export const authMainUser = (email: string, password: string, rememberMe: boolean) => {
     return async (dispatch: ApplicationDispatch) => {
+        dispatch(setStatus('loading'))
         try {
             let data = await authAPI.login(email, password, rememberMe)
             if (data.resultCode === 0) {
@@ -72,12 +78,16 @@ export const authMainUser = (email: string, password: string, rememberMe: boolea
         } catch (e) {
             console.log(e)
         }
+        finally {
+            dispatch(setStatus('idle'))
+        }
     }
 }
 
 
 export const logOutUser = () => {
     return async (dispatch: AppDispatch) => {
+        dispatch(setStatus('loading'))
         try {
             let isLogOut = await authAPI.logOut();
             if (isLogOut) {
@@ -85,6 +95,9 @@ export const logOutUser = () => {
             }
         } catch (e) {
             console.log(e)
+        }
+        finally {
+            dispatch(setStatus('idle'))
         }
     }
 }

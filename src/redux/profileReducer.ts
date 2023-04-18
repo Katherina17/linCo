@@ -1,6 +1,7 @@
 import {v1} from "uuid";
 import {AppDispatch} from "./redux-store";
 import {profileAPI} from "../api/api";
+import {setStatus} from "./appReducer";
 
 export type MyPost = {
     id: string,
@@ -183,6 +184,7 @@ export type commonActionProfileTypes = addPostActionCreatorPropsType|
 
 export function getProfileUserThunk(userID: string) {
     return async (dispatch: AppDispatch) => {
+        dispatch(setStatus('pageLoading'))
         try{
             let data = await profileAPI.downloadUserPage(userID)
             dispatch(setUserProfile(data, false))
@@ -190,11 +192,15 @@ export function getProfileUserThunk(userID: string) {
         catch (e) {
             console.log(e)
         }
+        finally {
+            dispatch(setStatus('idle'))
+        }
     }
 }
 
 export const getUserStatusThunk = (userID: string) => {
     return async (dispatch: AppDispatch) => {
+        dispatch(setStatus('pageLoading'))
         try{
             let data = await  profileAPI.getUserStatus(userID)
             dispatch(getUserStatusAC(data))
@@ -202,11 +208,15 @@ export const getUserStatusThunk = (userID: string) => {
         catch (e) {
             console.log(e)
         }
+        finally {
+            dispatch(setStatus('idle'))
+        }
     }
 }
 
 export const changeUserStatusThunk = (newStatus: string) => {
     return async (dispatch: AppDispatch) => {
+        dispatch(setStatus('loading'))
         try {
             let data = await  profileAPI.changeUserStatus(newStatus)
             if(data.data.resultCode === 0){
@@ -215,6 +225,9 @@ export const changeUserStatusThunk = (newStatus: string) => {
         }
         catch (e) {
             console.log(e)
+        }
+        finally {
+            dispatch(setStatus('idle'))
         }
     }
 }

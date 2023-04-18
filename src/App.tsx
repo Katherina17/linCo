@@ -1,6 +1,5 @@
 import React from 'react';
 import './App.css';
-import NavBar from "./components/NavBar/NavBar";
 import {Route, withRouter} from "react-router-dom";
 import News from "./components/News/News";
 import Music from "./components/Music/Music";
@@ -14,8 +13,10 @@ import { AuthorizationContainer} from "./components/Authorization/Authorization"
 import ProfileContainer from './components/Profile/ProfileC'
 import {compose} from "redux";
 import {connect} from "react-redux";
-import {getInitializedApp} from "./redux/appReducer";
+import {getInitializedApp, RequestStatusType} from "./redux/appReducer";
 import CircularProgress from "@mui/material/CircularProgress";
+import {NavBarContainer} from "./components/NavBar/NavBar";
+import LinearProgress from '@mui/material/LinearProgress';
 
 type AppPropsType = {
     state: State;
@@ -33,10 +34,12 @@ class App extends React.Component<AppPropsType> {
         }
         return (
             <div className="App-container">
+                {this.props.status === 'loading' && <LinearProgress color={'secondary'}/>}
                 <HeaderContainer/>
+
                 <main>
                     <div className="App_wrapper menu_user_container">
-                        <NavBar/>
+                        <NavBarContainer/>
                         <Route exact path={'/'} render={() => <ProfileContainer/>}/>
                         <Route path={'/profile/:userID?'} render={() => <ProfileContainer/>}/>
                         <Route path={'/findPeople'} render={() => <FindPeopleContainer/>}/>
@@ -54,12 +57,14 @@ class App extends React.Component<AppPropsType> {
 }
 
 type mapStateToProps = {
-    initialized: boolean
+    initialized: boolean,
+    status: RequestStatusType
 }
 
 const mapStateToProps = (state: RootState): mapStateToProps => {
     return {
-        initialized: state.app.initialized
+        initialized: state.app.initialized,
+        status: state.app.status
     }
 }
 

@@ -4,17 +4,23 @@ import {getAuthorizedUser} from "./authReducer";
 
 export type appReducerType = {
     initialized: boolean
+    status: RequestStatusType
 }
 
 const initialState = {
-    initialized: false
+    initialized: false,
+    status: 'idle' as RequestStatusType,
 }
 
+export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed' | 'pageLoading'
 
 export const appReducer = (state: appReducerType = initialState, action: appActionsType): appReducerType => {
     switch (action.type) {
         case "app/SET-INITIALIZE-DATA": {
             return {...state, initialized: true}
+        }
+        case "app/SET-STATUS": {
+            return {...state, status: action.payload.status}
         }
         default:
             return state
@@ -28,7 +34,14 @@ export const setInitializeAppAC = () => {
     } as const
 }
 
-export type appActionsType = ReturnType<typeof setInitializeAppAC>
+export const setStatus = (status: RequestStatusType) => {
+    return {
+        type: 'app/SET-STATUS',
+        payload: {status}
+    } as const
+}
+
+export type appActionsType = ReturnType<typeof setInitializeAppAC> | ReturnType<typeof setStatus>
 
 export const getInitializedApp = (): ApplicationActionThunk => {
     return async (dispatch) => {

@@ -8,11 +8,13 @@ import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import Diversity3OutlinedIcon from '@mui/icons-material/Diversity3Outlined';
 import PersonSearchOutlinedIcon from '@mui/icons-material/PersonSearchOutlined';
 import {NavLink} from "react-router-dom";
+import {connect} from "react-redux";
+import {RootState} from "../../redux/redux-store";
 
 
-const NavBar = () => {
+const NavBar = (props: mapStateToProps) => {
     return(
-        <nav className={s.nav_bar}>
+        <nav className={ props.isAuth ? s.nav_bar : s.nav_bar_min_width_closed + ' ' + s.nav_bar}>
             <ul className={s.nav_list}>
                 <li>
                     <div className={s.person_icon_container}>
@@ -61,5 +63,16 @@ const NavBar = () => {
     )
 }
 
-export default NavBar;
+
+type mapStateToProps = {
+    isAuth: boolean
+}
+
+const mapStateToProps = (state: RootState):mapStateToProps => {
+    return {
+        isAuth: state.auth.isAuth
+    }
+}
+
+export const NavBarContainer = connect(mapStateToProps)(NavBar)
 
