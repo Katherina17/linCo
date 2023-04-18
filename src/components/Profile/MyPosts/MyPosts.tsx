@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import Post from "./Post/Post";
 import s from './MyPosts.module.css';
 import {MyPostPropsType} from "./MyPostsContainer";

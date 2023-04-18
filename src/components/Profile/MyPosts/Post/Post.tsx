@@ -1,4 +1,5 @@
 import s from './Post.module.css';
+import {useEffect, useState} from "react";
 
 type PostPropsType ={
     message: string,

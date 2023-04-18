@@ -5,7 +5,7 @@ import {Profile} from "./Profile";
 import {
     changeUserStatusThunk,
     getProfileUserThunk, getUserStatusThunk,
-    setUserProfile,
+    setUserProfile, updateOwnerPhotoThunk,
     UserProfile
 } from "../../redux/profileReducer";
 import {withRouter} from "react-router-dom";
@@ -21,6 +21,7 @@ type ProfileCType = {
     setUserProfile: (user: UserProfile | null) => void,
     getProfileUserThunk: (userID: string) =>  void
     getUserStatusThunk: (userID: string) => void
+    updateOwnerPhotoThunk: (file: File) => void
 
 } & mapStateToPropsType & RouteComponentProps<PathParam>;
 
@@ -88,7 +89,8 @@ export default compose<React.ComponentType>(
     connect(mapStateToProps, {setUserProfile,
         getProfileUserThunk,
         getUserStatusThunk,
-        changeUserStatusThunk
+        changeUserStatusThunk,
+        updateOwnerPhotoThunk
     }),
     withAuthRedirect,
     withRouter,

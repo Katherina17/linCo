@@ -1,4 +1,4 @@
-import React from "react";
+import React, {ChangeEvent} from "react";
 import s from './UserNameProfile.module.css';
 import {ProfileStatus, ProfileStatusContainer} from "./ProfileStatus/ProfileStatus";
 
@@ -15,15 +15,22 @@ type UserNameProfileProps = {
     insta?: null | string;
     status: string;
     owner: boolean
+    updateOwnerPhotoThunk: (file: File) => void
 }
 
 const UserNameProfile = (props: UserNameProfileProps) => {
+
+    const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+        const selectedFiles = e.target.files as FileList;
+        props.updateOwnerPhotoThunk(selectedFiles?.[0])
+    }
+
     return(
         <div className={s.User_name_profile_container}>
             <div className={s.image_container}>
                 <img src={props.imgSrc} alt="user image"/>
             </div>
-            {props.owner && <input type={'file'}/>}
+            {props.owner && <input type={'file'} onChange={onChangeHandler}/>}
             <div className={s.user_description}>
                 <h1>{props.userName}</h1>
                 <ProfileStatusContainer/>

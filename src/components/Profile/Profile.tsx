@@ -8,7 +8,8 @@ import userPhoto from '../../assets/user.png'
 
 type ProfilePropsType = {
     userProfile: UserProfile | null;
-    owner: boolean
+    owner: boolean,
+    updateOwnerPhotoThunk: (file: File) => void
 } & mapStateToPropsType
 
 export const Profile = (props: ProfilePropsType) => {
@@ -23,6 +24,7 @@ export const Profile = (props: ProfilePropsType) => {
                                  facebook = {props.userProfile.contacts.facebook}
                                  status={props.status}
                                  owner={props.owner}
+                                 updateOwnerPhotoThunk={props.updateOwnerPhotoThunk}
                 />
                 { props.owner && <MyPostsContainer/>}
             </main>

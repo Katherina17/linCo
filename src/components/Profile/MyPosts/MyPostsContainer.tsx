@@ -23,7 +23,7 @@ export type MyPostPropsType = mapStateToPropsType & mapDispatchToPropsType
 const mapStateToProps = (state: RootState):mapStateToPropsType => {
     return{
         posts: state.profile.posts,
-        imgSrc: state.profile.user!.photos.small,
+        imgSrc: state.profile.user!.photos.large,
         userName: state.profile.user!.fullName
 
     }

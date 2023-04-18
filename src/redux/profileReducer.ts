@@ -125,6 +125,9 @@ export const profileReducer = (state: ProfileType = initialState, action: common
         case "profile/DELETE_POST": {
             return {...state, posts: state.posts.filter(el => el.id !== action.payload.id)}
         }
+        case "profile/UPDATE-OWNER-PHOTO": {
+            return {...state, user: {...state.user!, photos: {...state.user!.photos, large: action.payload.img}}  }
+        }
         default: return state;
     }
     }
@@ -165,14 +168,22 @@ export const deletePostAC = (id: string) => {
     } as const
 }
 
+export const updateOwnerPhoto = (img: string) => {
+    return {
+        type: 'profile/UPDATE-OWNER-PHOTO',
+        payload: {img}
+    } as const
+}
+
 type addPostActionCreatorPropsType = ReturnType<typeof addPostActionCreator>;
 type setUserProfile = ReturnType<typeof setUserProfile>;
 type changeUserStatusAC = ReturnType<typeof changeUserStatusAC>;
 type getUserStatusAC  = ReturnType<typeof getUserStatusAC >;
 type deletePostAC  = ReturnType<typeof deletePostAC>;
+type updateOwnerPhoto  = ReturnType<typeof updateOwnerPhoto>;
 
 export type commonActionProfileTypes = addPostActionCreatorPropsType|
-    setUserProfile | changeUserStatusAC| getUserStatusAC | deletePostAC ;
+    setUserProfile | changeUserStatusAC| getUserStatusAC | deletePostAC | updateOwnerPhoto;
 
 export function getProfileUserThunk(userID: string) {
     return async (dispatch: AppDispatch) => {
@@ -213,6 +224,24 @@ export const changeUserStatusThunk = (newStatus: string) => {
             let data = await  profileAPI.changeUserStatus(newStatus)
             if(data.data.resultCode === 0){
                 dispatch(changeUserStatusAC(newStatus))
+            }
+        }
+        catch (e) {
+            console.log(e)
+        }
+        finally {
+            dispatch(setStatus('idle'))
+        }
+    }
+}
+
+export const updateOwnerPhotoThunk = (file: File) => {
+    return async (dispatch: AppDispatch) => {
+        dispatch(setStatus('loading'))
+        try {
+            let data = await  profileAPI.uploadPhoto(file)
+            if(data.data.resultCode === 0){
+                dispatch(updateOwnerPhoto(data.data.data.photos.large))
             }
         }
         catch (e) {
