@@ -11,12 +11,8 @@ export type MyPost = {
 }
 
 export type ProfileType = {
-    user: UserType,
-    dataBirth: string;
-    city: string;
-    education: string;
+    user: UserProfile | null,
     posts: MyPost[];
-    userProfile: boolean;
     newUsersProfile: null | UserProfile
     status: string;
 }
@@ -81,10 +77,7 @@ export const users: UserType[] = [
 users[0].friends.push(users[1], users[2], users[3], users[4])
 
 const initialState : ProfileType = {
-    user: users[0],
-    dataBirth: '17 June',
-    city: 'Minsk',
-    education: 'BSU',
+    user: null,
     posts: [
         {
             id: v1(),
@@ -105,7 +98,6 @@ const initialState : ProfileType = {
             imgSrc: users[0].imgSrc
         },
     ],
-    userProfile: true,
     newUsersProfile: null,
     status: 'Hello world'
 }
@@ -122,7 +114,7 @@ export const profileReducer = (state: ProfileType = initialState, action: common
             return {...state, posts: [newMessage, ...state.posts]}
         }
         case "profile/SET_USER_PROFILE": {
-            return {...state, newUsersProfile: action.payload.user, userProfile: action.payload.isUserProfile}
+            return {...state, newUsersProfile: action.payload.user}
         }
         case "profile/CHANGE_USER_STATUS":{
             return {...state, status: action.payload.status}
@@ -145,10 +137,10 @@ export const addPostActionCreator = (text: string) => {
 }
 
 
-export const setUserProfile = (user: UserProfile | null, isUserProfile: boolean) => {
+export const setUserProfile = (user: UserProfile) => {
     return {
         type: 'profile/SET_USER_PROFILE',
-        payload: {user, isUserProfile}
+        payload: {user}
     } as const
 }
 
@@ -187,7 +179,7 @@ export function getProfileUserThunk(userID: string) {
         dispatch(setStatus('pageLoading'))
         try{
             let data = await profileAPI.downloadUserPage(userID)
-            dispatch(setUserProfile(data, false))
+            dispatch(setUserProfile(data))
         }
         catch (e) {
             console.log(e)

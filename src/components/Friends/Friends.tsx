@@ -1,6 +1,6 @@
 import s from './Friends.module.css';
 import {Friend} from "./Friend/Friend";
-import {UserType} from "../../redux/profileReducer";
+import {users, UserType} from "../../redux/profileReducer";
 import {connect} from "react-redux";
 import {RootState} from "../../redux/redux-store";
 
@@ -26,7 +26,7 @@ type mapStateToProps = {
 
 const mapStateToProps = (state: RootState):mapStateToProps => {
     return {
-        friends: state.profile.user.friends
+        friends: users
     }
 }
 

@@ -14,6 +14,7 @@ type UserNameProfileProps = {
     facebook?: null | string;
     insta?: null | string;
     status: string;
+    owner: boolean
 }
 
 const UserNameProfile = (props: UserNameProfileProps) => {
@@ -22,6 +23,7 @@ const UserNameProfile = (props: UserNameProfileProps) => {
             <div className={s.image_container}>
                 <img src={props.imgSrc} alt="user image"/>
             </div>
+            {props.owner && <input type={'file'}/>}
             <div className={s.user_description}>
                 <h1>{props.userName}</h1>
                 <ProfileStatusContainer/>

@@ -8,6 +8,7 @@ import userPhoto from '../../assets/user.png'
 
 type ProfilePropsType = {
     userProfile: UserProfile | null;
+    owner: boolean
 } & mapStateToPropsType
 
 export const Profile = (props: ProfilePropsType) => {
@@ -21,20 +22,16 @@ export const Profile = (props: ProfilePropsType) => {
                                  insta = {props.userProfile.contacts.instagram}
                                  facebook = {props.userProfile.contacts.facebook}
                                  status={props.status}
+                                 owner={props.owner}
                 />
+                <MyPostsContainer/>
             </main>
         }
         else {
             return(
                 <main className={s.main_container}>
-                    <UserNameProfile imgSrc={props.imgStr}
-                                     userName={props.userName}
-                                     city={props.city}
-                                     dateBirth={props.dateBirth}
-                                     education={props.education}
-                                     status={props.status}
-                    />
-                    <MyPostsContainer/>
+             <p> nout found</p>
+
                 </main>
             )
     }

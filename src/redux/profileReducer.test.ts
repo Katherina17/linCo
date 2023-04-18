@@ -2,7 +2,6 @@ import {v1} from "uuid";
 import {
     addPostActionCreator,
     changeUserStatusAC, deletePostAC, getUserStatusAC,
-    MyPost,
     profileReducer,
     ProfileType,
     setUserProfile,
@@ -12,10 +11,7 @@ import {
 let firstId = v1()
 
 let initialState : ProfileType = {
-    user: users[0],
-    dataBirth: '17 June',
-    city: 'Minsk',
-    education: 'BSU',
+    user: null,
     posts: [
         {
             id: v1(),
@@ -36,7 +32,6 @@ let initialState : ProfileType = {
             imgSrc: users[0].imgSrc
         },
     ],
-    userProfile: true,
     newUsersProfile: null,
     status: 'Hello world'
 }
@@ -45,10 +40,7 @@ let initialState : ProfileType = {
 beforeEach(() => {
 
     initialState =  {
-        user: users[0],
-        dataBirth: '17 June',
-        city: 'Minsk',
-        education: 'BSU',
+        user: null,
         posts: [
             {
                 id: firstId,
@@ -69,7 +61,6 @@ beforeEach(() => {
                 imgSrc: users[0].imgSrc
             },
         ],
-        userProfile: true,
         newUsersProfile: null,
         status: 'Hello world'
     }
@@ -107,11 +98,10 @@ test('set userProfile', () => {
         }
     }
 
-    let action =  setUserProfile(userProfile, true);
+    let action =  setUserProfile(userProfile);
     let stateAfterTest = profileReducer(initialState, action)
 
     expect(stateAfterTest.newUsersProfile?.userId).toBe(2)
-    expect(stateAfterTest.userProfile).toBe(true)
     expect(initialState.newUsersProfile).toBe(null)
 
 })

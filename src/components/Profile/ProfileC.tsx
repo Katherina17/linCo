@@ -18,7 +18,7 @@ import Box from "@mui/material/Box";
 
 
 type ProfileCType = {
-    setUserProfile: (user: UserProfile | null, isUserProfile: boolean) => void,
+    setUserProfile: (user: UserProfile | null) => void,
     getProfileUserThunk: (userID: string) =>  void
     getUserStatusThunk: (userID: string) => void
 
@@ -33,12 +33,14 @@ type PathParam = {
 export class ProfileC extends React.Component<ProfileCType>{
     checkAndGetUser(){
         let userID = this.props.match.params.userID;
+        let ownerID = String(this.props.ownerId)
         if(userID !== undefined) {
             this.props.getProfileUserThunk(userID)
             this.props.getUserStatusThunk(userID)
         }
         else {
-            this.props.setUserProfile(null, true);
+            this.props.getProfileUserThunk(ownerID)
+            this.props.getUserStatusThunk(ownerID)
         }
     }
     componentDidMount() {
@@ -46,7 +48,7 @@ export class ProfileC extends React.Component<ProfileCType>{
     }
 
     componentWillUnmount() {
-        this.props.setUserProfile(null, true)
+        this.props.setUserProfile(null)
     }
 
     componentDidUpdate(prevProps: Readonly<ProfileCType>, prevState: Readonly<{}>, snapshot?: any) {
@@ -62,31 +64,23 @@ export class ProfileC extends React.Component<ProfileCType>{
             </Box>
         }
     return(
-        <Profile {...this.props}/>
+        <Profile {...this.props} owner={!this.props.match.params.userID}/>
     )}
 }
 
 export type mapStateToPropsType = {
-    imgStr: string,
-    userName: string,
-    city: string,
-    dateBirth: string,
-    education: string,
     userProfile: UserProfile | null,
     status: string
     statusLoading: RequestStatusType
+    ownerId: number | null
 }
 
 const mapStateToProps = (state: RootState):mapStateToPropsType => {
     return {
-        imgStr: state.profile.user.imgSrc,
-        userName: state.profile.user.name,
-        city: state.profile.city,
-        dateBirth: state.profile.dataBirth,
-        education: state.profile.education,
         userProfile: state.profile.newUsersProfile,
         status: state.profile.status,
-        statusLoading: state.app.status
+        statusLoading: state.app.status,
+        ownerId: state.auth.data.id
     }
 }
 
