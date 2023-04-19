@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useState} from "react";
+import React, {ChangeEvent, useRef, useState, MouseEvent} from "react";
 import s from './UserNameProfile.module.css';
 import {ProfileStatusContainer} from "./ProfileStatus/ProfileStatus";
 import userPhoto from "../../../assets/user.png";
@@ -19,11 +19,17 @@ type UserNameProfileProps = {
 
 const UserNameProfile = (props: UserNameProfileProps) => {
     const[editMode, setEditMode] = useState(false);
-
+    let hiddenFileInput = useRef<HTMLInputElement>(null);
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         const selectedFiles = e.target.files as FileList;
         props.updateOwnerPhotoThunk(selectedFiles?.[0])
     }
+
+    const handleClick = () => {
+        if(hiddenFileInput.current !== null){
+            hiddenFileInput.current.click();
+        }
+    };
 
     const onSubmitHandler = (profileData:  UserProfile) => {
         props.updateProfileInfoThunk(profileData)
@@ -32,10 +38,15 @@ const UserNameProfile = (props: UserNameProfileProps) => {
 
     return(
         <div className={s.User_name_profile_container}>
-            <div className={s.image_container}>
+            <div className={s.image_container} onClick={() => handleClick()}>
                 <img src={props.userProfile?.photos.large === null ? userPhoto : props.userProfile?.photos.large} alt="user image"/>
+                {props.owner && <input type={'file'}
+                                       onChange={onChangeHandler}
+                                       ref={hiddenFileInput}
+                                       className={s.choosePhotoContainer}
+                /> }
             </div>
-            {props.owner && <input type={'file'} onChange={onChangeHandler}/>}
+
             <div className={s.user_description}>
                 <h1>{props.userProfile?.fullName}</h1>
                 <ProfileStatusContainer/>
