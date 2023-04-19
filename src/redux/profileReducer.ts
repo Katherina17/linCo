@@ -1,7 +1,8 @@
 import {v1} from "uuid";
-import {AppDispatch} from "./redux-store";
+import {AppDispatch, RootState} from "./redux-store";
 import {profileAPI} from "../api/api";
 import {setStatus} from "./appReducer";
+import {ProfileFormDataType} from "../components/Profile/UserNameProfile/ProfileData/ProfileFormData/ProfileFormData";
 
 export type MyPost = {
     id: string,
@@ -36,6 +37,7 @@ export type UserProfile = {
         small: null | string,
         large: null | string
     }
+    aboutMe: string
 }
 
 export type UserType = {
@@ -126,7 +128,10 @@ export const profileReducer = (state: ProfileType = initialState, action: common
             return {...state, posts: state.posts.filter(el => el.id !== action.payload.id)}
         }
         case "profile/UPDATE-OWNER-PHOTO": {
-            return {...state, user: {...state.user!, photos: {...state.user!.photos, large: action.payload.img}}  }
+            return {...state, user: {...state.user!, photos: {...state.user?.photos, ...action.payload.images}}}
+        }
+        case "profile/UPDATE-USER-INFO":{
+            return {... state, user: action.payload.userInfo}
         }
         default: return state;
     }
@@ -168,10 +173,17 @@ export const deletePostAC = (id: string) => {
     } as const
 }
 
-export const updateOwnerPhoto = (img: string) => {
+export const updateOwnerPhoto = (images: {large: string, small: string}) => {
     return {
         type: 'profile/UPDATE-OWNER-PHOTO',
-        payload: {img}
+        payload: {images}
+    } as const
+}
+
+export const updateProfileUserInfo = (userInfo: UserProfile) => {
+    return {
+        type: 'profile/UPDATE-USER-INFO',
+        payload: {userInfo}
     } as const
 }
 
@@ -181,9 +193,10 @@ type changeUserStatusAC = ReturnType<typeof changeUserStatusAC>;
 type getUserStatusAC  = ReturnType<typeof getUserStatusAC >;
 type deletePostAC  = ReturnType<typeof deletePostAC>;
 type updateOwnerPhoto  = ReturnType<typeof updateOwnerPhoto>;
+type updateProfileUserInfo  = ReturnType<typeof updateProfileUserInfo>;
 
 export type commonActionProfileTypes = addPostActionCreatorPropsType|
-    setUserProfile | changeUserStatusAC| getUserStatusAC | deletePostAC | updateOwnerPhoto;
+    setUserProfile | changeUserStatusAC| getUserStatusAC | deletePostAC | updateOwnerPhoto | updateProfileUserInfo;
 
 export function getProfileUserThunk(userID: string) {
     return async (dispatch: AppDispatch) => {
@@ -241,7 +254,33 @@ export const updateOwnerPhotoThunk = (file: File) => {
         try {
             let data = await  profileAPI.uploadPhoto(file)
             if(data.data.resultCode === 0){
-                dispatch(updateOwnerPhoto(data.data.data.photos.large))
+                dispatch(updateOwnerPhoto(data.data.data.photos))
+            }
+        }
+        catch (e) {
+            console.log(e)
+        }
+        finally {
+            dispatch(setStatus('idle'))
+        }
+    }
+}
+
+
+export const updateProfileInfoThunk = (profileFormData:  UserProfile) => {
+    return async (dispatch: AppDispatch, getState: () => RootState) => {
+        dispatch(setStatus('loading'))
+        try {
+            const user: UserProfile  = getState().profile.user!
+            const updateUser: UserProfile  = {...user,
+                fullName: profileFormData.fullName,
+                lookingForAJob: profileFormData.lookingForAJob, aboutMe: profileFormData.aboutMe,
+                lookingForAJobDescription: profileFormData.lookingForAJobDescription,
+                contacts: {...user.contacts, ...profileFormData.contacts}}
+            let data = await  profileAPI.updateUserInfo(updateUser)
+            if(data.data.resultCode === 0){
+                console.log(data.data)
+                dispatch(updateProfileUserInfo(updateUser))
             }
         }
         catch (e) {

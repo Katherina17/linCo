@@ -1,6 +1,5 @@
 import {
-    addNewMessageActionCreator,
-    commonActionDialogsTypes
+    addNewMessageActionCreator
 } from "../../../../../redux/dialogsReducer";
 import {SenderMessage} from "./SenderMessage";
 import React from "react";

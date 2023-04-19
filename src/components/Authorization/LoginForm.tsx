@@ -44,9 +44,9 @@ export const LoginForm = (props: InjectedFormProps<FormDataType>) => {
                         Sign in
                     </Typography>
                     <Box component="form" onSubmit={handleSubmit} noValidate sx={{mt: 1}}>
-                        <Field name='login' type={'email'} label={'login'} component={MUField}
+                        <Field name='login' type={'email'} label={'login'} required component={MUField}
                                validate={[required, email]}/>
-                        <Field name='password' type={'password'} label={'password'} component={MUField}
+                        <Field name='password' type={'password'} label={'password'} required component={MUField}
                                validate={[required]}/>
                         <Field name='rememberMe' component={() => <FormControlLabel
                             control={<Checkbox value="remember" color="primary"/>}

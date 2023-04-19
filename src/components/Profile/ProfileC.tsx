@@ -5,7 +5,7 @@ import {Profile} from "./Profile";
 import {
     changeUserStatusThunk,
     getProfileUserThunk, getUserStatusThunk,
-    setUserProfile, updateOwnerPhotoThunk,
+    setUserProfile, updateOwnerPhotoThunk, updateProfileInfoThunk,
     UserProfile
 } from "../../redux/profileReducer";
 import {withRouter} from "react-router-dom";
@@ -15,6 +15,7 @@ import {compose} from "redux";
 import {RequestStatusType} from "../../redux/appReducer";
 import CircularProgress from "@mui/material/CircularProgress";
 import Box from "@mui/material/Box";
+import {ProfileFormDataType} from "./UserNameProfile/ProfileData/ProfileFormData/ProfileFormData";
 
 
 type ProfileCType = {
@@ -22,6 +23,7 @@ type ProfileCType = {
     getProfileUserThunk: (userID: string) =>  void
     getUserStatusThunk: (userID: string) => void
     updateOwnerPhotoThunk: (file: File) => void
+    updateProfileInfoThunk: (userProfile:  UserProfile  ) => void
 
 } & mapStateToPropsType & RouteComponentProps<PathParam>;
 
@@ -90,7 +92,8 @@ export default compose<React.ComponentType>(
         getProfileUserThunk,
         getUserStatusThunk,
         changeUserStatusThunk,
-        updateOwnerPhotoThunk
+        updateOwnerPhotoThunk,
+        updateProfileInfoThunk
     }),
     withAuthRedirect,
     withRouter,

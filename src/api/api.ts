@@ -1,4 +1,5 @@
 import axios from "axios";
+import {UserProfile} from "../redux/profileReducer";
 
 export const instance = axios.create({
     withCredentials: true,
@@ -43,6 +44,9 @@ export const profileAPI = {
         return instance.put('profile/photo', formData, { headers:
                 {"Content-Type": "multipart/form-data"}
         })
+    },
+    updateUserInfo(userProfile: UserProfile){
+        return instance.put('profile', userProfile)
     }
 }
 

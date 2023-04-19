@@ -95,7 +95,8 @@ test('set userProfile', () => {
         photos: {
             small: null ,
             large: null,
-        }
+        },
+        aboutMe: 'efokeokfoek'
     }
 
     let action =  setUserProfile(userProfile);

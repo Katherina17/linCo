@@ -1,6 +1,6 @@
 import React, {ChangeEvent, useEffect, useState} from "react";
 import {connect} from "react-redux";
-import {State} from "../../../../redux/redux-store";
+import {RootState, State} from "../../../../redux/redux-store";
 import {changeUserStatusThunk} from "../../../../redux/profileReducer";
 
 type ProfileStatusPropsType = {
@@ -44,9 +44,9 @@ type mapStateToPropsType = {
     status: string
 }
 
-const mapStateToProps = (state: State): mapStateToPropsType => {
+const mapStateToProps = (state: RootState): mapStateToPropsType => {
     return {
-        status: state.profile!.status
+        status: state.profile.status
     }
 }
 
