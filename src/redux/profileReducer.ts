@@ -3,6 +3,7 @@ import {AppDispatch, RootState} from "./redux-store";
 import {profileAPI} from "../api/api";
 import {setStatus} from "./appReducer";
 import {ProfileFormDataType} from "../components/Profile/UserNameProfile/ProfileData/ProfileFormData/ProfileFormData";
+import {stopSubmit} from "redux-form";
 
 export type MyPost = {
     id: string,
@@ -279,8 +280,18 @@ export const updateProfileInfoThunk = (profileFormData:  UserProfile) => {
                 contacts: {...user.contacts, ...profileFormData.contacts}}
             let data = await  profileAPI.updateUserInfo(updateUser)
             if(data.data.resultCode === 0){
-                console.log(data.data)
                 dispatch(updateProfileUserInfo(updateUser))
+                return Promise.resolve()
+            } else {
+                if (data.data.messages.length){
+                    data.data.messages.map((el: string) => {
+                        let contacts = el.slice(20, 27).toLowerCase()+'s';
+                        let socialNetwork =el.slice(30, el.length-1).toLowerCase();
+                        dispatch(stopSubmit('profileFormData', {[contacts]: {[socialNetwork]: el}}))
+                        return Promise.reject();
+                    })
+                }
+
             }
         }
         catch (e) {

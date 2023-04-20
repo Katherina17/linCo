@@ -8,7 +8,6 @@ export const MUField = (props: WrappedFieldProps) => {
     return (
        <TextField
             margin="normal"
-            /*required i need to change it*/
             fullWidth
             error={hasError}
             inputProps={props.input}

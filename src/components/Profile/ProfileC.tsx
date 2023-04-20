@@ -15,7 +15,6 @@ import {compose} from "redux";
 import {RequestStatusType} from "../../redux/appReducer";
 import CircularProgress from "@mui/material/CircularProgress";
 import Box from "@mui/material/Box";
-import {ProfileFormDataType} from "./UserNameProfile/ProfileData/ProfileFormData/ProfileFormData";
 
 
 type ProfileCType = {

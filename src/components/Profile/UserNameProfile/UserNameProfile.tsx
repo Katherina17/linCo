@@ -1,12 +1,13 @@
-import React, {ChangeEvent, useRef, useState, MouseEvent} from "react";
+import React, {ChangeEvent, useRef, useState} from "react";
 import s from './UserNameProfile.module.css';
 import {ProfileStatusContainer} from "./ProfileStatus/ProfileStatus";
 import userPhoto from "../../../assets/user.png";
 import { UserProfile} from "../../../redux/profileReducer";
 import {
-    ProfileFormDataContainer, ProfileFormDataType
+    ProfileFormDataContainer
 } from "./ProfileData/ProfileFormData/ProfileFormData";
 import {ProfileData} from "./ProfileData/ProfileData";
+import {ModalWindow} from '../../../features/ModalWindow/ModalWindow';
 
 type UserNameProfileProps = {
     userProfile: UserProfile | null
@@ -30,10 +31,10 @@ const UserNameProfile = (props: UserNameProfileProps) => {
             hiddenFileInput.current.click();
         }
     };
-
+/*setEditMode(false)*/
     const onSubmitHandler = (profileData:  UserProfile) => {
         props.updateProfileInfoThunk(profileData)
-        setEditMode(false)
+
     }
 
     return(
@@ -59,7 +60,12 @@ const UserNameProfile = (props: UserNameProfileProps) => {
                              aboutMe={props.userProfile?.aboutMe}
                 />
                 {props.owner && !editMode && <button onClick={() => setEditMode(true)}> Edit Page </button>}
-                {props.owner && editMode && <ProfileFormDataContainer onSubmit={onSubmitHandler} initialValues={props.userProfile!}/>}
+                { editMode && <ModalWindow isActive={editMode} closed={() => setEditMode(false)}>
+                    <div className={s.editFormContainer}>
+                        <ProfileFormDataContainer onSubmit={onSubmitHandler} initialValues={props.userProfile!}/>
+                    </div>
+                </ModalWindow>}
+                {/*{props.owner && editMode && <ProfileFormDataContainer onSubmit={onSubmitHandler} initialValues={props.userProfile!}/>}*/}
             </div>
         </div>
     )
@@ -67,7 +73,5 @@ const UserNameProfile = (props: UserNameProfileProps) => {
 
 export default UserNameProfile;
 
-/*
-*/
 
 
