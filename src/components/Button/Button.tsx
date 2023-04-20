@@ -1,10 +1,11 @@
 import s from './Button.module.css';
 
 type ButtonPropsType = {
-    name: string;
+    name?: string;
     callBack?: () => void;
     className?: string;
     disabled?: boolean
+    children?: React.ReactNode
    /* onSubmit?: /!*SubmitHandler<PostFormDataType, {}, string>*!/ IntrinsicAttributes & ButtonPropsType & { children?: ReactNode; }*/
 }
 
@@ -18,6 +19,9 @@ export const Button: React.FC<ButtonPropsType> = (props) => {
     }
 
     return(
-        <button onClick={onClickHandler} className={finalClassName} disabled={props.disabled}>{name}</button>
+        <button onClick={onClickHandler} className={finalClassName} disabled={props.disabled}>
+            {name && name}
+            {props.children && props.children}
+        </button>
     )
 }

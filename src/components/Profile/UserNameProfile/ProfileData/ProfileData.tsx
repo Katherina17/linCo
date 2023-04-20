@@ -15,13 +15,13 @@ type ProfileDataType = {
 export const ProfileData = (props: ProfileDataType) => {
     return (
         <div className={s.user_description}>
-            {props.aboutMe && <span> About me: {props.aboutMe} </span>}
-            {props.isLookingAJob && <span> is looking a job? {props.isLookingAJob ? 'yes' : 'no'}</span>}
-            {props.descJob && <span> Description for a job: {props.descJob}</span>}
-            {props.facebook && <span> Contacts: {props.facebook}</span>}
-            {props.insta && <span> Contacts: {props.insta}</span>}
-            {props.github && <span> Contacts: {props.github}</span>}
-            {props.vk && <span> Contacts: {props.vk}</span>}
+            {props.aboutMe && <span> <b> About me: </b> {props.aboutMe} </span>}
+            {props.isLookingAJob && <span> <b> is looking a job? </b>{props.isLookingAJob ? 'yes' : 'no'}</span>}
+            {props.descJob && <span> <b> Description for a job: </b> {props.descJob}</span>}
+            {props.facebook && <span> <b> Contacts: </b> {props.facebook}</span>}
+            {props.insta && <span> <b> Contacts</b>: {props.insta}</span>}
+            {props.github && <span> <b> Contacts:</b> {props.github}</span>}
+            {props.vk && <span> <b> Contacts: </b> {props.vk}</span>}
         </div>
     )
 }

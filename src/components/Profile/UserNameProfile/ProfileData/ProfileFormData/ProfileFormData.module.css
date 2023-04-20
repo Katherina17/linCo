@@ -7,3 +7,9 @@
 .checkbox{
     padding: 1rem;
 }
+
+.saveBtn{
+    margin-top: 0.5rem;
+    width: 7.57rem;
+    min-height: 30px;
+}

@@ -9,7 +9,8 @@ export const TextArea = (props: WrappedFieldProps & {placeholder: string}) => {
     let hasWarning = touched && warning
 
     let finalClassName = s.textArea + ' ' + (hasError ? s.errorTextArea : '') + ' '
-        + (hasWarning ? s.textAreaWarning : '') + (input.name === 'message' ? s.messageTextArea : '')
+        + (hasWarning ? s.textAreaWarning : '') + (input.name === 'message' ? s.messageTextArea :
+            input.name === 'aboutMe' ? s.aboutMe : '')
 
     return(
        <>

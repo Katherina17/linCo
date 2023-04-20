@@ -8,13 +8,15 @@ import {
 } from "./ProfileData/ProfileFormData/ProfileFormData";
 import {ProfileData} from "./ProfileData/ProfileData";
 import {ModalWindow} from '../../../features/ModalWindow/ModalWindow';
+import EditIcon from '@mui/icons-material/Edit';
+import {Button} from "../../Button/Button"
 
 type UserNameProfileProps = {
     userProfile: UserProfile | null
     status: string;
     owner: boolean
     updateOwnerPhotoThunk: (file: File) => void
-    updateProfileInfoThunk: (userProfile:  UserProfile  ) => void
+    updateProfileInfoThunk: (userProfile:  UserProfile  ) =>  Promise<void>
 
 }
 
@@ -31,10 +33,10 @@ const UserNameProfile = (props: UserNameProfileProps) => {
             hiddenFileInput.current.click();
         }
     };
-/*setEditMode(false)*/
     const onSubmitHandler = (profileData:  UserProfile) => {
-        props.updateProfileInfoThunk(profileData)
-
+        props.updateProfileInfoThunk(profileData).then(() => {
+            setEditMode(false)
+        })
     }
 
     return(
@@ -47,7 +49,6 @@ const UserNameProfile = (props: UserNameProfileProps) => {
                                        className={s.choosePhotoContainer}
                 /> }
             </div>
-
             <div className={s.user_description}>
                 <h1>{props.userProfile?.fullName}</h1>
                 <ProfileStatusContainer/>
@@ -59,13 +60,17 @@ const UserNameProfile = (props: UserNameProfileProps) => {
                              isLookingAJob={props.userProfile?.lookingForAJob}
                              aboutMe={props.userProfile?.aboutMe}
                 />
-                {props.owner && !editMode && <button onClick={() => setEditMode(true)}> Edit Page </button>}
+                {props.owner && !editMode
+                    &&
+                    <Button name={'Edit Page'} callBack={() => setEditMode(true)} className={s.editBtn}>
+                        <EditIcon sx={{ fontSize: 14, marginLeft: '5px'}}/>
+                    </Button>}
+
                 { editMode && <ModalWindow isActive={editMode} closed={() => setEditMode(false)}>
                     <div className={s.editFormContainer}>
                         <ProfileFormDataContainer onSubmit={onSubmitHandler} initialValues={props.userProfile!}/>
                     </div>
                 </ModalWindow>}
-                {/*{props.owner && editMode && <ProfileFormDataContainer onSubmit={onSubmitHandler} initialValues={props.userProfile!}/>}*/}
             </div>
         </div>
     )

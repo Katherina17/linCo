@@ -4,6 +4,8 @@ import * as React from "react";
 import {UserProfile} from "../../../../../redux/profileReducer";
 import s from './ProfileFormData.module.css'
 import {required} from "../../../../../utils/validators/validators";
+import {Button} from "../../../../Button/Button";
+import {TextArea} from "../../../../TextArea/TextArea";
 
 
 export type ProfileFormDataType = {
@@ -36,9 +38,10 @@ const ProfileFormData = (props: InjectedFormProps<UserProfile>) => {
                                type={'text'}
                                label="about Me"
                                variant="standard"
+                               placeholder={'About me'}
                                required
                                validate={[required]}
-                               component={MUField}/>
+                               component={TextArea}/>
          <div className={s.checkbox}> Are you looking for a job? <Field name='lookingForAJob'
                 type={'checkbox'}
                 variant="standard"
@@ -66,7 +69,7 @@ const ProfileFormData = (props: InjectedFormProps<UserProfile>) => {
 
             })}
             {props.error && props.touch() && <span> {props.error} </span>}
-            <button> Save </button>
+            <Button name={'Save'} className={s.saveBtn}/>
         </form>
     )
 }

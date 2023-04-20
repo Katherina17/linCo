@@ -9,7 +9,7 @@ type ProfilePropsType = {
     userProfile: UserProfile | null;
     owner: boolean,
     updateOwnerPhotoThunk: (file: File) => void
-    updateProfileInfoThunk: (userProfile:  UserProfile  ) => void
+    updateProfileInfoThunk: (userProfile:  UserProfile  ) =>  Promise<void>
 } & mapStateToPropsType
 
 export const Profile = (props: ProfilePropsType) => {

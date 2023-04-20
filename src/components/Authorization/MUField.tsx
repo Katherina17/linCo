@@ -11,6 +11,11 @@ export const MUField = (props: WrappedFieldProps) => {
             fullWidth
             error={hasError}
             inputProps={props.input}
+            sx={{
+                '& .MuiFormControl-root': {marginTop: 0},
+                '&.MuiFormControl-marginNormal': {marginTop: 0}
+
+            }}
             {...props}
           />
     )

@@ -22,7 +22,7 @@ type ProfileCType = {
     getProfileUserThunk: (userID: string) =>  void
     getUserStatusThunk: (userID: string) => void
     updateOwnerPhotoThunk: (file: File) => void
-    updateProfileInfoThunk: (userProfile:  UserProfile  ) => void
+    updateProfileInfoThunk: (userProfile:  UserProfile  ) =>  Promise<void>
 
 } & mapStateToPropsType & RouteComponentProps<PathParam>;
 

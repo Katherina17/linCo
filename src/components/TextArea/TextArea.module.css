@@ -37,3 +37,13 @@
 .messageTextArea{
     height: auto;
 }
+
+.aboutMe{
+    border: 1px solid rgb(148 148 148);
+    font-size: 12px;
+}
+
+.aboutMe:focus{
+    border: 1px solid black;
+
+}
