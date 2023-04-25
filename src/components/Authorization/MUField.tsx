@@ -2,6 +2,7 @@ import TextField from "@mui/material/TextField";
 import * as React from "react";
 import {WrappedFieldProps} from "redux-form/lib/Field";
 
+
 export const MUField = (props: WrappedFieldProps) => {
     let { meta: { touched, error } } = props;
     let hasError = touched && !!error
@@ -11,11 +12,6 @@ export const MUField = (props: WrappedFieldProps) => {
             fullWidth
             error={hasError}
             inputProps={props.input}
-            sx={{
-                '& .MuiFormControl-root': {marginTop: 0},
-                '&.MuiFormControl-marginNormal': {marginTop: 0}
-
-            }}
             {...props}
           />
     )

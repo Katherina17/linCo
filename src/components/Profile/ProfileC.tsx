@@ -22,7 +22,7 @@ type ProfileCType = {
     getProfileUserThunk: (userID: string) =>  void
     getUserStatusThunk: (userID: string) => void
     updateOwnerPhotoThunk: (file: File) => void
-    updateProfileInfoThunk: (userProfile:  UserProfile  ) =>  Promise<void>
+    updateProfileInfoThunk: (userProfile:  UserProfile  ) => Promise<ErrorConstructor>
 
 } & mapStateToPropsType & RouteComponentProps<PathParam>;
 
@@ -82,7 +82,7 @@ const mapStateToProps = (state: RootState):mapStateToPropsType => {
         userProfile: state.profile.user,
         status: state.profile.status,
         statusLoading: state.app.status,
-        ownerId: state.auth.data.id
+        ownerId: state.auth.data.id,
     }
 }
 

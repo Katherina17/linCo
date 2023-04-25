@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useRef, useState} from "react";
+import React, {ChangeEvent, useEffect, useRef, useState} from "react";
 import s from './UserNameProfile.module.css';
 import {ProfileStatusContainer} from "./ProfileStatus/ProfileStatus";
 import userPhoto from "../../../assets/user.png";
@@ -16,7 +16,7 @@ type UserNameProfileProps = {
     status: string;
     owner: boolean
     updateOwnerPhotoThunk: (file: File) => void
-    updateProfileInfoThunk: (userProfile:  UserProfile  ) =>  Promise<void>
+    updateProfileInfoThunk: (userProfile:  UserProfile  ) =>  Promise<ErrorConstructor>
 
 }
 
@@ -33,11 +33,13 @@ const UserNameProfile = (props: UserNameProfileProps) => {
             hiddenFileInput.current.click();
         }
     };
-    const onSubmitHandler = (profileData:  UserProfile) => {
+    const onSubmitHandler = (profileData: UserProfile) => {
         props.updateProfileInfoThunk(profileData).then(() => {
             setEditMode(false)
         })
     }
+
+
 
     return(
         <div className={s.User_name_profile_container}>

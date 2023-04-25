@@ -2,7 +2,6 @@ import {v1} from "uuid";
 import {AppDispatch, RootState} from "./redux-store";
 import {profileAPI} from "../api/api";
 import {setStatus} from "./appReducer";
-import {ProfileFormDataType} from "../components/Profile/UserNameProfile/ProfileData/ProfileFormData/ProfileFormData";
 import {stopSubmit} from "redux-form";
 
 export type MyPost = {
@@ -102,7 +101,8 @@ const initialState : ProfileType = {
         },
     ],
     newUsersProfile: null,
-    status: 'Hello world'
+    status: 'Hello world',
+
 }
 
 export const profileReducer = (state: ProfileType = initialState, action: commonActionProfileTypes):ProfileType => {
@@ -188,6 +188,7 @@ export const updateProfileUserInfo = (userInfo: UserProfile) => {
     } as const
 }
 
+
 type addPostActionCreatorPropsType = ReturnType<typeof addPostActionCreator>;
 type setUserProfile = ReturnType<typeof setUserProfile>;
 type changeUserStatusAC = ReturnType<typeof changeUserStatusAC>;
@@ -196,8 +197,14 @@ type deletePostAC  = ReturnType<typeof deletePostAC>;
 type updateOwnerPhoto  = ReturnType<typeof updateOwnerPhoto>;
 type updateProfileUserInfo  = ReturnType<typeof updateProfileUserInfo>;
 
-export type commonActionProfileTypes = addPostActionCreatorPropsType|
-    setUserProfile | changeUserStatusAC| getUserStatusAC | deletePostAC | updateOwnerPhoto | updateProfileUserInfo;
+
+export type commonActionProfileTypes = addPostActionCreatorPropsType
+    | setUserProfile
+    | changeUserStatusAC
+    | getUserStatusAC
+    | deletePostAC
+    | updateOwnerPhoto
+    | updateProfileUserInfo;
 
 export function getProfileUserThunk(userID: string) {
     return async (dispatch: AppDispatch) => {
@@ -281,21 +288,20 @@ export const updateProfileInfoThunk = (profileFormData:  UserProfile) => {
             let data = await  profileAPI.updateUserInfo(updateUser)
             if(data.data.resultCode === 0){
                 dispatch(updateProfileUserInfo(updateUser))
-                return Promise.resolve()
             } else {
                 if (data.data.messages.length){
                     data.data.messages.map((el: string) => {
                         let contacts = el.slice(20, 27).toLowerCase()+'s';
                         let socialNetwork =el.slice(30, el.length-1).toLowerCase();
                         dispatch(stopSubmit('profileFormData', {[contacts]: {[socialNetwork]: el}}))
-                        return Promise.reject();
+                        throw Error;
                     })
                 }
 
             }
         }
         catch (e) {
-            console.log(e)
+            throw Error;
         }
         finally {
             dispatch(setStatus('idle'))

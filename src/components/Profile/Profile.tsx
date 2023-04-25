@@ -9,7 +9,7 @@ type ProfilePropsType = {
     userProfile: UserProfile | null;
     owner: boolean,
     updateOwnerPhotoThunk: (file: File) => void
-    updateProfileInfoThunk: (userProfile:  UserProfile  ) =>  Promise<void>
+    updateProfileInfoThunk: (userProfile:  UserProfile  ) =>  Promise<ErrorConstructor>
 } & mapStateToPropsType
 
 export const Profile = (props: ProfilePropsType) => {
@@ -20,6 +20,7 @@ export const Profile = (props: ProfilePropsType) => {
                                  owner={props.owner}
                                  updateOwnerPhotoThunk={props.updateOwnerPhotoThunk}
                                  updateProfileInfoThunk={props.updateProfileInfoThunk}
+
                 />
                 { props.owner && <MyPostsContainer/>}
             </main>

@@ -7,24 +7,10 @@ import {required} from "../../../../../utils/validators/validators";
 import {Button} from "../../../../Button/Button";
 import {TextArea} from "../../../../TextArea/TextArea";
 
-
-export type ProfileFormDataType = {
-    lookingForAJob: boolean
-    lookingForAJobDescription: string
-    fullName: string
-    contacts: {
-        github: string | null
-        facebook: string | null
-        insta: string | null
-        vk: string | null
-    }
-}
-
-
-
 const ProfileFormData = (props: InjectedFormProps<UserProfile>) => {
     return (
         <form onSubmit={props.handleSubmit} className={s.formData}>
+            {props.error && <span> {props.error} </span>}
          <Field
                                name='fullName'
                                type={'text'}
@@ -65,6 +51,7 @@ const ProfileFormData = (props: InjectedFormProps<UserProfile>) => {
                     type={'text'}
                     label={el}
                     variant="standard"
+                    style={{marginTop: 0}}
                     component={MUField}/>
 
             })}
@@ -78,5 +65,8 @@ const ProfileFormData = (props: InjectedFormProps<UserProfile>) => {
 export const ProfileFormDataContainer = reduxForm< UserProfile >({
     form: 'profileFormData'
 })(ProfileFormData)
+
+
+
 
 

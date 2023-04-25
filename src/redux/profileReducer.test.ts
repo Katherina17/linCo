@@ -33,7 +33,7 @@ let initialState : ProfileType = {
         },
     ],
     newUsersProfile: null,
-    status: 'Hello world'
+    status: 'Hello world',
 }
 
 
@@ -62,7 +62,7 @@ beforeEach(() => {
             },
         ],
         newUsersProfile: null,
-        status: 'Hello world'
+        status: 'Hello world',
     }
 })
 

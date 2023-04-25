@@ -4,14 +4,16 @@ import {useEffect, MouseEvent} from "react";
 type ModalWindow = {
     isActive: boolean,
     children: React.ReactNode
-    closed: () => void
+    closed?: () => void
 }
 
 export const ModalWindow = (props: ModalWindow) => {
     const{isActive, children, closed} = props;
     function onEmptyAreaClick(e: MouseEvent<HTMLDivElement>) {
         if( e.currentTarget.className === s.modalWindowContainer)
-            closed();
+            if(closed){
+                closed()
+            }
     }
     useEffect(() => {
         document.body.style.overflow = "hidden";

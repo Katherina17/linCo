@@ -4,8 +4,12 @@
     align-items: center;
 }
 
+
+
 .checkbox{
     padding: 1rem;
+    border: 1px solid #949494;
+    border-radius: 0.5rem;
 }
 
 .saveBtn{

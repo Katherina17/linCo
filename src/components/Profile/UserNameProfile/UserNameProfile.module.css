@@ -35,7 +35,7 @@
 }
 
 .user_description {
-  display: flex;
+    display: flex;
     flex-direction: column;
 }
 
@@ -46,7 +46,7 @@
 .editFormContainer{
     display: flex;
     background-color: white;
-    padding: 3rem;
+    padding: 1rem 3rem;
     border-radius: 1rem;
 }
 
