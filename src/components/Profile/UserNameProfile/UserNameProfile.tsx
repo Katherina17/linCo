@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useEffect, useRef, useState} from "react";
+import React, {ChangeEvent, useRef, useState} from "react";
 import s from './UserNameProfile.module.css';
 import {ProfileStatusContainer} from "./ProfileStatus/ProfileStatus";
 import userPhoto from "../../../assets/user.png";

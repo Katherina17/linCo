@@ -21,11 +21,16 @@ export type FormDataType = {
     login: string
     password: string
     rememberMe: boolean
-
+    captcha: string
 }
 
-export const LoginForm = (props: InjectedFormProps<FormDataType>) => {
-    const {error, handleSubmit} = props;
+type FormAdditionalPropsType = {
+    captcha: null | string
+}
+
+export const LoginForm = (props: InjectedFormProps<FormDataType, FormAdditionalPropsType> & FormAdditionalPropsType) => {
+    const {error, handleSubmit, captcha} = props;
+    console.log(props)
     return (
         <ThemeProvider theme={theme}>
             <Container component="main" maxWidth="xs">
@@ -52,6 +57,12 @@ export const LoginForm = (props: InjectedFormProps<FormDataType>) => {
                             control={<Checkbox value="remember" color="primary"/>}
                             label="Remember me"
                         />}/>
+
+                        {captcha !== null &&
+                            <div>
+                                <img src={captcha}/>
+                                <Field name='captcha' type={'text'} label={'captcha'} required component={MUField}/>
+                            </div>}
                         {error && <p style={{color: 'red'}}> {error} </p>}
                         <Button
                             type="submit"
@@ -80,7 +91,9 @@ export const LoginForm = (props: InjectedFormProps<FormDataType>) => {
     );
 }
 
-export const LoginFormContainer = reduxForm<FormDataType>({
-    form: 'logInOrLigOut'
+
+export const LoginFormContainer = reduxForm<FormDataType, FormAdditionalPropsType>({
+    form: 'logInOrLigOut',
+
 })(LoginForm)
 
