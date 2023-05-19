@@ -3,6 +3,8 @@ import {AppDispatch, RootState} from "./redux-store";
 import {profileAPI} from "../api/api";
 import {setStatus} from "./appReducer";
 import {stopSubmit} from "redux-form";
+import {handleServerAppError} from "utils/handleServerAppError/handleServerAppError";
+import {handleServerNetworkError} from "utils/handleServerNetworkError/handleServerNetworkError";
 
 export type MyPost = {
     id: string,
@@ -145,7 +147,6 @@ export const addPostActionCreator = (text: string) => {
     } as const
 }
 
-
 export const setUserProfile = (user: UserProfile) => {
     return {
         type: 'profile/SET_USER_PROFILE',
@@ -188,7 +189,6 @@ export const updateProfileUserInfo = (userInfo: UserProfile) => {
     } as const
 }
 
-
 type addPostActionCreatorPropsType = ReturnType<typeof addPostActionCreator>;
 type setUserProfile = ReturnType<typeof setUserProfile>;
 type changeUserStatusAC = ReturnType<typeof changeUserStatusAC>;
@@ -196,7 +196,6 @@ type getUserStatusAC  = ReturnType<typeof getUserStatusAC >;
 type deletePostAC  = ReturnType<typeof deletePostAC>;
 type updateOwnerPhoto  = ReturnType<typeof updateOwnerPhoto>;
 type updateProfileUserInfo  = ReturnType<typeof updateProfileUserInfo>;
-
 
 export type commonActionProfileTypes = addPostActionCreatorPropsType
     | setUserProfile
@@ -209,14 +208,12 @@ export type commonActionProfileTypes = addPostActionCreatorPropsType
 export function getProfileUserThunk(userID: string) {
     return async (dispatch: AppDispatch) => {
         dispatch(setStatus('pageLoading'))
-        try{
+        try {
             let data = await profileAPI.downloadUserPage(userID)
             dispatch(setUserProfile(data))
-        }
-        catch (e) {
-            console.log(e)
-        }
-        finally {
+        } catch (e) {
+            handleServerNetworkError(e, dispatch)
+        } finally {
             dispatch(setStatus('idle'))
         }
     }
@@ -225,14 +222,12 @@ export function getProfileUserThunk(userID: string) {
 export const getUserStatusThunk = (userID: string) => {
     return async (dispatch: AppDispatch) => {
         dispatch(setStatus('pageLoading'))
-        try{
-            let data = await  profileAPI.getUserStatus(userID)
+        try {
+            let data = await profileAPI.getUserStatus(userID)
             dispatch(getUserStatusAC(data))
-        }
-        catch (e) {
-            console.log(e)
-        }
-        finally {
+        } catch (e) {
+            handleServerNetworkError(e, dispatch)
+        } finally {
             dispatch(setStatus('idle'))
         }
     }
@@ -242,15 +237,15 @@ export const changeUserStatusThunk = (newStatus: string) => {
     return async (dispatch: AppDispatch) => {
         dispatch(setStatus('loading'))
         try {
-            let data = await  profileAPI.changeUserStatus(newStatus)
-            if(data.data.resultCode === 0){
+            let data = await profileAPI.changeUserStatus(newStatus)
+            if (data.data.resultCode === 0) {
                 dispatch(changeUserStatusAC(newStatus))
+            } else {
+                handleServerAppError(data.data, dispatch)
             }
-        }
-        catch (e) {
-            console.log(e)
-        }
-        finally {
+        } catch (e) {
+            handleServerNetworkError(e, dispatch)
+        } finally {
             dispatch(setStatus('idle'))
         }
     }
@@ -263,17 +258,18 @@ export const updateOwnerPhotoThunk = (file: File) => {
             let data = await  profileAPI.uploadPhoto(file)
             if(data.data.resultCode === 0){
                 dispatch(updateOwnerPhoto(data.data.data.photos))
+            } else {
+                handleServerAppError(data.data, dispatch)
             }
         }
         catch (e) {
-            console.log(e)
+            handleServerNetworkError(e, dispatch)
         }
         finally {
             dispatch(setStatus('idle'))
         }
     }
 }
-
 
 export const updateProfileInfoThunk = (profileFormData:  UserProfile) => {
     return async (dispatch: AppDispatch, getState: () => RootState) => {
@@ -296,11 +292,13 @@ export const updateProfileInfoThunk = (profileFormData:  UserProfile) => {
                         dispatch(stopSubmit('profileFormData', {[contacts]: {[socialNetwork]: el}}))
                         throw Error;
                     })
+                } else {
+                    handleServerAppError(data.data, dispatch)
                 }
-
             }
         }
         catch (e) {
+            handleServerNetworkError(e, dispatch)
             throw Error;
         }
         finally {

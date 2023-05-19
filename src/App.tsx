@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import {Route, withRouter} from "react-router-dom";
+import {Route, Switch, withRouter} from "react-router-dom";
 import News from "./components/News/News";
 import Music from "./components/Music/Music";
 import Settings from "./components/Settings/Settings";
@@ -17,6 +17,8 @@ import {getInitializedApp, RequestStatusType} from "./redux/appReducer";
 import CircularProgress from "@mui/material/CircularProgress";
 import {NavBarContainer} from "./components/NavBar/NavBar";
 import LinearProgress from '@mui/material/LinearProgress';
+import {NotFoundPage} from "components/NotFoundPage/NotFoundPage";
+import {ErrorSnackBar} from "components/ErrorSnackbar/ErrorSnakbar";
 
 type AppPropsType = {
     state: State;
@@ -36,21 +38,24 @@ class App extends React.Component<AppPropsType> {
             <div className="App-container">
                 {this.props.status === 'loading' && <LinearProgress color={'secondary'}/>}
                 <HeaderContainer/>
-
                 <main>
                     <div className="App_wrapper menu_user_container">
                         <NavBarContainer/>
-                        <Route exact path={'/'} render={() => <ProfileContainer/>}/>
-                        <Route path={'/profile/:userID?'} render={() => <ProfileContainer/>}/>
-                        <Route path={'/findPeople'} render={() => <FindPeopleContainer/>}/>
-                        <Route path={'/friends'} render={() => <FriendContainer/>}/>
-                        <Route path={'/dialogs'} render={() => <DialogsContainer/>}/>
-                        <Route path={'/news'} component={News}/>
-                        <Route path={'/music'} component={Music}/>
-                        <Route path={'/settings'} component={Settings}/>
-                        <Route path={'/login'} component={AuthorizationContainer}/>
+                        <Switch>
+                            <Route exact path={'/'} render={() => <ProfileContainer/>}/>
+                            <Route path={'/profile/:userID?'} render={() => <ProfileContainer/>}/>
+                            <Route path={'/findPeople'} render={() => <FindPeopleContainer/>}/>
+                            <Route path={'/friends'} render={() => <FriendContainer/>}/>
+                            <Route path={'/dialogs'} render={() => <DialogsContainer/>}/>
+                            <Route path={'/news'} component={News}/>
+                            <Route path={'/music'} component={Music}/>
+                            <Route path={'/settings'} component={Settings}/>
+                            <Route path={'/login'} component={AuthorizationContainer}/>
+                            <Route component={NotFoundPage}/>
+                        </Switch>
                     </div>
                 </main>
+                <ErrorSnackBar/>
             </div>
         );
     }

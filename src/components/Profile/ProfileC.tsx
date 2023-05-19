@@ -74,7 +74,8 @@ export type mapStateToPropsType = {
     userProfile: UserProfile | null,
     status: string
     statusLoading: RequestStatusType
-    ownerId: number | null
+    ownerId: number | null,
+    error: string | null
 }
 
 const mapStateToProps = (state: RootState):mapStateToPropsType => {
@@ -83,6 +84,7 @@ const mapStateToProps = (state: RootState):mapStateToPropsType => {
         status: state.profile.status,
         statusLoading: state.app.status,
         ownerId: state.auth.data.id,
+        error: state.app.error
     }
 }
 

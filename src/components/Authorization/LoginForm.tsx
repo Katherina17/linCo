@@ -30,7 +30,6 @@ type FormAdditionalPropsType = {
 
 export const LoginForm = (props: InjectedFormProps<FormDataType, FormAdditionalPropsType> & FormAdditionalPropsType) => {
     const {error, handleSubmit, captcha} = props;
-    console.log(props)
     return (
         <ThemeProvider theme={theme}>
             <Container component="main" maxWidth="xs">

@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useRef, useState} from "react";
+import React, {ChangeEvent, useEffect, useRef, useState} from "react";
 import s from './UserNameProfile.module.css';
 import {ProfileStatusContainer} from "./ProfileStatus/ProfileStatus";
 import userPhoto from "../../../assets/user.png";
@@ -17,6 +17,7 @@ type UserNameProfileProps = {
     owner: boolean
     updateOwnerPhotoThunk: (file: File) => void
     updateProfileInfoThunk: (userProfile:  UserProfile  ) =>  Promise<ErrorConstructor>
+    error: string | null
 
 }
 
@@ -38,6 +39,12 @@ const UserNameProfile = (props: UserNameProfileProps) => {
             setEditMode(false)
         })
     }
+
+    useEffect(() => {
+        if(props.error !== null){
+            setEditMode(false)
+        }
+    }, [props.error])
 
 
 

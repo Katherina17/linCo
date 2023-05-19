@@ -20,6 +20,7 @@ export const Profile = (props: ProfilePropsType) => {
                                  owner={props.owner}
                                  updateOwnerPhotoThunk={props.updateOwnerPhotoThunk}
                                  updateProfileInfoThunk={props.updateProfileInfoThunk}
+                                 error={props.error}
 
                 />
                 { props.owner && <MyPostsContainer/>}

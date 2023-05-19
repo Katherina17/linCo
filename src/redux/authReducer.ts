@@ -2,6 +2,8 @@ import {AppDispatch, ApplicationDispatch} from "./redux-store";
 import {authAPI, securityAPI} from "../api/api";
 import {stopSubmit} from "redux-form";
 import {setStatus} from "./appReducer";
+import {handleServerAppError} from "utils/handleServerAppError/handleServerAppError";
+import {handleServerNetworkError} from "utils/handleServerNetworkError/handleServerNetworkError";
 
 type DataType = {
     id: number | null;
@@ -67,11 +69,12 @@ export const getAuthorizedUser = () => {
             if (data.resultCode === 0) {
                 let {id, login, email} = data.data
                 dispatch(setAuthDataAC(id, login, email, true))
+            } else {
+                handleServerAppError(data.data, dispatch)
             }
         } catch (e) {
-            console.log(e)
-        }
-        finally {
+            handleServerNetworkError(e, dispatch)
+        } finally {
             dispatch(setStatus('idle'))
         }
     }
@@ -86,17 +89,15 @@ export const authMainUser = (email: string, password: string, rememberMe: boolea
                 dispatch(getAuthorizedUser())
                 dispatch(setCaptcha(null))
             }
-            if(data.resultCode === 10){
+            if (data.resultCode === 10) {
                 dispatch(getCaptchaUrlThunk())
-            }
-            else {
+            } else {
                 let message = data.messages.length > 0 ? data.messages[0] : 'Some error'
                 dispatch(stopSubmit('logInOrLigOut', {_error: message}))
             }
         } catch (e) {
-            console.log(e)
-        }
-        finally {
+            handleServerNetworkError(e, dispatch)
+        } finally {
             dispatch(setStatus('idle'))
         }
     }
@@ -112,9 +113,8 @@ export const logOutUser = () => {
                 dispatch(setAuthDataAC(null, null, null, false))
             }
         } catch (e) {
-            console.log(e)
-        }
-        finally {
+            handleServerNetworkError(e, dispatch)
+        } finally {
             dispatch(setStatus('idle'))
         }
     }
@@ -128,9 +128,8 @@ export const getCaptchaUrlThunk = () => {
             dispatch(setCaptcha(response.data.url))
 
         } catch (e) {
-            console.log(e)
-        }
-        finally {
+            handleServerNetworkError(e, dispatch)
+        } finally {
             dispatch(setStatus('idle'))
         }
     }

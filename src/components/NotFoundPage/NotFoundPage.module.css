@@ -1,0 +1,12 @@
+.imgContainer{
+    display: flex;
+    z-index: 3;
+    width: 100%;
+    justify-content: center;
+    background-color: white;
+    position: absolute;
+    height: 100%;
+    align-items: center;
+    top: 0;
+    right: 0;
+}
