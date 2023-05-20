@@ -14,10 +14,10 @@ import {compose} from "redux";
 import {
     getCurrentPageSelector, getFetchingSelector,
     getPageSizeSelector,
-    getPeopleStateSelector,
+    getPeopleStateSelector, getStatusApp,
     getTotalCountSelector, setAuthSelector, setFollowingInProgressSelector
 } from "../../redux/findPeopleSelectors";
-
+import {RequestStatusType} from "redux/appReducer";
 
 type mapDispatchToProps = {
     getUsersThunkCreator: (pageSize: number, currentPage: number) => void;
@@ -34,11 +34,11 @@ export type mapStateToProps = {
     pageSize: number,
     isFetching?: boolean,
     followingInProgress: number[],
-    isAuth: boolean
+    isAuth: boolean,
+    status: RequestStatusType
 }
 
 export type FindPeoplePropsType = mapDispatchToProps & mapStateToProps;
-
 
 export class FindPeople extends React.Component<FindPeoplePropsType> {
     constructor(props: FindPeoplePropsType) {
@@ -75,6 +75,7 @@ export class FindPeople extends React.Component<FindPeoplePropsType> {
                    subscribeUserThunkCreator={this.props.subscribeUserThunkCreator}
                    unSubscribeUserThunkCreator={this.props.unSubscribeUserThunkCreator}
                    isAuth={this.props.isAuth}
+                   status={this.props.status}
             />
     }
 
@@ -88,10 +89,10 @@ const mapStateToProps = (state: RootState): mapStateToProps => {
         pageSize: getPageSizeSelector(state),
         isFetching: getFetchingSelector(state),
         followingInProgress: setFollowingInProgressSelector(state),
-        isAuth: setAuthSelector(state)
+        isAuth: setAuthSelector(state),
+        status: getStatusApp(state)
     }
 }
-
 
 export default compose<React.ComponentType>(connect(mapStateToProps, {
         setCurrentPage: setCurrentPageAC,

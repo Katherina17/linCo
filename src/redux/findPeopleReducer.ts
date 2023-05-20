@@ -23,7 +23,6 @@ export type FindPeopleType = {
     currentPage: number,
     isFetching: boolean,
     followingInProgress: number[],
-    error: null | string
 
 }
 
@@ -34,7 +33,6 @@ const initialState: FindPeopleType = {
     currentPage: 1,
     isFetching: false,
     followingInProgress: [],
-    error: null
 }
 
 export const findPeopleReducer = (state: FindPeopleType = initialState, action: commonACFindPeopleTypes): FindPeopleType => {
@@ -66,7 +64,7 @@ export const findPeopleReducer = (state: FindPeopleType = initialState, action: 
         case "findPeople/SET_FOLLOWING":{
             return {...state, followingInProgress: action.payload.isFollow ?
                     [...state.followingInProgress, action.payload.userID]
-                    : state.followingInProgress.filter(el => el!== action.payload.userID)}
+                    : state.followingInProgress.filter(el => el !== action.payload.userID)}
         }
         default:
             return state;
@@ -193,8 +191,8 @@ export const changeUsersThunkCreator = (pageSize: number, currentPage: number) =
 
 export const subscribeUserThunkCreator = (userID: number) => {
     return async (dispatch: AppDispatch) => {
+        dispatch(setStatus('loading'))
         try {
-            dispatch(setStatus('loading'))
             dispatch(setFollowingAC(userID, true))
             let response = await followAPI.followUser(userID);
             if (response.data.resultCode === 0) {
@@ -213,8 +211,8 @@ export const subscribeUserThunkCreator = (userID: number) => {
 
 export const unSubscribeUserThunkCreator = (userID: number) => {
     return async (dispatch: AppDispatch) => {
+        dispatch(setStatus('loading'))
         try {
-            dispatch(setStatus('loading'))
             dispatch(setFollowingAC(userID, true))
             let response = await followAPI.unFollowUser(userID);
             if (response.data.resultCode === 0) {

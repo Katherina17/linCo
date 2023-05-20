@@ -2,6 +2,7 @@ import s from "./FindPeople.module.css";
 import {PeopleInfo} from "./PeopleInfo/PeopleInfo";
 import {Button} from "../Button/Button";
 import React from "react";
+import {RequestStatusType} from "redux/appReducer";
 
 
 type UserPropsType = {
@@ -13,6 +14,7 @@ type UserPropsType = {
     unSubscribeUserThunkCreator: (id: number) => void
     subscribeUserThunkCreator: (id: number) => void
     followingInProgress: number[]
+    statusApp: RequestStatusType
 }
 
 export const UserFindPeople = (props: UserPropsType) => {
@@ -26,7 +28,8 @@ export const UserFindPeople = (props: UserPropsType) => {
                 props.unSubscribeUserThunkCreator(props.id)
                 : props.subscribeUserThunkCreator(props.id)}
             name={props.followed ? 'Unfollowed' : 'Follow'}
-            disabled={props.followingInProgress ? props.followingInProgress.some((e: number) => e === props.id) : false}
+            disabled={props.followingInProgress ? props.followingInProgress.some((e: number) => props.statusApp === "loading" && e === props.id ) : false
+                }
         />
     </div>
 }

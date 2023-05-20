@@ -1,5 +1,6 @@
 import {RootState} from "./redux-store";
 import {PeopleType} from "./findPeopleReducer";
+import {RequestStatusType} from "redux/appReducer";
 
 
 export const getPeopleStateSelector = (state: RootState): PeopleType[] => {
@@ -31,4 +32,9 @@ export const setFollowingInProgressSelector = (state: RootState): number[] => {
 
 export const setAuthSelector = (state: RootState): boolean => {
     return state.auth.isAuth
+}
+
+
+export const getStatusApp = (state: RootState): RequestStatusType => {
+    return state.app.status
 }

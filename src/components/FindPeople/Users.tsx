@@ -18,14 +18,15 @@ export const Users = (props: UsersPropsType) => {
     return <section className={s.section}>
         {props.state.map(el => {
             return <UserFindPeople img={el.photos}
-                         name={el.name}
-                         id={el.id}
-                         unSubscribeUserThunkCreator={props.unSubscribeUserThunkCreator}
-                         subscribeUserThunkCreator={props.subscribeUserThunkCreator}
-                         status={el.status}
-                         followingInProgress={props.followingInProgress}
-                         followed={el.followed}
-                         key={el.id}
+                                   name={el.name}
+                                   id={el.id}
+                                   unSubscribeUserThunkCreator={props.unSubscribeUserThunkCreator}
+                                   subscribeUserThunkCreator={props.subscribeUserThunkCreator}
+                                   status={el.status}
+                                   followingInProgress={props.followingInProgress}
+                                   followed={el.followed}
+                                   key={el.id}
+                                   statusApp={props.status}
             />
         })}
         <Paginator

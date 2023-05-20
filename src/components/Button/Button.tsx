@@ -6,7 +6,6 @@ type ButtonPropsType = {
     className?: string;
     disabled?: boolean
     children?: React.ReactNode
-   /* onSubmit?: /!*SubmitHandler<PostFormDataType, {}, string>*!/ IntrinsicAttributes & ButtonPropsType & { children?: ReactNode; }*/
 }
 
 export const Button: React.FC<ButtonPropsType> = (props) => {

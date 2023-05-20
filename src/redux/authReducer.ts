@@ -2,7 +2,6 @@ import {AppDispatch, ApplicationDispatch} from "./redux-store";
 import {authAPI, securityAPI} from "../api/api";
 import {stopSubmit} from "redux-form";
 import {setStatus} from "./appReducer";
-import {handleServerAppError} from "utils/handleServerAppError/handleServerAppError";
 import {handleServerNetworkError} from "utils/handleServerNetworkError/handleServerNetworkError";
 
 type DataType = {
@@ -69,8 +68,6 @@ export const getAuthorizedUser = () => {
             if (data.resultCode === 0) {
                 let {id, login, email} = data.data
                 dispatch(setAuthDataAC(id, login, email, true))
-            } else {
-                handleServerAppError(data.data, dispatch)
             }
         } catch (e) {
             handleServerNetworkError(e, dispatch)

@@ -14,7 +14,6 @@ let initialState: FindPeopleType = {
     currentPage: 1,
     isFetching: false,
     followingInProgress: [],
-    error: null
 }
 
 beforeEach(() => {
@@ -46,7 +45,6 @@ beforeEach(() => {
             currentPage: 1,
             isFetching: false,
             followingInProgress: [],
-            error: null,
         }
     }
 )
