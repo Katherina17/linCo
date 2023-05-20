@@ -4,7 +4,7 @@ import {Route, Switch, withRouter} from "react-router-dom";
 import News from "./components/News/News";
 import Music from "./components/Music/Music";
 import Settings from "./components/Settings/Settings";
-import {FriendContainer} from "./components/Friends/Friends";
+import Friends from "./components/Friends/Friends";
 import {RootState, State} from './redux/redux-store'
 import {DialogsContainer} from "./components/Dialogs/Dialogs";
 import FindPeopleContainer from "./components/FindPeople/FindPeopleContainer";
@@ -45,7 +45,7 @@ class App extends React.Component<AppPropsType> {
                             <Route exact path={'/'} render={() => <ProfileContainer/>}/>
                             <Route path={'/profile/:userID?'} render={() => <ProfileContainer/>}/>
                             <Route path={'/findPeople'} render={() => <FindPeopleContainer/>}/>
-                            <Route path={'/friends'} render={() => <FriendContainer/>}/>
+                            <Route path={'/friends'} component={Friends}/>
                             <Route path={'/dialogs'} render={() => <DialogsContainer/>}/>
                             <Route path={'/news'} component={News}/>
                             <Route path={'/music'} component={Music}/>
