@@ -2,6 +2,7 @@ import React, {ChangeEvent, useEffect, useState} from "react";
 import {connect} from "react-redux";
 import {RootState, State} from "../../../../redux/redux-store";
 import {changeUserStatusThunk} from "../../../../redux/profileReducer";
+import {RequestStatusType} from "redux/appReducer";
 
 type ProfileStatusPropsType = {
     changeUserStatusThunk: (newStatus: string) => void
@@ -17,6 +18,12 @@ export const ProfileStatus = (props: ProfileStatusPropsType) =>  {
         setStatus(props.status)
     }, [props.status])
 
+    useEffect(() => {
+        if(props.error !== null){
+            setEditableMode(true)
+        }
+    }, [props.error])
+
 
     const onChangeHandler = (e:ChangeEvent<HTMLInputElement>) => {
         setStatus(e.currentTarget.value)
@@ -25,15 +32,19 @@ export const ProfileStatus = (props: ProfileStatusPropsType) =>  {
         setEditableMode(true)
     }
     const onBlurInputHandler = () => {
-        props.changeUserStatusThunk(status)
-        setEditableMode(false)
+        if(props.error !== null){
+            setEditableMode(true)
+        } else {
+            props.changeUserStatusThunk(status)
+            setEditableMode(false)
+        }
     }
 
     return (
         <>
             {editableMode ?
                 <input type={'text'} value={status} onChange={onChangeHandler} onBlur={onBlurInputHandler}
-                       autoFocus={true}/>
+                       autoFocus={true} />
                 : <h2 onDoubleClick={onDoubleClickHandler}>{props.status}</h2>
             }
         </>
@@ -41,12 +52,14 @@ export const ProfileStatus = (props: ProfileStatusPropsType) =>  {
 }
 
 type mapStateToPropsType = {
-    status: string
+    status: string,
+    error: null | string
 }
 
 const mapStateToProps = (state: RootState): mapStateToPropsType => {
     return {
-        status: state.profile.status
+        status: state.profile.status,
+        error: state.app.error
     }
 }
 

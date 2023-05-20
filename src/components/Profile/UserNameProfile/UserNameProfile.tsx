@@ -24,6 +24,7 @@ type UserNameProfileProps = {
 const UserNameProfile = (props: UserNameProfileProps) => {
     const[editMode, setEditMode] = useState(false);
     let hiddenFileInput = useRef<HTMLInputElement>(null);
+
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         const selectedFiles = e.target.files as FileList;
         props.updateOwnerPhotoThunk(selectedFiles?.[0])
@@ -34,6 +35,7 @@ const UserNameProfile = (props: UserNameProfileProps) => {
             hiddenFileInput.current.click();
         }
     };
+
     const onSubmitHandler = (profileData: UserProfile) => {
         props.updateProfileInfoThunk(profileData).then(() => {
             setEditMode(false)
@@ -45,7 +47,6 @@ const UserNameProfile = (props: UserNameProfileProps) => {
             setEditMode(false)
         }
     }, [props.error])
-
 
 
     return(
@@ -60,7 +61,7 @@ const UserNameProfile = (props: UserNameProfileProps) => {
             </div>
             <div className={s.user_description}>
                 <h1>{props.userProfile?.fullName}</h1>
-                <ProfileStatusContainer/>
+                <ProfileStatusContainer />
                 <ProfileData github={props.userProfile?.contacts.github}
                              facebook={props.userProfile?.contacts.facebook}
                              insta={props.userProfile?.contacts.instagram}
